@@ -6,7 +6,7 @@ const icons = { IconBrandChrome, IconHelp };
 
 // ==============================|| Administrator ||============================== //
 
-const administrator = {
+const Administrator = {
   id: 'administrator',
   title: 'Administrator',
   type: 'group',
@@ -55,4 +55,4 @@ const administrator = {
   ]
 };
 
-export default administrator;
+export default Administrator;
