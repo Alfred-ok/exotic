@@ -23,9 +23,8 @@ import LocalMallOutlinedIcon from '@mui/icons-material/LocalMallOutlined';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 
 export default function TotalOrderLineChartCard({ isLoading }) {
-  const [isLoading, setLoading] = useState(true);
   const [dashboardData, setDashboardData] = useState(null);
-  
+
   const theme = useTheme();
 
   const [timeValue, setTimeValue] = React.useState(false);
@@ -41,10 +40,8 @@ export default function TotalOrderLineChartCard({ isLoading }) {
             { platform_id: 1 }
           );
           setDashboardData(response.data);
-          setLoading(false);
         } catch (error) {
           console.error('Failed to fetch dashboard summary:', error);
-          setLoading(false);
         }
       };
   

@@ -31,7 +31,6 @@ export default function EarningCard({ isLoading}) {
 
   const [anchorEl, setAnchorEl] = React.useState(null);
 
-  const [isLoading, setLoading] = useState(true);
   const [dashboardData, setDashboardData] = useState(null);
 
   const handleClick = (event) => {
@@ -51,10 +50,8 @@ export default function EarningCard({ isLoading}) {
           { platform_id: 1 }
         );
         setDashboardData(response.data);
-        setLoading(false);
       } catch (error) {
         console.error('Failed to fetch dashboard summary:', error);
-        setLoading(false);
       }
     };
 
