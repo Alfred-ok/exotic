@@ -41,7 +41,7 @@ export default function TotalOrderLineChartCard({ isLoading }) {
 
       const fetchDashboardData = async () => {
         try {
-          await axios.get('https://api.exoticnairobi.com/sanctum/csrf-cookie');
+          //await axios.get('https://api.exoticnairobi.com/sanctum/csrf-cookie');
 
           const response = await axios.post(
             'https://api.exoticnairobi.com/api/dashboard-summary',
