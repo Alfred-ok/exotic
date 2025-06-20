@@ -8,7 +8,7 @@ import administrator from './Administrator';
 
 
 // ==============================|| MENU ITEMS ||============================== //
-
+//Change
 const menuItems = {
   items: [dividlogo, platformSelector, dashboard, administrator, pages /*administrator other pages, utilities*/]
 };
