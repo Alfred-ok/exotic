@@ -1,5 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+
 
 // material-ui
 import { useTheme } from '@mui/material/styles';
@@ -8,6 +10,8 @@ import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid2';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
+
+
 
 // third party
 import Chart from 'react-apexcharts';
@@ -22,8 +26,9 @@ import SkeletonTotalOrderCard from 'ui-component/cards/Skeleton/EarningCard';
 import LocalMallOutlinedIcon from '@mui/icons-material/LocalMallOutlined';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 
+
 export default function TotalOrderLineChartCard({ isLoading }) {
-  //const [dashboardData, setDashboardData] = useState(null);
+  const [dashboardData, setDashboardData] = useState(null);
 
   const theme = useTheme();
 
@@ -31,10 +36,13 @@ export default function TotalOrderLineChartCard({ isLoading }) {
   const handleChangeTime = (event, newValue) => {
     setTimeValue(newValue);
   };
-/*
+
   useEffect(() => {
+
       const fetchDashboardData = async () => {
         try {
+          await axios.get('https://api.exoticnairobi.com/sanctum/csrf-cookie');
+
           const response = await axios.post(
             'https://api.exoticnairobi.com/api/dashboard-summary',
             { platform_id: 1 }
@@ -47,9 +55,9 @@ export default function TotalOrderLineChartCard({ isLoading }) {
   
       fetchDashboardData();
     }, []);
-
+    
     console.log(dashboardData)
-*/
+
 
   return (
     <>
@@ -137,9 +145,9 @@ export default function TotalOrderLineChartCard({ isLoading }) {
                     <Grid container sx={{ alignItems: 'center' }}>
                       <Grid>
                         {timeValue ? (
-                          <Typography sx={{ fontSize: '2.125rem', fontWeight: 500, mr: 1, mt: 1.75, mb: 0.75 }}>2{/*dashboardData?.deactivated_profiles ?? '...'*/}</Typography>
+                          <Typography sx={{ fontSize: '2.125rem', fontWeight: 500, mr: 1, mt: 1.75, mb: 0.75 }}>2{dashboardData?.deactivated_profiles ?? '...'}</Typography>
                         ) : (
-                          <Typography sx={{ fontSize: '2.125rem', fontWeight: 500, mr: 1, mt: 1.75, mb: 0.75 }}>1{/*dashboardData?.dormant_accounts ?? '...'*/}</Typography>
+                          <Typography sx={{ fontSize: '2.125rem', fontWeight: 500, mr: 1, mt: 1.75, mb: 0.75 }}>1{dashboardData?.dormant_accounts ?? '...'}</Typography>
                         )}
                       </Grid>
                       <Grid>
