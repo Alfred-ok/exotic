@@ -36,7 +36,7 @@ export default function Dashboard() {
           'https://api.exoticnairobi.com/api/dashboard-summary',
           { platform_id: 1 }
         );
-        setDashboardData(response.data);
+        setDashboardData(response);
         setLoading(false);
       } catch (error) {
         console.error('Failed to fetch dashboard summary:', error);
