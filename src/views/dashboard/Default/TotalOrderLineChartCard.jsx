@@ -38,20 +38,17 @@ export default function TotalOrderLineChartCard({ isLoading }) {
   };
 
   
-  useEffect(() => {
-
+    useEffect(() => {
       const fetchDashboardData = async () => {
         try {
-          //await axios.get('https://api.exoticnairobi.com/sanctum/csrf-cookie');
-
           const response = await axios.post(
             'https://api.exoticnairobi.com/api/summary',
             { platform_id: 1 }
           );
+          console.log('Dashboard Response:', response.data); // Check structure
           setDashboardData(response.data);
-
         } catch (error) {
-          console.error('Failed to fetch dashboard summary:', error);
+          console.error('Failed to fetch earning data:', error);
         }
       };
   

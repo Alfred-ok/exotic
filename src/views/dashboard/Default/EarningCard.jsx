@@ -41,20 +41,22 @@ export default function EarningCard({ isLoading }) {
   };
 
   useEffect(() => {
-  const fetchDashboardData = async () => {
-    try {
-      const response = await axios.post(
-        'https://api.exoticnairobi.com/api/summary',
-        { platform_id: 1 }
-      );
-      setDashboardData(response.data);
-    } catch (error) {
-      console.error('Failed to fetch earning data:', error);
-    }
-  };
+    const fetchDashboardData = async () => {
+      try {
+        const response = await axios.post(
+          'https://api.exoticnairobi.com/api/summary',
+          { platform_id: 1 }
+        );
+        console.log('Dashboard Response:', response.data); // Check structure
+        setDashboardData(response.data);
+      } catch (error) {
+        console.error('Failed to fetch earning data:', error);
+      }
+    };
 
-  fetchDashboardData();
-}, []);
+    fetchDashboardData();
+  }, []);
+
 
   return (
     <>
