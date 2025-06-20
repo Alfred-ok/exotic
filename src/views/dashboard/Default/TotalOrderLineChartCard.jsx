@@ -23,12 +23,33 @@ import LocalMallOutlinedIcon from '@mui/icons-material/LocalMallOutlined';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 
 export default function TotalOrderLineChartCard({ isLoading }) {
+  const [isLoading, setLoading] = useState(true);
+  const [dashboardData, setDashboardData] = useState(null);
+  
   const theme = useTheme();
 
   const [timeValue, setTimeValue] = React.useState(false);
   const handleChangeTime = (event, newValue) => {
     setTimeValue(newValue);
   };
+
+  useEffect(() => {
+      const fetchDashboardData = async () => {
+        try {
+          const response = await axios.post(
+            'https://api.exoticnairobi.com/api/dashboard-summary',
+            { platform_id: 1 }
+          );
+          setDashboardData(response.data);
+          setLoading(false);
+        } catch (error) {
+          console.error('Failed to fetch dashboard summary:', error);
+          setLoading(false);
+        }
+      };
+  
+      fetchDashboardData();
+    }, []);
 
   return (
     <>

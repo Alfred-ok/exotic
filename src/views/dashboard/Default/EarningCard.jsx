@@ -1,5 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 
 // material-ui
 import { useTheme } from '@mui/material/styles';
@@ -24,10 +26,13 @@ import FileCopyTwoToneIcon from '@mui/icons-material/FileCopyOutlined';
 import PictureAsPdfTwoToneIcon from '@mui/icons-material/PictureAsPdfOutlined';
 import ArchiveTwoToneIcon from '@mui/icons-material/ArchiveOutlined';
 
-export default function EarningCard({ isLoading, dashboardData }) {
+export default function EarningCard({ isLoading}) {
   const theme = useTheme();
 
   const [anchorEl, setAnchorEl] = React.useState(null);
+
+  const [isLoading, setLoading] = useState(true);
+  const [dashboardData, setDashboardData] = useState(null);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -36,6 +41,25 @@ export default function EarningCard({ isLoading, dashboardData }) {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+
+  useEffect(() => {
+    const fetchDashboardData = async () => {
+      try {
+        const response = await axios.post(
+          'https://api.exoticnairobi.com/api/dashboard-summary',
+          { platform_id: 1 }
+        );
+        setDashboardData(response.data);
+        setLoading(false);
+      } catch (error) {
+        console.error('Failed to fetch dashboard summary:', error);
+        setLoading(false);
+      }
+    };
+
+    fetchDashboardData();
+  }, []);
 
   return (
     <>

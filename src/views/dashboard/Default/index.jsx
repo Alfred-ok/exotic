@@ -22,30 +22,13 @@ import LineChartArea from './LineChartArea';
 
 export default function Dashboard() {
   const [isLoading, setLoading] = useState(true);
-  const [dashboardData, setDashboardData] = useState(null);
   /*
   useEffect(() => {
     setLoading(false);
   }, []);
   */
 
-  useEffect(() => {
-    const fetchDashboardData = async () => {
-      try {
-        const response = await axios.post(
-          'https://api.exoticnairobi.com/api/dashboard-summary',
-          { platform_id: 1 }
-        );
-        setDashboardData(response.data);
-        setLoading(false);
-      } catch (error) {
-        console.error('Failed to fetch dashboard summary:', error);
-        setLoading(false);
-      }
-    };
-
-    fetchDashboardData();
-  }, []);
+  
 
   console.log(dashboardData);
 
@@ -54,10 +37,10 @@ export default function Dashboard() {
       <Grid size={12}>
         <Grid container spacing={gridSpacing}>
           <Grid size={{ lg: 4, md: 6, sm: 6, xs: 12 }}>
-            <EarningCard isLoading={isLoading} dashboardData={dashboardData} />
+            <EarningCard isLoading={isLoading} />
           </Grid>
           <Grid size={{ lg: 4, md: 6, sm: 6, xs: 12 }}>
-            <TotalOrderLineChartCard isLoading={isLoading} dashboardData={dashboardData}/>
+            <TotalOrderLineChartCard isLoading={isLoading}/>
           </Grid>
           <Grid size={{ lg: 4, md: 12, sm: 12, xs: 12 }}>
             <Grid container spacing={gridSpacing}>
