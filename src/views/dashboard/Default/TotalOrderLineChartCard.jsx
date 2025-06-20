@@ -28,7 +28,7 @@ import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 
 
 export default function TotalOrderLineChartCard({ isLoading }) {
-  const [dashboardData, setDashboardData] = useState(null);
+  const [dashboardData, setDashboardData] = useState();
 
   const theme = useTheme();
 
