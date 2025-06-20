@@ -44,10 +44,11 @@ export default function TotalOrderLineChartCard({ isLoading }) {
           //await axios.get('https://api.exoticnairobi.com/sanctum/csrf-cookie');
 
           const response = await axios.post(
-            'https://api.exoticnairobi.com/api/dashboard-summary',
+            'https://api.exoticnairobi.com/api/summary',
             { platform_id: 1 }
           );
           setDashboardData(response.data);
+
         } catch (error) {
           console.error('Failed to fetch dashboard summary:', error);
         }
@@ -56,7 +57,7 @@ export default function TotalOrderLineChartCard({ isLoading }) {
       fetchDashboardData();
     }, []);
     
-    console.log(dashboardData.active_profiles)
+    console.log(dashboardData)
 
 
   return (
@@ -145,9 +146,9 @@ export default function TotalOrderLineChartCard({ isLoading }) {
                     <Grid container sx={{ alignItems: 'center' }}>
                       <Grid>
                         {timeValue ? (
-                          <Typography sx={{ fontSize: '2.125rem', fontWeight: 500, mr: 1, mt: 1.75, mb: 0.75 }}>2{dashboardData?.deactivated_profiles ?? '...'}</Typography>
+                          <Typography sx={{ fontSize: '2.125rem', fontWeight: 500, mr: 1, mt: 1.75, mb: 0.75 }}>{dashboardData?.deactivated_profiles ?? '...'}</Typography>
                         ) : (
-                          <Typography sx={{ fontSize: '2.125rem', fontWeight: 500, mr: 1, mt: 1.75, mb: 0.75 }}>1{dashboardData?.dormant_accounts ?? '...'}</Typography>
+                          <Typography sx={{ fontSize: '2.125rem', fontWeight: 500, mr: 1, mt: 1.75, mb: 0.75 }}>{dashboardData?.dormant_accounts ?? '...'}</Typography>
                         )}
                       </Grid>
                       <Grid>

@@ -87,6 +87,21 @@ const exportToExcel = (data) => {
   XLSX.writeFile(workbook, "users.xlsx");
 };
 
+
+useEffect(() => {
+  fetch('https://api.exoticnairobi.com/api/users', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ platform_id: 1 })
+  })
+    .then(res => res.json())
+    .then(data => {
+      console.log(data);
+    })
+    .catch(err => console.error('Failed to fetch users', err));
+}, []);
+
+
 export default function UsersTable() {
   const [users, setUsers] = useState([]);
   const [filters, setFilters] = useState({

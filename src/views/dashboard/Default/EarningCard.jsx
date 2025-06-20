@@ -1,5 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 
 // material-ui
 import { useTheme } from '@mui/material/styles';
@@ -28,6 +30,7 @@ export default function EarningCard({ isLoading }) {
   const theme = useTheme();
 
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [dashboardData, setDashboardData] = useState({});
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -36,6 +39,22 @@ export default function EarningCard({ isLoading }) {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  useEffect(() => {
+  const fetchDashboardData = async () => {
+    try {
+      const response = await axios.post(
+        'https://api.exoticnairobi.com/api/summary',
+        { platform_id: 1 }
+      );
+      setDashboardData(response.data);
+    } catch (error) {
+      console.error('Failed to fetch earning data:', error);
+    }
+  };
+
+  fetchDashboardData();
+}, []);
 
   return (
     <>
@@ -143,7 +162,7 @@ export default function EarningCard({ isLoading }) {
                 <Grid container sx={{ alignItems: 'center' }}>
                   <Grid>
                     <Typography sx={{ fontSize: '2.125rem', fontWeight: 500, mr: 1, mt: 1.75, mb: 0.75 }}>
-                    20
+                      {dashboardData?.active_profiles ?? '...'}
                     </Typography>
                   </Grid>
                   <Grid>
