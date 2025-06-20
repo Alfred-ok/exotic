@@ -38,12 +38,9 @@ export default function AuthLogin() {
 
   const handleLogin = async () => {
   try {
-    // Step 1: Get CSRF cookie
-
-    await axios.get('https://api.exoticnairobi.com/sanctum/csrf-cookie', {
-      withCredentials: false
-    });
-    //yes
+    // Optional: Remove CSRF step since Laravel is not using credentials
+    // But you may keep it if your backend expects it for consistency
+    await axios.get('https://api.exoticnairobi.com/sanctum/csrf-cookie');
 
     // Step 2: Perform login
     const response = await axios.post(
@@ -51,9 +48,6 @@ export default function AuthLogin() {
       {
         email,
         password
-      },
-      {
-        withCredentials: false
       }
     );
 
