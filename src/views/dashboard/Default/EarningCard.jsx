@@ -24,7 +24,7 @@ import FileCopyTwoToneIcon from '@mui/icons-material/FileCopyOutlined';
 import PictureAsPdfTwoToneIcon from '@mui/icons-material/PictureAsPdfOutlined';
 import ArchiveTwoToneIcon from '@mui/icons-material/ArchiveOutlined';
 
-export default function EarningCard({ isLoading }) {
+export default function EarningCard({ isLoading, dashboardData }) {
   const theme = useTheme();
 
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -143,7 +143,7 @@ export default function EarningCard({ isLoading }) {
                 <Grid container sx={{ alignItems: 'center' }}>
                   <Grid>
                     <Typography sx={{ fontSize: '2.125rem', fontWeight: 500, mr: 1, mt: 1.75, mb: 0.75 }}>
-                    20
+                    20/{dashboardData.active_profiles}
                     </Typography>
                   </Grid>
                   <Grid>
