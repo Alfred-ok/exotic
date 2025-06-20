@@ -37,6 +37,7 @@ export default function TotalOrderLineChartCard({ isLoading }) {
     setTimeValue(newValue);
   };
 
+  
   useEffect(() => {
 
       const fetchDashboardData = async () => {
