@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import axios from 'axios';
 
 // material-ui
 import Grid from '@mui/material/Grid2';
@@ -30,7 +29,7 @@ export default function Dashboard() {
 
   
 
-  console.log(dashboardData);
+  //console.log(dashboardData);
 
   return (
     <Grid container spacing={gridSpacing}>

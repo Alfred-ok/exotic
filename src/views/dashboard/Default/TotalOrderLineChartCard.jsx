@@ -23,7 +23,7 @@ import LocalMallOutlinedIcon from '@mui/icons-material/LocalMallOutlined';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 
 export default function TotalOrderLineChartCard({ isLoading }) {
-  const [dashboardData, setDashboardData] = useState(null);
+  //const [dashboardData, setDashboardData] = useState(null);
 
   const theme = useTheme();
 
@@ -31,7 +31,7 @@ export default function TotalOrderLineChartCard({ isLoading }) {
   const handleChangeTime = (event, newValue) => {
     setTimeValue(newValue);
   };
-
+/*
   useEffect(() => {
       const fetchDashboardData = async () => {
         try {
@@ -49,6 +49,7 @@ export default function TotalOrderLineChartCard({ isLoading }) {
     }, []);
 
     console.log(dashboardData)
+*/
 
   return (
     <>

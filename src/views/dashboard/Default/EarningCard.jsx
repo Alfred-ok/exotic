@@ -59,6 +59,7 @@ export default function EarningCard({ isLoading}) {
   }, []);
 
   console.log(dashboardData)
+  
   return (
     <>
       {isLoading ? (
@@ -165,7 +166,7 @@ export default function EarningCard({ isLoading}) {
                 <Grid container sx={{ alignItems: 'center' }}>
                   <Grid>
                     <Typography sx={{ fontSize: '2.125rem', fontWeight: 500, mr: 1, mt: 1.75, mb: 0.75 }}>
-                      20{/*dashboardData?.active_profiles ?? '...'*/}
+                      20{dashboardData?.active_profiles ?? '...'}
                     </Typography>
                   </Grid>
                   <Grid>
