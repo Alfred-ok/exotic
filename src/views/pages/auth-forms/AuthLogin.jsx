@@ -40,9 +40,9 @@ export default function AuthLogin() {
   try {
     // Step 1: Get CSRF cookie
 
-    /*await axios.get('https://api.exoticnairobi.com/sanctum/csrf-cookie', {
-      withCredentials: true
-    });*/
+    await axios.get('https://api.exoticnairobi.com/sanctum/csrf-cookie', {
+      withCredentials: false
+    });
     //yes
 
     // Step 2: Perform login
@@ -53,7 +53,7 @@ export default function AuthLogin() {
         password
       },
       {
-        withCredentials: true
+        withCredentials: false
       }
     );
 
