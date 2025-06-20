@@ -56,7 +56,7 @@ export default function TotalOrderLineChartCard({ isLoading }) {
       fetchDashboardData();
     }, []);
     
-    console.log(dashboardData)
+    console.log(dashboardData.active_profiles)
 
 
   return (
