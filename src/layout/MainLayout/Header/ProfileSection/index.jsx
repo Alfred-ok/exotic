@@ -32,6 +32,8 @@ import useConfig from 'hooks/useConfig';
 import User1 from 'assets/images/users/user-round.svg';
 import { IconLogout, IconSearch, IconSettings, IconUser } from '@tabler/icons-react';
 
+import axios from 'axios';
+
 import { useNavigate } from 'react-router';
 
 // ==============================|| PROFILE MENU ||============================== //
@@ -63,6 +65,26 @@ export default function ProfileSection() {
 
     setOpen(false);
   };
+
+
+
+  const handleLogout = async () => {
+    try {
+      await axios.post('https://api.exoticnairobi.com/api/logout');
+      
+      // Optionally clear localStorage
+      localStorage.removeItem('userName');
+      localStorage.removeItem('userEmail');
+      localStorage.removeItem('userRole');
+
+      // Redirect to login page
+      navigate('/pages/login');
+    } catch (error) {
+      console.error('Logout failed:', error);
+      alert('Logout failed: ' + (error.response?.data?.message || 'Something went wrong.'));
+    }
+  };
+
 
   const prevOpen = useRef(open);
   useEffect(() => {
@@ -256,7 +278,7 @@ export default function ProfileSection() {
                             }
                           />
                         </ListItemButton>
-                        <ListItemButton sx={{ borderRadius: `${borderRadius}px` }} selected={selectedIndex === 4} onClick={()=>navigate("/pages/login")}>
+                        <ListItemButton sx={{ borderRadius: `${borderRadius}px` }} selected={selectedIndex === 4} onClick={ handleLogout}>
                           <ListItemIcon>
                             <IconLogout stroke={1.5} size="20px" />
                           </ListItemIcon>
