@@ -41,17 +41,23 @@ export default function Products() {
 
   // Fetch products
   const fetchProducts = async () => {
-    try {
-      const res = await fetch('https://api.exoticnairobi.com/api/products');
-      const data = await res.json();
-      setProducts(data);
-    } catch (error) {
-      console.error('Failed to fetch products:', error);
-      showSnackbar('Failed to fetch products', 'error');
-    } finally {
-      setLoadingProducts(false);
-    }
-  };
+  try {
+    const res = await axios.get('https://api.exoticnairobi.com/api/products', {
+      withCredentials: true
+    });
+
+    // If your API returns { products: [...] }
+    // setProducts(res.data.products || []);
+
+    // If your API returns an array directly
+    setProducts(res.data || []);
+  } catch (error) {
+    console.error('Failed to fetch products:', error);
+    showSnackbar('Failed to fetch products', 'error');
+  } finally {
+    setLoadingProducts(false);
+  }
+};
 
   useEffect(() => {
     fetchProducts();
@@ -71,7 +77,7 @@ export default function Products() {
     // Step 2: Submit the form
     await axios.post('https://api.exoticnairobi.com/api/products', form, {
       headers: { 'Content-Type': 'application/json' },
-      withCredentials: true
+     // withCredentials: true
     });
 
     // Step 3: Reset and refresh
