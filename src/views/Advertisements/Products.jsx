@@ -291,7 +291,6 @@ export default function Products() {
         headers: { 'Content-Type': 'application/json' },
         withCredentials: true
       });
-      console.log(response.data); // if needed
       showSnackbar('Product updated successfully');
     } else {
       // Create
