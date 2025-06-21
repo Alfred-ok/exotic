@@ -1,31 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import {
-  Box, Button, Grid, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
-  TextField, Pagination, Tabs, Tab
+  Box, Button, Grid, Paper, Table, TableBody, TableCell, TableContainer, TableHead,
+  TableRow, TextField, Pagination, Tabs, Tab
 } from '@mui/material';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import * as XLSX from 'xlsx';
 import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, Legend } from 'recharts';
-
-// Generate Kenyan names
-const kenyanNames = [
-  'Brian Otieno', 'Faith Mwangi', 'John Kariuki', 'Mercy Achieng', 'David Njoroge',
-  'Linda Wambui', 'Peter Ouma', 'Alice Muthoni', 'Samuel Kimani', 'Rose Atieno',
-  'Michael Mutua', 'Esther Naliaka', 'Collins Kiptoo', 'Janet Cherono', 'Kevin Odhiambo',
-  'Agnes Chebet', 'George Nyambura', 'Cynthia Kilonzo', 'Paul Mwende', 'Lucy Wanjiku'
-];
-
-// Generate Payments
-const generatePayments = () => {
-  return kenyanNames.map((name, index) => ({
-    id: `P${2000 + index}`,
-    userId: `U${1000 + index}`,
-    name,
-    amount: Math.floor(100 + Math.random() * 900),
-    date: `2025-06-${String(index + 1).padStart(2, '0')}`
-  }));
-};
 
 const exportToPDF = (data, headers, fileName) => {
   const doc = new jsPDF();
@@ -53,7 +34,22 @@ export default function PaymentsTable() {
   const rowsPerPage = 5;
 
   useEffect(() => {
-    setPayments(generatePayments());
+    fetch('https://api.exoticnairobi.com/api/payments')
+      .then(res => res.json())
+      .then(data => {
+        const transformed = data.payments.map(p => ({
+          id: `P${p.payment_id}`,
+          userId: `U${p.user_id}`,
+          phone: p.phone,
+          amount: parseFloat(p.amount),
+          product: p.product,
+          status: p.status,
+          ref: p.transaction_reference || 'N/A',
+          date: p.created_at.split(' ')[0]
+        }));
+        setPayments(transformed);
+      })
+      .catch(err => console.error('Error fetching payments:', err));
   }, []);
 
   const handleFilterChange = (field, value) => {
@@ -64,13 +60,15 @@ export default function PaymentsTable() {
   const filteredPayments = payments.filter(payment =>
     (!filters.id || payment.id.toLowerCase().includes(filters.id.toLowerCase())) &&
     (!filters.userId || payment.userId.toLowerCase().includes(filters.userId.toLowerCase())) &&
-    (!filters.name || payment.name.toLowerCase().includes(filters.name.toLowerCase()))
+    (!filters.phone || payment.phone.includes(filters.phone)) &&
+    (!filters.status || payment.status.toLowerCase().includes(filters.status.toLowerCase())) &&
+    (!filters.date || payment.date.includes(filters.date))
   );
 
   const paginatedPayments = filteredPayments.slice((currentPage - 1) * rowsPerPage, currentPage * rowsPerPage);
 
   const handleExportPDF = () => {
-    exportToPDF(filteredPayments, ['id', 'userId', 'name', 'amount', 'date'], 'Payments');
+    exportToPDF(filteredPayments, ['id', 'userId', 'phone', 'amount', 'product', 'status', 'ref', 'date'], 'Payments');
   };
 
   const handleExportExcel = () => {
@@ -81,7 +79,7 @@ export default function PaymentsTable() {
     <Box>
       <Tabs value={tabIndex} onChange={(e, newVal) => setTabIndex(newVal)} sx={{ mb: 2 }}>
         <Tab label="Table View" />
-        <Tab label="Bar Chart View" />
+        <Tab label="Chart View" />
       </Tabs>
 
       {tabIndex === 0 && (
@@ -92,20 +90,25 @@ export default function PaymentsTable() {
           </Box>
 
           <Grid container spacing={2} mb={2}>
-            <Grid item xs={3}><TextField label="Payment ID" size="small" fullWidth value={filters.id || ''} onChange={(e) => handleFilterChange('id', e.target.value)} /></Grid>
-            <Grid item xs={3}><TextField label="User ID" size="small" fullWidth value={filters.userId || ''} onChange={(e) => handleFilterChange('userId', e.target.value)} /></Grid>
-            <Grid item xs={3}><TextField label="Name" size="small" fullWidth value={filters.name || ''} onChange={(e) => handleFilterChange('name', e.target.value)} /></Grid>
+            <Grid item xs={2}><TextField label="Payment ID" size="small" fullWidth value={filters.id || ''} onChange={(e) => handleFilterChange('id', e.target.value)} /></Grid>
+            <Grid item xs={2}><TextField label="User ID" size="small" fullWidth value={filters.userId || ''} onChange={(e) => handleFilterChange('userId', e.target.value)} /></Grid>
+            <Grid item xs={2}><TextField label="Phone" size="small" fullWidth value={filters.phone || ''} onChange={(e) => handleFilterChange('phone', e.target.value)} /></Grid>
+            <Grid item xs={2}><TextField label="Status" size="small" fullWidth value={filters.status || ''} onChange={(e) => handleFilterChange('status', e.target.value)} /></Grid>
+            <Grid item xs={2}><TextField label="Date" size="small" fullWidth value={filters.date || ''} onChange={(e) => handleFilterChange('date', e.target.value)} placeholder="YYYY-MM-DD" /></Grid>
           </Grid>
 
           <TableContainer component={Paper} elevation={2}>
             <Table>
-              <TableHead sx={{ backgroundColor: '#1976d2', color:"#fff" }}>
-                <TableRow  sx={{ color: '#fff', fontWeight: 'bold' }}>
-                  <TableCell style={{color:"#fff"}}>Payment ID</TableCell>
-                  <TableCell style={{color:"#fff"}}>User ID</TableCell>
-                  <TableCell style={{color:"#fff"}}>Name</TableCell>
-                  <TableCell style={{color:"#fff"}}>Amount (USD)</TableCell>
-                  <TableCell style={{color:"#fff"}}>Date</TableCell>
+              <TableHead sx={{ backgroundColor: '#1976d2' }}>
+                <TableRow>
+                  <TableCell style={{ color: '#fff' }}>Payment ID</TableCell>
+                  <TableCell style={{ color: '#fff' }}>User ID</TableCell>
+                  <TableCell style={{ color: '#fff' }}>Phone</TableCell>
+                  <TableCell style={{ color: '#fff' }}>Amount</TableCell>
+                  <TableCell style={{ color: '#fff' }}>Product</TableCell>
+                  <TableCell style={{ color: '#fff' }}>Status</TableCell>
+                  <TableCell style={{ color: '#fff' }}>Reference</TableCell>
+                  <TableCell style={{ color: '#fff' }}>Date</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -113,8 +116,11 @@ export default function PaymentsTable() {
                   <TableRow key={pay.id} sx={{ backgroundColor: index % 2 === 0 ? '#f0f8ff' : '#fff' }}>
                     <TableCell>{pay.id}</TableCell>
                     <TableCell>{pay.userId}</TableCell>
-                    <TableCell>{pay.name}</TableCell>
+                    <TableCell>{pay.phone}</TableCell>
                     <TableCell>{pay.amount}</TableCell>
+                    <TableCell>{pay.product}</TableCell>
+                    <TableCell>{pay.status}</TableCell>
+                    <TableCell>{pay.ref}</TableCell>
                     <TableCell>{pay.date}</TableCell>
                   </TableRow>
                 ))}
@@ -123,12 +129,17 @@ export default function PaymentsTable() {
           </TableContainer>
 
           <Box mt={2} display="flex" justifyContent="center">
-            <Pagination count={Math.ceil(filteredPayments.length / rowsPerPage)} page={currentPage} onChange={(e, val) => setCurrentPage(val)} color="primary" />
+            <Pagination
+              count={Math.ceil(filteredPayments.length / rowsPerPage)}
+              page={currentPage}
+              onChange={(e, val) => setCurrentPage(val)}
+              color="primary"
+            />
           </Box>
         </>
       )}
 
-     {tabIndex === 1 && (
+      {tabIndex === 1 && (
         <Box height={400} width="100%">
           <ResponsiveContainer>
             <AreaChart data={filteredPayments} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
@@ -143,12 +154,17 @@ export default function PaymentsTable() {
               <YAxis />
               <Tooltip />
               <Legend />
-              <Area type="monotone" dataKey="amount" stroke="#1976d2" fillOpacity={1} fill="url(#colorAmount)" />
+              <Area
+                type="monotone"
+                dataKey="amount"
+                stroke="#1976d2"
+                fillOpacity={1}
+                fill="url(#colorAmount)"
+              />
             </AreaChart>
           </ResponsiveContainer>
         </Box>
       )}
-
     </Box>
   );
 }
