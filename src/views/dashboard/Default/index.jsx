@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 // material-ui
 import Grid from '@mui/material/Grid2';
 
-// project imports
+// project importss
 import EarningCard from './EarningCard';
 import PopularCard from './PopularCard';
 import TotalOrderLineChartCard from './TotalOrderLineChartCard';
