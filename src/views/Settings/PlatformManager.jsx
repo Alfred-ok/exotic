@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import axios from 'axios';
 import {
   Typography,
   Box,
@@ -15,32 +16,28 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  Paper
+  Paper,
+  Snackbar,
+  Alert
 } from '@mui/material';
 import MainCard from 'ui-component/cards/MainCard';
 
 export default function PlatformManager() {
   const [platforms, setPlatforms] = useState([]);
   const [openDialog, setOpenDialog] = useState(false);
-  const [form, setForm] = useState({
-    name: '',
-    domain: '',
-    country: 'Kenya'
-  });
+  const [form, setForm] = useState({ name: '', domain: '', country: 'Kenya' });
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
 
-  // Fetch platforms from API
+  // Fetch platforms using Axios
   const fetchPlatforms = async () => {
     try {
-      const res = await fetch('https://api.exoticnairobi.com/api/platforms', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ Platform_id: "1" })
-      });
-      const data = await res.json();
-      setPlatforms(Array.isArray(data) ? data : [data]); // normalize if single object
-    } catch (error) {
-      console.error('Error fetching platforms:', error);
+      const res = await axios.get('https://api.exoticnairobi.com/api/platforms');
+      setPlatforms(res.data);
+    } catch (err) {
+      console.error('Error fetching platforms:', err);
+      setError('Failed to load platforms.');
     }
   };
 
@@ -48,21 +45,21 @@ export default function PlatformManager() {
     fetchPlatforms();
   }, []);
 
-  // Submit form
+  // Submit form using Axios
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     try {
-      await fetch('https://api.exoticnairobi.com/api/platforms', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(form)
+      await axios.post('https://api.exoticnairobi.com/api/platforms', form, {
+        headers: { 'Content-Type': 'application/json' }
       });
+      setSuccess('Platform created successfully!');
       setForm({ name: '', domain: '', country: 'Kenya' });
       setOpenDialog(false);
       fetchPlatforms();
-    } catch (error) {
-      console.error('Error creating platform:', error);
+    } catch (err) {
+      console.error('Error creating platform:', err);
+      setError('Failed to create platform.');
     } finally {
       setLoading(false);
     }
@@ -72,7 +69,7 @@ export default function PlatformManager() {
     <MainCard title="Platforms">
       {/* Add New Platform Button */}
       <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 2 }}>
-        <Button variant="contained" onClick={() => setOpenDialog(true)}>
+        <Button variant="contained" onClick={() => setOpenDialog(true)} disabled={loading}>
           Add New Platform
         </Button>
       </Box>
@@ -108,7 +105,7 @@ export default function PlatformManager() {
         )}
       </Paper>
 
-      {/* Dialog for Create Platform */}
+      {/* Create Platform Dialog */}
       <Dialog open={openDialog} onClose={() => setOpenDialog(false)} maxWidth="sm" fullWidth>
         <DialogTitle>Create New Platform</DialogTitle>
         <DialogContent>
@@ -116,6 +113,7 @@ export default function PlatformManager() {
             <Grid container spacing={2} sx={{ mt: 1 }}>
               <Grid item xs={12}>
                 <TextField
+                  autoFocus
                   label="Platform Name"
                   fullWidth
                   value={form.name}
@@ -127,6 +125,7 @@ export default function PlatformManager() {
                 <TextField
                   label="Domain URL"
                   fullWidth
+                  type="url"
                   value={form.domain}
                   onChange={(e) => setForm({ ...form, domain: e.target.value })}
                   required
@@ -151,6 +150,14 @@ export default function PlatformManager() {
           </Button>
         </DialogActions>
       </Dialog>
+
+      {/* Snackbar Feedback */}
+      <Snackbar open={!!error} autoHideDuration={4000} onClose={() => setError('')}>
+        <Alert onClose={() => setError('')} severity="error">{error}</Alert>
+      </Snackbar>
+      <Snackbar open={!!success} autoHideDuration={4000} onClose={() => setSuccess('')}>
+        <Alert onClose={() => setSuccess('')} severity="success">{success}</Alert>
+      </Snackbar>
     </MainCard>
   );
 }
