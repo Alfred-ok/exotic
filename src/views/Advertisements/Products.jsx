@@ -286,20 +286,22 @@ export default function Products() {
 
     try {
       if (selectedProduct) {
-        // Update
-        await axios.put(`https://api.exoticnairobi.com/api/products/${selectedProduct.id}`, form, {
-          headers: { 'Content-Type': 'application/json' },
-          withCredentials: true
-        });
-        showSnackbar('Product updated successfully');
-      } else {
-        // Create
-        await axios.post('https://api.exoticnairobi.com/api/products', form, {
-          headers: { 'Content-Type': 'application/json' },
-          withCredentials: true
-        });
-        showSnackbar('Product created successfully');
-      }
+      // Update
+      const response = await axios.put(`https://api.exoticnairobi.com/api/products/${selectedProduct.id}`, form, {
+        headers: { 'Content-Type': 'application/json' },
+        withCredentials: true
+      });
+      console.log(response.data); // if needed
+      showSnackbar('Product updated successfully');
+    } else {
+      // Create
+      const response = await axios.post('https://api.exoticnairobi.com/api/products', form, {
+        headers: { 'Content-Type': 'application/json' },
+        withCredentials: true
+      });
+      console.log(response.data);
+      showSnackbar('Product created successfully');
+    }
 
     console.log(data)
 
