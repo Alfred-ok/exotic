@@ -43,6 +43,7 @@ export default function TopProfilesChart() {
         </Grid>
       </Grid>
       <Chart {...chartData} />
+      n
     </Card>
   );
 }

@@ -64,9 +64,9 @@ export default function Products() {
 
   try {
     // Step 1: Get CSRF cookie
-    await axios.get('https://api.exoticnairobi.com/sanctum/csrf-cookie', {
+    /*await axios.get('https://api.exoticnairobi.com/sanctum/csrf-cookie', {
       withCredentials: true
-    });
+    });*/
 
     // Step 2: Submit the form
     await axios.post('https://api.exoticnairobi.com/api/products', form, {

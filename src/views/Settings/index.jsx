@@ -16,7 +16,7 @@ export default function Settings() {
       <Box sx={{ borderBottom: 1, borderColor: 'divider', mb: 2 }}>
         <Tabs value={activeTab} onChange={handleTabChange} aria-label="settings tabs">
           <Tab label="Platforms" />
-          <Tab label="Products" />
+          <Tab label="User Registration" />
         </Tabs>
       </Box>
 
