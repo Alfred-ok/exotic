@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import { useEffect, useState } from 'react';
 
 // material-ui
 import { alpha, useTheme, styled } from '@mui/material/styles';
@@ -40,8 +41,20 @@ const CardWrapper = styled(MainCard)(({ theme }) => ({
   }
 }));
 
-export default function TotalIncomeLightCard({ isLoading, total, icon, label }) {
+export default function TotalIncomeLightCard({ isLoading, icon, label }) {
   const theme = useTheme();
+  const [pendingTotal, setPendingTotal] = useState(0);
+
+  useEffect(() => {
+    fetch('https://api.exoticnairobi.com/api/payments')
+      .then(res => res.json())
+      .then(data => {
+        const pendingPayments = data.payments.filter(p => p.status === 'pending');
+        const totalAmount = pendingPayments.reduce((sum, p) => sum + parseFloat(p.amount), 0);
+        setPendingTotal(totalAmount);
+      })
+      .catch(err => console.error('Error fetching payments:', err));
+  }, []);
 
   return (
     <>
@@ -67,10 +80,14 @@ export default function TotalIncomeLightCard({ isLoading, total, icon, label }) 
                 </ListItemAvatar>
                 <ListItemText
                   sx={{ py: 0, mt: 0.45, mb: 0.45 }}
-                  primary={<Typography variant="h4">{/*total*/} Ksh 800,000</Typography>}
+                  primary={
+                    <Typography variant="h4">
+                      Ksh {pendingTotal.toLocaleString()}
+                    </Typography>
+                  }
                   secondary={
                     <Typography variant="subtitle2" sx={{ color: 'grey.500', mt: 0.5 }}>
-                      {/*label*/}Pending payments
+                      Pending payment
                     </Typography>
                   }
                 />
@@ -83,4 +100,8 @@ export default function TotalIncomeLightCard({ isLoading, total, icon, label }) 
   );
 }
 
-TotalIncomeLightCard.propTypes = { isLoading: PropTypes.bool, total: PropTypes.number, icon: PropTypes.node, label: PropTypes.string };
+TotalIncomeLightCard.propTypes = {
+  isLoading: PropTypes.bool,
+  icon: PropTypes.node,
+  label: PropTypes.string
+};
