@@ -34,7 +34,8 @@ export default function PlatformManager() {
   const fetchPlatforms = async () => {
     try {
       const res = await axios.get('https://api.exoticnairobi.com/api/platforms');
-      setPlatforms(res.data);
+      setPlatforms(res.data.platforms);
+      console.log(res.data)
     } catch (err) {
       console.error('Error fetching platforms:', err);
       setError('Failed to load platforms.');
