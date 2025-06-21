@@ -1,7 +1,6 @@
 import { useState } from 'react';
-import { Tabs, Tab, Box, Typography } from '@mui/material';
+import { Tabs, Tab, Box } from '@mui/material';
 import MainCard from 'ui-component/cards/MainCard';
-import ProductManager from './ProductManager';
 import PlatformManager from './PlatformManager';
 import RegisterPlatformUser from './RegisterPlatformUser';
 
