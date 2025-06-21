@@ -61,6 +61,7 @@ export default function Products() {
     e.preventDefault();
     setLoading(true);
     try {
+      await axios.get('https://api.exoticnairobi.com/sanctum/csrf-cookie');
       await fetch('https://api.exoticnairobi.com/api/products', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -68,6 +69,7 @@ export default function Products() {
       });
       setForm({ name: '', price: '', currency: 'KES' });
       setOpenDialog(false);
+      console.log(dat)
       showSnackbar('Product created successfully');
       fetchProducts(); // Refresh product list
     } catch (error) {
