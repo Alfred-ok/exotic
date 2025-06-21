@@ -60,7 +60,7 @@ export default function TotalOrderLineChartCard({ isLoading }) {
 
   return (
     <>
-      {isLoading ? (
+      {/*isLoading*/ false ? (
         <SkeletonTotalOrderCard />
       ) : (
         <MainCard

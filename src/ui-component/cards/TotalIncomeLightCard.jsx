@@ -45,7 +45,7 @@ export default function TotalIncomeLightCard({ isLoading, total, icon, label }) 
 
   return (
     <>
-      {isLoading ? (
+      {/*isLoading*/ false ? (
         <TotalIncomeCard />
       ) : (
         <CardWrapper border={false} content={false}>

@@ -84,7 +84,7 @@ export default function TotalGrowthBarChart({ isLoading }) {
 
   return (
     <>
-      {isLoading ? (
+      {/*isLoading*/ false ? (
         <SkeletonTotalGrowthBarChart />
       ) : (
         <MainCard>

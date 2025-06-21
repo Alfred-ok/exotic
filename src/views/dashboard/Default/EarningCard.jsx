@@ -60,7 +60,7 @@ export default function EarningCard({ isLoading }) {
 
   return (
     <>
-      {isLoading ? (
+      {/*isLoading*/ false ? (
         <SkeletonEarningCard />
       ) : (
         <MainCard

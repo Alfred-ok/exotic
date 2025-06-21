@@ -49,7 +49,7 @@ export default function TotalIncomeDarkCard({ isLoading }) {
 
   return (
     <>
-      {isLoading ? (
+      {/*isLoading*/ false ? (
         <TotalIncomeCard />
       ) : (
         <CardWrapper border={false} content={false}>
