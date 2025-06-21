@@ -3,6 +3,7 @@ import { Tabs, Tab, Box, Typography } from '@mui/material';
 import MainCard from 'ui-component/cards/MainCard';
 import ProductManager from './ProductManager';
 import PlatformManager from './PlatformManager';
+import RegisterPlatformUser from './RegisterPlatformUser';
 
 export default function Settings() {
   const [activeTab, setActiveTab] = useState(0);
@@ -25,7 +26,7 @@ export default function Settings() {
       </TabPanel>
 
       <TabPanel value={activeTab} index={1}>
-       <ProductManager />
+       <RegisterPlatformUser/>
       </TabPanel>
     </MainCard>
   );

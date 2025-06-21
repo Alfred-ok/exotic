@@ -21,6 +21,7 @@ import {
   MenuItem
 } from '@mui/material';
 import MainCard from 'ui-component/cards/MainCard';
+import axios from 'axios';
 
 export default function Products() {
   const [products, setProducts] = useState([]);
