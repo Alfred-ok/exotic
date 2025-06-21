@@ -58,27 +58,34 @@ export default function Products() {
 
   // Handle form submit
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    try {
-      await axios.get('https://api.exoticnairobi.com/sanctum/csrf-cookie');
-      await fetch('https://api.exoticnairobi.com/api/products', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(form)
-      });
-      setForm({ name: '', price: '', currency: 'KES' });
-      setOpenDialog(false);
-      console.log(dat)
-      showSnackbar('Product created successfully');
-      fetchProducts(); // Refresh product list
-    } catch (error) {
-      console.error('Failed to create product:', error);
-      showSnackbar('Failed to create product', 'error');
-    } finally {
-      setLoading(false);
-    }
-  };
+  e.preventDefault();
+  setLoading(true);
+
+  try {
+    // Step 1: Get CSRF cookie
+    await axios.get('https://api.exoticnairobi.com/sanctum/csrf-cookie', {
+      withCredentials: true
+    });
+
+    // Step 2: Submit the form
+    await axios.post('https://api.exoticnairobi.com/api/products', form, {
+      headers: { 'Content-Type': 'application/json' },
+      withCredentials: true
+    });
+
+    // Step 3: Reset and refresh
+    setForm({ name: '', price: '', currency: 'KES' });
+    setOpenDialog(false);
+    showSnackbar('Product created successfully');
+    fetchProducts();
+  } catch (error) {
+    console.error('Failed to create product:', error);
+    showSnackbar('Failed to create product', 'error');
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   return (
     <MainCard title="Products">
