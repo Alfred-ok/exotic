@@ -1,8 +1,10 @@
+/*
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
 // material-ui
+
 import {
   Avatar,
   Button,
@@ -145,3 +147,16 @@ export default function PopularCard({ isLoading }) {
 PopularCard.propTypes = {
   isLoading: PropTypes.bool
 };
+*/
+
+import React from 'react'
+
+function PopularCard() {
+  return (
+    <div>
+      popular
+    </div>
+  )
+}
+
+export default PopularCard
