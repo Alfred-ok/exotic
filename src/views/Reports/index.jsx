@@ -14,7 +14,6 @@ export default function Reports() {
       <Tabs value={tabIndex} onChange={(e, newVal) => setTabIndex(newVal)} sx={{ mb: 3 }}>
         <Tab label="Users" />
         <Tab label="Payments" />
-        <Tab label="Packages" />
       </Tabs>
 
       <Box hidden={tabIndex !== 0}>
@@ -23,10 +22,6 @@ export default function Reports() {
 
       <Box hidden={tabIndex !== 1}>
         {tabIndex === 1 && <PaymentsTable />}
-      </Box>
-
-      <Box hidden={tabIndex !== 2}>
-        {tabIndex === 2 && <PackagesTable />}
       </Box>
 
       {tabIndex > 2 && (
@@ -38,3 +33,4 @@ export default function Reports() {
   );
 }
  
+
