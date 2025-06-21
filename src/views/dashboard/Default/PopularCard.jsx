@@ -1,4 +1,4 @@
-/*
+
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
@@ -16,7 +16,7 @@ import {
   MenuItem,
   Typography
 } from '@mui/material';
-import Grid from '@mui/material/Unstable_Grid2'; // Using Grid2
+import Grid from '@mui/material/Grid';
 import ChevronRightOutlinedIcon from '@mui/icons-material/ChevronRightOutlined';
 import MoreHorizOutlinedIcon from '@mui/icons-material/MoreHorizOutlined';
 
@@ -55,7 +55,7 @@ export default function PopularCard({ isLoading }) {
 
   return (
     <>
-      {isLoading ? (
+      {/*isLoading*/ false ? (
         <SkeletonPopularCard />
       ) : (
         <MainCard content={false}>
@@ -103,7 +103,7 @@ export default function PopularCard({ isLoading }) {
                 ) : (
                   recentUsers.map((user) => (
                     <React.Fragment key={user.ID}>
-                      <Grid container direction="column">
+                      <Grid container direction="column" className='p-3'>
                         <Grid>
                           <Grid container sx={{ alignItems: 'center', justifyContent: 'space-between' }}>
                             <Grid>
@@ -147,16 +147,4 @@ export default function PopularCard({ isLoading }) {
 PopularCard.propTypes = {
   isLoading: PropTypes.bool
 };
-*/
 
-import React from 'react'
-
-function PopularCard() {
-  return (
-    <div>
-      popular
-    </div>
-  )
-}
-
-export default PopularCard

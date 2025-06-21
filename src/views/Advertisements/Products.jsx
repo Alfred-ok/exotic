@@ -46,11 +46,12 @@ export default function Products() {
       withCredentials: true
     });
 
+    console.log(res.data.products);
     // If your API returns { products: [...] }
     // setProducts(res.data.products || []);
 
     // If your API returns an array directly
-    setProducts(res.data || []);
+    setProducts(res.data.products || []);
   } catch (error) {
     console.error('Failed to fetch products:', error);
     showSnackbar('Failed to fetch products', 'error');
@@ -75,11 +76,12 @@ export default function Products() {
     });*/
 
     // Step 2: Submit the form
-    await axios.post('https://api.exoticnairobi.com/api/products', form, {
+    const data = await axios.post('https://api.exoticnairobi.com/api/products', form, {
       headers: { 'Content-Type': 'application/json' },
-     // withCredentials: true
+      withCredentials: true
     });
 
+    console.log(data)
     // Step 3: Reset and refresh
     setForm({ name: '', price: '', currency: 'KES' });
     setOpenDialog(false);
