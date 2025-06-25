@@ -69,6 +69,7 @@ export default function EarningCard({ isLoading }) {
           aria-hidden={Boolean(anchorEl)}
           sx={{
             bgcolor: 'secondary.dark',
+            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.2)',
             color: '#fff',
             overflow: 'hidden',
             position: 'relative',

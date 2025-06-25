@@ -29,6 +29,7 @@
     "react-router-dom": "7.0.2",
     "recharts": "^2.15.3",
     "slick-carousel": "1.8.1",
+    "sweetalert2": "^11.22.0",
     "swr": "2.2.5",
     "vite": "6.0.2",
     "vite-jsconfig-paths": "2.0.1",

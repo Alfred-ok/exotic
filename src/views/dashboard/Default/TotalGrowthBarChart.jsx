@@ -87,7 +87,7 @@ export default function TotalGrowthBarChart({ isLoading }) {
       {/*isLoading*/ false ? (
         <SkeletonTotalGrowthBarChart />
       ) : (
-        <MainCard>
+        <MainCard sx={{boxShadow: '0 4px 12px rgba(0, 0, 0, 0.2)',}}>
           <Grid container spacing={gridSpacing}>
             <Grid size={12}>
               <Grid container sx={{ alignItems: 'center', justifyContent: 'space-between' }}>

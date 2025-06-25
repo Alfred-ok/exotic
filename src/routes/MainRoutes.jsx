@@ -9,6 +9,7 @@ import Advertisements from '../views/Advertisements';
 import Messages from '../views/Messages';
 import Settings from '../views/Settings';
 import ActiveLog from '../views/ActiveLog';
+import FreeTrialActivation from '../views/FreeTrialActivation';
 
 // dashboard routing
 const DashboardDefault = Loadable(lazy(() => import('views/dashboard/Default')));
@@ -59,6 +60,10 @@ const MainRoutes = {
       path: 'advertisements',
       element: <Advertisements/>
     },
+    {
+      path: 'free-trial-activation',
+      element: <FreeTrialActivation/>
+    },
 
     {
       path: 'messages',
@@ -84,7 +89,24 @@ const MainRoutes = {
     {
       path: '/sample-page',
       element: <SamplePage />
-    }
+    },
+    /*
+    {
+      path: 'reportss',
+      element: <Reports />,
+      children: [
+        {
+          path: 'rep1',
+          element: <Reports/>
+        },
+        {
+          path: 'rep2',
+          element: <Reports />
+        }
+      ]
+    }*/
+
+
   ]
 };
 

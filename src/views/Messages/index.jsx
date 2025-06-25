@@ -1,118 +1,167 @@
-
-/*
-// material-ui
-import Typography from '@mui/material/Typography';
-
-// project imports
-import MainCard from 'ui-component/cards/MainCard';
-
-// ==============================|| SAMPLE PAGE ||============================== //
-
-export default function Messages() {
-  return (
-    <MainCard title="Messages">
-      <Typography variant="body2">
-        Lorem ipsum dolor sit amen, consenter nipissing eli, sed do elusion tempos incident ut laborers et doolie magna alissa. Ut enif ad
-        minim venice, quin nostrum exercitation illampu laborings nisi ut liquid ex ea commons construal. Duos aube grue dolor in
-        reprehended in voltage veil esse colum doolie eu fujian bulla parian. Exceptive sin ocean cuspidate non president, sunk in culpa qui
-        officiate descent molls anim id est labours.
-      </Typography>
-    </MainCard>
-  );
-}
-*/
-
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import PropTypes from 'prop-types';
 
 // material-ui components
-import { Grid, Typography, Table, TableBody, TableCell, TableHead, TableRow, Button, TextField, MenuItem } from '@mui/material';
+import {
+  Grid,
+  TextField,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+  TablePagination,
+  Chip,
+  MenuItem
+} from '@mui/material';
+
 import MainCard from 'ui-component/cards/MainCard';
 
-const sampleMessages = [
-  { userId: 'user1', messageContent: 'Hello, how are you?', date: '2025-05-01', time: '10:00 AM', remainingMessages: 20 },
-  { userId: 'user2', messageContent: 'Your order has been shipped!', date: '2025-05-02', time: '12:30 PM', remainingMessages: 15 },
-  { userId: 'user3', messageContent: 'Please verify your email.', date: '2025-05-03', time: '3:45 PM', remainingMessages: 30 },
-];
-
 const Messages = () => {
+  const [smsLogs, setSmsLogs] = useState([]);
+  const [filteredMessages, setFilteredMessages] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
-  const [filteredMessages, setFilteredMessages] = useState(sampleMessages);
+  const [statusFilter, setStatusFilter] = useState('all');
 
-  const handleSearchChange = (event) => {
-    setSearchTerm(event.target.value);
-    filterMessages(event.target.value);
-  };
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
 
-  const filterMessages = (searchQuery) => {
-    if (!searchQuery) {
-      setFilteredMessages(sampleMessages);
-    } else {
-      const filtered = sampleMessages.filter(
-        (message) =>
-          message.userId.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          message.messageContent.toLowerCase().includes(searchQuery.toLowerCase())
-      );
-      setFilteredMessages(filtered);
+  useEffect(() => {
+    fetchSmsLogs();
+  }, []);
+
+  const fetchSmsLogs = async () => {
+    try {
+      const response = await axios.get('https://api.exoticnairobi.com/api/sms-logs');
+      const logs = response.data.sms_logs || [];
+      setSmsLogs(logs);
+      setFilteredMessages(logs);
+    } catch (error) {
+      console.error('Error fetching SMS logs:', error);
     }
   };
 
+  const handleSearchChange = (event) => {
+    const value = event.target.value;
+    setSearchTerm(value);
+    filterMessages(value, statusFilter);
+  };
+
+  const handleStatusChange = (event) => {
+    const value = event.target.value;
+    setStatusFilter(value);
+    filterMessages(searchTerm, value);
+  };
+
+  const filterMessages = (query, status) => {
+    let filtered = smsLogs;
+
+    if (status !== 'all') {
+      filtered = filtered.filter((log) => log.status === status);
+    }
+
+    if (query) {
+      filtered = filtered.filter(
+        (log) =>
+          log.phone.toLowerCase().includes(query.toLowerCase()) ||
+          log.message.toLowerCase().includes(query.toLowerCase())
+      );
+    }
+
+    setFilteredMessages(filtered);
+    setPage(0); // Reset to first page on filter
+  };
+
+  const handleChangePage = (event, newPage) => setPage(newPage);
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+
   return (
-    <MainCard title="Sent Messages">
-      <Grid container spacing={2} alignItems="center" justifyContent="space-between">
+    <MainCard title="Sent SMS Logs">
+      <Grid container spacing={2} sx={{ mb: 2 }}>
         <Grid item xs={12} sm={6}>
           <TextField
-            label="Search Messages"
+            label="Search by Phone or Message"
             value={searchTerm}
             onChange={handleSearchChange}
             fullWidth
-            variant="outlined"
             size="small"
+            variant="outlined"
           />
+        </Grid>
+        <Grid item xs={12} sm={3}>
+          <TextField
+            select
+            label="Filter by Status"
+            value={statusFilter}
+            onChange={handleStatusChange}
+            fullWidth
+            size="small"
+            variant="outlined"
+          >
+            <MenuItem value="all">All</MenuItem>
+            <MenuItem value="success">Success</MenuItem>
+            <MenuItem value="failed">Failed</MenuItem>
+          </TextField>
         </Grid>
       </Grid>
 
-      <Grid container sx={{ mt: 3 }}>
-        <Grid item xs={12}>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell>User</TableCell>
-                <TableCell>Message Content</TableCell>
-                <TableCell>Date</TableCell>
-                <TableCell>Time</TableCell>
-                <TableCell>Remaining Messages</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {filteredMessages.length > 0 ? (
-                filteredMessages.map((message, index) => (
-                  <TableRow key={index}>
-                    <TableCell>{message.userId}</TableCell>
-                    <TableCell>{message.messageContent}</TableCell>
-                    <TableCell>{message.date}</TableCell>
-                    <TableCell>{message.time}</TableCell>
-                    <TableCell>{message.remainingMessages}</TableCell>
-                  </TableRow>
-                ))
-              ) : (
-                <TableRow>
-                  <TableCell colSpan={5} align="center">
-                    No messages found.
+      <Table>
+        <TableHead>
+          <TableRow>
+            <TableCell>Phone</TableCell>
+            <TableCell>Message</TableCell>
+            <TableCell>Status</TableCell>
+            <TableCell>Created At</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {filteredMessages.length > 0 ? (
+            filteredMessages
+              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              .map((log) => (
+                <TableRow key={log.id}>
+                  <TableCell>{log.phone}</TableCell>
+                  <TableCell>{log.message}</TableCell>
+                  <TableCell>
+                    <Chip
+                      label={log.status}
+                      color={log.status === 'success' ? 'success' : 'error'}
+                      size="small"
+                    />
                   </TableCell>
+                  <TableCell>{new Date(log.created_at).toLocaleString()}</TableCell>
                 </TableRow>
-              )}
-            </TableBody>
-          </Table>
-        </Grid>
-      </Grid>
+              ))
+          ) : (
+            <TableRow>
+              <TableCell colSpan={4} align="center">
+                No SMS logs found.
+              </TableCell>
+            </TableRow>
+          )}
+        </TableBody>
+      </Table>
+
+      <TablePagination
+        rowsPerPageOptions={[5, 10, 25, 50]}
+        component="div"
+        count={filteredMessages.length}
+        rowsPerPage={rowsPerPage}
+        page={page}
+        onPageChange={handleChangePage}
+        onRowsPerPageChange={handleChangeRowsPerPage}
+      />
     </MainCard>
   );
 };
 
 Messages.propTypes = {
-  isLoading: PropTypes.bool,
+  isLoading: PropTypes.bool
 };
 
 export default Messages;
-

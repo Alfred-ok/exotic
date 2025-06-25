@@ -120,8 +120,9 @@ export default function Products() {
   };
 
   return (
-    <MainCard title="Products">
-      <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 2 }}>
+    <MainCard>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2, }}>
+        <Typography variant='h3'>Products</Typography>
         <Button variant="contained" onClick={() => handleFormOpen(null)}>
           Add New Product
         </Button>

@@ -61,7 +61,7 @@ export default function TotalIncomeLightCard({ isLoading, icon, label }) {
       {/*isLoading*/ false ? (
         <TotalIncomeCard />
       ) : (
-        <CardWrapper border={false} content={false}>
+        <CardWrapper border={false} content={false} sx={{boxShadow: '0 4px 12px rgba(0, 0, 0, 0.2)',}}>
           <Box sx={{ p: 2 }}>
             <List sx={{ py: 0 }}>
               <ListItem alignItems="center" disableGutters sx={{ py: 0 }}>

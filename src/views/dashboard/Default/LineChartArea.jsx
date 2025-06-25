@@ -1,7 +1,7 @@
 
 
 
-
+/*
 import React from 'react';
 import {
   AreaChart,
@@ -55,6 +55,6 @@ const LineChartArea = () => {
 };
 
 export default LineChartArea;
-
+*/
 
 

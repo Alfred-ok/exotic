@@ -5,12 +5,13 @@ import other from './other';
 import platformSelector from './platformSelector';
 import dividlogo from './dividlogo';
 import administrator from './Administrator';
+import Report from './Report';
 
 
 // ==============================|| MENU ITEMS ||============================== //
 //Change
 const menuItems = {
-  items: [dividlogo, platformSelector, dashboard, administrator, pages /*administrator other pages, utilities*/]
+  items: [dividlogo, platformSelector, dashboard, administrator/*administrator other pages, utilities*/]
 };
 
 export default menuItems;
