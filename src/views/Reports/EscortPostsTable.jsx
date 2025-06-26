@@ -25,12 +25,16 @@ const escortHeaders = [
   { id: 'name', label: 'Escort Name' },
   { id: 'phone', label: 'Phone Number' },
   { id: 'status', label: 'Post Status' },
-  { id: 'registered', label: 'Post Date' }
+  { id: 'registered', label: 'Post Date' },
+  { id: 'guid', label: 'GUID' }
 ];
+
 
 const EscortPostsTable = () => {
   const [posts, setPosts] = useState([]);
-  const [filters, setFilters] = useState({ id: '', name: '', phone: '', status: '', registered: '' });
+  const [filters, setFilters] = useState({
+    id: '', name: '', phone: '', status: '', registered: '', guidFrom: '', guidTo: ''
+  });
   const [currentPage, setCurrentPage] = useState(1);
   const [sortConfig, setSortConfig] = useState({ key: '', direction: 'asc' });
   const [viewTab, setViewTab] = useState(0);
@@ -44,8 +48,10 @@ const EscortPostsTable = () => {
           name: post.post_title,
           phone: post.phone_number,
           status: post.post_status,
-          registered: post.post_date.split(' ')[0]
+          registered: post.post_date.split(' ')[0],
+          guid: post.guid
         }));
+
         setPosts(escortData);
       })
       .catch(err => console.error('Failed to fetch escort posts:', err));
@@ -57,12 +63,15 @@ const EscortPostsTable = () => {
   };
 
   let filteredPosts = posts.filter(post =>
-    (!filters.id || post.id.toLowerCase().includes(filters.id.toLowerCase())) &&
-    (!filters.name || post.name.toLowerCase().includes(filters.name.toLowerCase())) &&
-    (!filters.phone || post.phone.includes(filters.phone)) &&
-    (!filters.status || post.status === filters.status) &&
-    (!filters.registered || post.registered.includes(filters.registered))
-  );
+  (!filters.id || post.id.toLowerCase().includes(filters.id.toLowerCase())) &&
+  (!filters.name || post.name.toLowerCase().includes(filters.name.toLowerCase())) &&
+  (!filters.phone || post.phone.includes(filters.phone)) &&
+  (!filters.status || post.status === filters.status) &&
+  (!filters.registered || post.registered.includes(filters.registered)) &&
+  (!filters.guidFrom || post.guid >= filters.guidFrom) &&
+  (!filters.guidTo || post.guid <= filters.guidTo)
+);
+
 
   if (sortConfig.key) {
     filteredPosts.sort((a, b) => {
@@ -87,7 +96,8 @@ const EscortPostsTable = () => {
     doc.text('Escort Posts', 14, 15);
     doc.autoTable({
       head: [escortHeaders.map(h => h.label)],
-      body: filteredPosts.map(post => [post.id, post.name, post.phone, post.status, post.registered]),
+      body: filteredPosts.map(post => [post.id, post.name, post.phone, post.status, post.registered, post.guid]),
+
       startY: 20
     });
     doc.save('escort-posts.pdf');
@@ -154,6 +164,25 @@ const EscortPostsTable = () => {
               </TextField>
             </Grid>
             <Grid item xs={6} sm={2}><TextField label="Post Date" size="small" fullWidth value={filters.registered} onChange={e => handleFilterChange('registered', e.target.value)} placeholder="YYYY-MM-DD" /></Grid>
+            <Grid item xs={6} sm={2}>
+              <TextField
+                label="GUID From"
+                size="small"
+                fullWidth
+                value={filters.guidFrom}
+                onChange={e => handleFilterChange('guidFrom', e.target.value)}
+              />
+            </Grid>
+            <Grid item xs={6} sm={2}>
+              <TextField
+                label="GUID To"
+                size="small"
+                fullWidth
+                value={filters.guidTo}
+                onChange={e => handleFilterChange('guidTo', e.target.value)}
+              />
+            </Grid>
+
           </Grid>
 
           <Box display="flex" justifyContent="flex-end" gap={2} mb={2}>
@@ -187,6 +216,7 @@ const EscortPostsTable = () => {
                     <TableCell>{post.phone}</TableCell>
                     <TableCell>{post.status}</TableCell>
                     <TableCell>{post.registered}</TableCell>
+                     <TableCell>{post.guid}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>
