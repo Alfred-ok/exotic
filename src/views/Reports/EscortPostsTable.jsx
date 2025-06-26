@@ -33,7 +33,7 @@ const escortHeaders = [
 const EscortPostsTable = () => {
   const [posts, setPosts] = useState([]);
   const [filters, setFilters] = useState({
-    id: '', name: '', phone: '', status: '', registered: '', guidFrom: '', guidTo: ''
+    id: '', name: '', phone: '', status: '', registered: '', guid: '', dateFrom: '', dateTo: ''
   });
   const [currentPage, setCurrentPage] = useState(1);
   const [sortConfig, setSortConfig] = useState({ key: '', direction: 'asc' });
@@ -63,14 +63,15 @@ const EscortPostsTable = () => {
   };
 
   let filteredPosts = posts.filter(post =>
-  (!filters.id || post.id.toLowerCase().includes(filters.id.toLowerCase())) &&
-  (!filters.name || post.name.toLowerCase().includes(filters.name.toLowerCase())) &&
-  (!filters.phone || post.phone.includes(filters.phone)) &&
-  (!filters.status || post.status === filters.status) &&
-  (!filters.registered || post.registered.includes(filters.registered)) &&
-  (!filters.guidFrom || post.guid >= filters.guidFrom) &&
-  (!filters.guidTo || post.guid <= filters.guidTo)
-);
+    (!filters.id || post.id.toLowerCase().includes(filters.id.toLowerCase())) &&
+    (!filters.name || post.name.toLowerCase().includes(filters.name.toLowerCase())) &&
+    (!filters.phone || post.phone.includes(filters.phone)) &&
+    (!filters.status || post.status === filters.status) &&
+    (!filters.guid || post.guid.includes(filters.guid)) &&
+    (!filters.dateFrom || new Date(post.registered) >= new Date(filters.dateFrom)) &&
+    (!filters.dateTo || new Date(post.registered) <= new Date(filters.dateTo))
+  );
+
 
 
   if (sortConfig.key) {
@@ -163,23 +164,37 @@ const EscortPostsTable = () => {
                 ))}
               </TextField>
             </Grid>
-            <Grid item xs={6} sm={2}><TextField label="Post Date" size="small" fullWidth value={filters.registered} onChange={e => handleFilterChange('registered', e.target.value)} placeholder="YYYY-MM-DD" /></Grid>
             <Grid item xs={6} sm={2}>
               <TextField
-                label="GUID From"
+                label="GUID"
                 size="small"
                 fullWidth
-                value={filters.guidFrom}
-                onChange={e => handleFilterChange('guidFrom', e.target.value)}
+                value={filters.guid}
+                onChange={e => handleFilterChange('guid', e.target.value)}
               />
             </Grid>
+
             <Grid item xs={6} sm={2}>
               <TextField
-                label="GUID To"
+                type="date"
+                label="From Date"
                 size="small"
                 fullWidth
-                value={filters.guidTo}
-                onChange={e => handleFilterChange('guidTo', e.target.value)}
+                InputLabelProps={{ shrink: true }}
+                value={filters.dateFrom}
+                onChange={e => handleFilterChange('dateFrom', e.target.value)}
+              />
+            </Grid>
+
+            <Grid item xs={6} sm={2}>
+              <TextField
+                type="date"
+                label="To Date"
+                size="small"
+                fullWidth
+                InputLabelProps={{ shrink: true }}
+                value={filters.dateTo}
+                onChange={e => handleFilterChange('dateTo', e.target.value)}
               />
             </Grid>
 
