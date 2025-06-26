@@ -4,14 +4,15 @@ import { lazy } from 'react';
 import MainLayout from 'layout/MainLayout';
 import Loadable from 'ui-component/Loadable';
 import PlatformSelector from '../views/platformSelector';
-import Reports from '../views/Reports';
+
 import Advertisements from '../views/Advertisements';
 import Messages from '../views/Messages';
-import Settings from '../views/Settings';
 import ActiveLog from '../views/ActiveLog';
 import FreeTrialActivation from '../views/FreeTrialActivation';
 import PaymentsTable from '../views/Reports/PaymentsTable';
 import EscortPostsTable from '../views/Reports/EscortPostsTable';
+import PlatformManager from '../views/Settings/PlatformManager';
+import RegisterPlatformUser from '../views/Settings/RegisterPlatformUser';
 
 // dashboard routing
 const DashboardDefault = Loadable(lazy(() => import('views/dashboard/Default')));
@@ -79,8 +80,12 @@ const MainRoutes = {
     },
     
     {
-      path: 'settings',
-      element: <Settings/>
+      path: '/settings/platforms',
+      element: <PlatformManager/>
+    },
+    {
+      path: '/settings/userRegistration',
+      element: <RegisterPlatformUser/>
     },
     {
       path: 'active-log',

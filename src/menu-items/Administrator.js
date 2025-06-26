@@ -69,13 +69,28 @@ const Administrator = {
       icon: icons.IconMessage,
       breadcrumbs: false
     },
+
     {
       id: 'settings',
       title: 'Settings',
-      type: 'item',
-      url: '/settings',
+      type: 'collapse',
       icon: icons.IconSettings,
-      breadcrumbs: false
+      children: [
+        {
+          id: 'platforms',
+          title: 'Platforms',
+          type: 'item',
+          url: '/settings/platforms',
+          breadcrumbs: false
+        },
+        {
+          id: 'userRegistration',
+          title: 'User Registration',
+          type: 'item',
+          url: '/settings/userRegistration',
+          breadcrumbs: false
+        }
+      ]
     },
     {
       id: 'active-log',

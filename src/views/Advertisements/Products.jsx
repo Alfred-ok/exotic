@@ -24,6 +24,7 @@ import {
 } from '@mui/material';
 import MainCard from 'ui-component/cards/MainCard';
 import axios from 'axios';
+import Swal from 'sweetalert2';
 
 export default function Products() {
   const [products, setProducts] = useState([]);
@@ -33,11 +34,18 @@ export default function Products() {
   const [form, setForm] = useState({ name: '', price: '', currency: 'KES' });
   const [loading, setLoading] = useState(false);
   const [loadingProducts, setLoadingProducts] = useState(true);
-  const [snackbar, setSnackbar] = useState({ open: false, message: '', severity: 'success' });
 
-  const showSnackbar = (message, severity = 'success') => {
-    setSnackbar({ open: true, message, severity });
-  };
+  const showAlert = (message, type = 'success') => {
+  Swal.fire({
+    icon: type,
+    title: type === 'success' ? 'Success' : 'Error',
+    text: message,
+    timer: 2000,
+    showConfirmButton: false,
+    position: 'top-end',
+    toast: true
+  });
+};
 
   const fetchProducts = async () => {
     try {
@@ -46,7 +54,7 @@ export default function Products() {
       });
       setProducts(res.data.products || []);
     } catch (error) {
-      showSnackbar('Failed to fetch products', 'error');
+      showAlert('Failed to fetch products', 'error');
     } finally {
       setLoadingProducts(false);
     }
@@ -78,7 +86,7 @@ export default function Products() {
         headers: { 'Content-Type': 'application/json' },
         withCredentials: true
       });
-      showSnackbar('Product updated successfully');
+      showAlert('Product updated successfully');
     } else {
       // Create
       const response = await axios.post('https://api.exoticnairobi.com/api/products', form, {
@@ -86,7 +94,7 @@ export default function Products() {
         withCredentials: true
       });
       console.log(response.data);
-      showSnackbar('Product created successfully');
+      showAlert('Product created successfully');
     }
 
     console.log(data)
@@ -95,7 +103,7 @@ export default function Products() {
       fetchProducts();
     } catch (error) {
       console.error('Error saving product:', error);
-      showSnackbar('Failed to save product', 'error');
+      showAlert('Failed to save product', 'error');
     } finally {
       setLoading(false);
     }
@@ -108,11 +116,11 @@ export default function Products() {
       await axios.delete(`https://api.exoticnairobi.com/api/products/${selectedProduct.id}`, {
         withCredentials: true
       });
-      showSnackbar('Product deleted successfully');
+      showAlert('Product deleted successfully');
       fetchProducts();
     } catch (error) {
       console.error('Error deleting product:', error);
-      showSnackbar('Failed to delete product', 'error');
+      showAlert('Failed to delete product', 'error');
     } finally {
       setDeleteDialogOpen(false);
       setLoading(false);
@@ -249,20 +257,6 @@ export default function Products() {
         </DialogActions>
       </Dialog>
 
-      {/* Snackbar Feedback */}
-      <Snackbar
-        open={snackbar.open}
-        autoHideDuration={3000}
-        onClose={() => setSnackbar({ ...snackbar, open: false })}
-      >
-        <Alert
-          onClose={() => setSnackbar({ ...snackbar, open: false })}
-          severity={snackbar.severity}
-          sx={{ width: '100%' }}
-        >
-          {snackbar.message}
-        </Alert>
-      </Snackbar>
     </MainCard>
   );
 }
