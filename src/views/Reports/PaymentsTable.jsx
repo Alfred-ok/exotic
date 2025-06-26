@@ -8,6 +8,9 @@ import 'jspdf-autotable';
 import * as XLSX from 'xlsx';
 import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, Legend } from 'recharts';
 
+import MainCard from 'ui-component/cards/MainCard';
+import AssessmentIcon from '@mui/icons-material/Assessment';
+
 const exportToPDF = (data, headers, fileName) => {
   const doc = new jsPDF();
   doc.text(fileName, 14, 15);
@@ -76,6 +79,30 @@ export default function PaymentsTable() {
   };
 
   return (
+    <MainCard 
+      sx={{
+              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
+              transition: 'box-shadow 0.3s ease-in-out',
+              '&:hover': {
+                boxShadow: '0 6px 16px rgba(0, 0, 0, 0.15)' // or keep the same value to prevent disappearing
+              }
+            }}
+      title={
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+              backgroundColor: '#1976d2',
+              color: 'white',
+              padding: '20px 16px',
+              borderRadius: '8px'
+            }}
+            >
+              <AssessmentIcon />
+              <span>Payment Reports</span>
+            </div>
+          }
+      >
     <Box>
       <Tabs value={tabIndex} onChange={(e, newVal) => setTabIndex(newVal)} sx={{ mb: 2 }}>
         <Tab label="Table View" />
@@ -166,5 +193,6 @@ export default function PaymentsTable() {
         </Box>
       )}
     </Box>
+    </MainCard>
   );
 }

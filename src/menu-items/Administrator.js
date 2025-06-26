@@ -1,96 +1,3 @@
-// assets
-/*import {
-  IconReportAnalytics,
-  IconMegaphone,
-  IconClockPlay,
-  IconMessageDots,
-  IconSettings,
-  IconHistory,
-  IconKey
-} from '@tabler/icons-react';
-
-// constant
-const icons = {
-  IconReportAnalytics,
-  IconMegaphone,
-  IconClockPlay,
-  IconMessageDots,
-  IconSettings,
-  IconHistory,
-  IconKey
-};
-
-// ==============================|| Administrator ||============================== //
-//RUN
-
-const Administrator = {
-  id: 'administrator',
-  title: 'Administrator',
-  type: 'group',
-  children: [
-    {
-      id: 'default',
-      title: 'Reports',
-      type: 'item',
-      url: '/reports',
-      icon: icons.IconBrandChrome,
-      breadcrumbs: false
-    },
-    
-    {
-      id: 'default',
-      title: 'Advertisements',
-      type: 'item',
-      url: '/advertisements',
-      icon: icons.IconHelp,
-      breadcrumbs: false
-    },
-    {
-      id: 'default',
-      title: 'Free Trial Activation',
-      type: 'item',
-      url: '/free-trial-activation',
-      icon: icons.IconHelp,
-      breadcrumbs: false
-    },
-    {
-        id: 'default',
-        title: 'Messages',
-        type: 'item',
-        url: '/messages',
-        icon: icons.IconBrandChrome,
-        breadcrumbs: false
-    },
-    {
-        id: 'default',
-        title: 'Settings',
-        type: 'item',
-        url: '/settings',
-        icon: icons.IconHelp,
-        breadcrumbs: false
-    },
-    {
-        id: 'default',
-        title: 'Active Log',
-        type: 'item',
-        url: '/active-log',
-        icon: icons.IconHelp,
-        breadcrumbs: false
-    }
-  ]
-};
-
-export default Administrator;*/
-
-
-
-
-
-
-
-
-
-
 import {
   IconReportAnalytics,
   IconSpeakerphone,
@@ -119,17 +26,31 @@ const Administrator = {
     {
       id: 'reports',
       title: 'Reports',
-      type: 'item',
-      url: '/reports',
+      type: 'collapse',
       icon: icons.IconReportAnalytics,
-      breadcrumbs: false
+      children: [
+        {
+          id: 'report-users',
+          title: 'Users',
+          type: 'item',
+          url: '/reports/users',
+          breadcrumbs: false
+        },
+        {
+          id: 'report-payments',
+          title: 'Payments',
+          type: 'item',
+          url: '/reports/payments',
+          breadcrumbs: false
+        }
+      ]
     },
     {
       id: 'advertisements',
       title: 'Advertisements',
       type: 'item',
       url: '/advertisements',
-      icon: icons.IconSpeakerphone, // VALID alternative to "Megaphone"
+      icon: icons.IconSpeakerphone,
       breadcrumbs: false
     },
     {
@@ -166,6 +87,5 @@ const Administrator = {
     }
   ]
 };
-
 
 export default Administrator;

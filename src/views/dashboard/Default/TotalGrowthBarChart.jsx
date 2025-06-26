@@ -89,29 +89,6 @@ export default function TotalGrowthBarChart({ isLoading }) {
       ) : (
         <MainCard sx={{boxShadow: '0 4px 12px rgba(0, 0, 0, 0.2)',}}>
           <Grid container spacing={gridSpacing}>
-            <Grid size={12}>
-              <Grid container sx={{ alignItems: 'center', justifyContent: 'space-between' }}>
-                <Grid>
-                  <Grid container direction="column" spacing={1}>
-                    {/*<Grid>
-                      <Typography variant="subtitle2">Total Growth</Typography>
-                    </Grid>*/}
-                    <Grid>
-                      <Typography variant="h3">Revenue acquired graph</Typography>
-                    </Grid>
-                  </Grid>
-                </Grid>
-                <Grid>
-                  <TextField id="standard-select-currency" select value={value} onChange={(e) => setValue(e.target.value)}>
-                    {status.map((option) => (
-                      <MenuItem key={option.value} value={option.value}>
-                        {option.label}
-                      </MenuItem>
-                    ))}
-                  </TextField>
-                </Grid>
-              </Grid>
-            </Grid>
             <Grid
               size={12}
               sx={{

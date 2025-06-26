@@ -10,6 +10,8 @@ import Messages from '../views/Messages';
 import Settings from '../views/Settings';
 import ActiveLog from '../views/ActiveLog';
 import FreeTrialActivation from '../views/FreeTrialActivation';
+import PaymentsTable from '../views/Reports/PaymentsTable';
+import EscortPostsTable from '../views/Reports/EscortPostsTable';
 
 // dashboard routing
 const DashboardDefault = Loadable(lazy(() => import('views/dashboard/Default')));
@@ -51,9 +53,15 @@ const MainRoutes = {
       path: 'platform-selector',
       element: <PlatformSelector/>
     },
+
+    //Reports
     {
-      path: 'reports',
-      element: <Reports/>
+      path: '/reports/users',
+      element: <EscortPostsTable/>
+    },
+    {
+      path: '/reports/payments',
+      element: <PaymentsTable/>
     },
 
     {
@@ -90,22 +98,6 @@ const MainRoutes = {
       path: '/sample-page',
       element: <SamplePage />
     },
-    /*
-    {
-      path: 'reportss',
-      element: <Reports />,
-      children: [
-        {
-          path: 'rep1',
-          element: <Reports/>
-        },
-        {
-          path: 'rep2',
-          element: <Reports />
-        }
-      ]
-    }*/
-
 
   ]
 };

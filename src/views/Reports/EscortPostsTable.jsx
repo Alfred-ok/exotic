@@ -11,6 +11,9 @@ import 'jspdf-autotable';
 import * as XLSX from 'xlsx';
 import { AreaChart, Area, XAxis, YAxis, Tooltip, CartesianGrid, ResponsiveContainer, Legend } from 'recharts';
 
+import MainCard from 'ui-component/cards/MainCard';
+import AssessmentIcon from '@mui/icons-material/Assessment';
+
 const escortStatusOptions = [
   { value: '', label: 'All' },
   { value: 'publish', label: 'Published' },
@@ -106,6 +109,30 @@ const EscortPostsTable = () => {
 
   return (
     <>
+    <MainCard 
+      sx={{
+              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
+              transition: 'box-shadow 0.3s ease-in-out',
+              '&:hover': {
+                boxShadow: '0 6px 16px rgba(0, 0, 0, 0.15)' // or keep the same value to prevent disappearing
+              }
+            }}
+      title={
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+              backgroundColor: '#1976d2',
+              color: 'white',
+              padding: '20px 16px',
+              borderRadius: '8px'
+            }}
+            >
+              <AssessmentIcon />
+              <span>Escort Profiles Reports</span>
+            </div>
+          }
+      >
       <Box mb={2}>
         <Tabs value={viewTab} onChange={(e, val) => setViewTab(val)}>
           <Tab label="Table View" />
@@ -187,6 +214,7 @@ const EscortPostsTable = () => {
           </AreaChart>
         </ResponsiveContainer>
       )}
+    </MainCard>
     </>
   );
 };
