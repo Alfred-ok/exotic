@@ -162,20 +162,27 @@ const EscortPostsTable = () => {
       ) : (
       <>
       <Box mb={2}>
-      <Paper elevation={2} sx={{ p: 2, mb: 2, backgroundColor: '#f5f5f5' }}>
-        <Typography variant="h6" color="primary">
-          Total Escort Profiles: {totalPosts}
-        </Typography>
-        {chartData.map((item) => (
-          <Typography key={item.status} variant="body2">
-            {item.status}: {item.count}
-          </Typography>
-        ))}
-      </Paper>
+      
         <Tabs value={viewTab} onChange={(e, val) => setViewTab(val)}>
           <Tab label="Table View" />
           <Tab label="Chart View" />
         </Tabs>
+        <div style={{display:"flex", justifyContent:"space-between"}}>
+        <div style={{ display:"flex", marginTop:"25px", marginBottom:"20px" }}>
+          <Typography variant="h6" color="primary">
+            Total Escort Profiles: {totalPosts}
+          </Typography> &nbsp; | &nbsp;
+          {chartData.map((item) => (
+            <Typography style={{display:"flex"}} key={item.status} variant="body2">
+              {item.status}: {item.count} &nbsp; | &nbsp;
+            </Typography>
+          ))}
+        </div>
+        <Box display="flex" justifyContent="flex-end" gap={2} mb={2}>
+            <Button variant="contained" color="secondary" onClick={exportToPDF}>Export PDF</Button>
+            <Button variant="contained" color="primary" onClick={exportToExcel}>Export Excel</Button>
+        </Box>
+        </div>
       </Box>
 
       {viewTab === 0 ? (    
@@ -227,10 +234,7 @@ const EscortPostsTable = () => {
 
           </Grid>
 
-          <Box display="flex" justifyContent="flex-end" gap={2} mb={2}>
-            <Button variant="contained" color="secondary" onClick={exportToPDF}>Export PDF</Button>
-            <Button variant="contained" color="primary" onClick={exportToExcel}>Export Excel</Button>
-          </Box>
+          
 
           <TableContainer component={Paper}>
             <Table>
