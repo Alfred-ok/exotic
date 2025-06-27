@@ -13,6 +13,7 @@ import {
 
 // project imports
 import MainCard from 'ui-component/cards/MainCard';
+import CampaignIcon from '@mui/icons-material/Campaign';
 
 export default function FreeTrialActivation() {
   const [postId, setPostId] = useState('');
@@ -60,7 +61,29 @@ export default function FreeTrialActivation() {
   };
 
   return (
-    <MainCard title="Free Trial Activation">
+    <MainCard 
+      title={
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px',
+            backgroundColor: '#1976d2',
+            color: 'white',
+            padding: '20px 16px',
+            borderRadius: '8px'
+          }}>
+            <CampaignIcon />
+            <span>Free Trial Activation</span>
+          </div>
+        }
+      sx={{
+            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
+            transition: 'box-shadow 0.3s ease-in-out',
+            '&:hover': {
+              boxShadow: '0 6px 16px rgba(0, 0, 0, 0.15)' // or keep the same value to prevent disappearing
+            }
+          }}
+      >
       <Stack spacing={3}>
         <Typography variant="body2">
           Enter the Escort Post ID and number of trial days to activate the free trial.

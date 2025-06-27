@@ -12,6 +12,13 @@ export default function Reports() {
   const [tabIndex, setTabIndex] = useState(0);
   return (
     <MainCard 
+    sx={{
+            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
+            transition: 'box-shadow 0.3s ease-in-out',
+            '&:hover': {
+              boxShadow: '0 6px 16px rgba(0, 0, 0, 0.15)' // or keep the same value to prevent disappearing
+            }
+          }}
      title={
     <div style={{
       display: 'flex',
@@ -21,7 +28,8 @@ export default function Reports() {
       color: 'white',
       padding: '20px 16px',
       borderRadius: '8px'
-    }}>
+    }}
+    >
       <AssessmentIcon />
       <span>Reports</span>
     </div>
