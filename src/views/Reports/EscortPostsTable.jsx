@@ -13,6 +13,7 @@ import { AreaChart, Area, XAxis, YAxis, Tooltip, CartesianGrid, ResponsiveContai
 
 import MainCard from 'ui-component/cards/MainCard';
 import AssessmentIcon from '@mui/icons-material/Assessment';
+import { zoomies } from 'ldrs'
 
 const escortStatusOptions = [
   { value: '', label: 'All' },
@@ -39,8 +40,11 @@ const EscortPostsTable = () => {
   const [sortConfig, setSortConfig] = useState({ key: '', direction: 'asc' });
   const [viewTab, setViewTab] = useState(0);
   const rowsPerPage = 5;
+  zoomies.register();
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    setLoading(true);
     axios.post('https://api.exoticnairobi.com/api/escort-posts', { platform_id: 1 })
       .then(res => {
         const escortData = res.data.escort_posts.map(post => ({
@@ -53,6 +57,7 @@ const EscortPostsTable = () => {
         }));
 
         setPosts(escortData);
+        setLoading(false);
       })
       .catch(err => console.error('Failed to fetch escort posts:', err));
   }, []);
@@ -144,6 +149,16 @@ const EscortPostsTable = () => {
             </div>
           }
       >
+      {loading ? (
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: "20px", margin: "0px auto", backgroundColor: 'rgb(240, 242, 246)' }}>
+          <l-zoomies
+            size="300"
+            speed="1.5"
+            color="rgb(59, 130, 246)"
+          ></l-zoomies>
+        </div>
+      ) : (
+      <>
       <Box mb={2}>
         <Tabs value={viewTab} onChange={(e, val) => setViewTab(val)}>
           <Tab label="Table View" />
@@ -151,7 +166,7 @@ const EscortPostsTable = () => {
         </Tabs>
       </Box>
 
-      {viewTab === 0 ? (
+      {viewTab === 0 ? (    
         <>
           <Grid container spacing={2} mb={2}>
             <Grid item xs={6} sm={2}><TextField label="Post ID" size="small" fullWidth value={filters.id} onChange={e => handleFilterChange('id', e.target.value)} /></Grid>
@@ -223,19 +238,34 @@ const EscortPostsTable = () => {
                   ))}
                 </TableRow>
               </TableHead>
+              
               <TableBody>
-                {paginatedPosts.map((post, idx) => (
+                
+                
+                  {paginatedPosts.map((post, idx) => (
                   <TableRow key={post.id} sx={{ backgroundColor: idx % 2 === 0 ? '#f9f9f9' : '#fff' }}>
                     <TableCell>{post.id}</TableCell>
                     <TableCell>{post.name}</TableCell>
                     <TableCell>{post.phone}</TableCell>
                     <TableCell>{post.status}</TableCell>
                     <TableCell>{post.registered}</TableCell>
-                     <TableCell>{post.guid}</TableCell>
+                     <TableCell>
+                     <a href={post.guid}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          style={{
+                            fontSize: '0.75rem',
+                            color: '#1976d2',
+                            textDecoration: 'underline',
+                            cursor: 'pointer'
+                          }}>{post.guid.slice(0, 8)}</a>
+                      </TableCell>
                   </TableRow>
                 ))}
+                
               </TableBody>
             </Table>
+            
           </TableContainer>
 
           <Box mt={2} display="flex" justifyContent="center">
@@ -259,6 +289,8 @@ const EscortPostsTable = () => {
           </AreaChart>
         </ResponsiveContainer>
       )}
+      </> 
+    )}
     </MainCard>
     </>
   );

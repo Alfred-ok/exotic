@@ -11,6 +11,8 @@ import {
   Alert
 } from '@mui/material';
 import axios from 'axios';
+import Swal from 'sweetalert2';
+
 
 const roles = ['admin', 'sub_admin', 'sales'];
 
@@ -24,29 +26,51 @@ export default function RegisterPlatformUser() {
   const [loading, setLoading] = useState(false);
   const [snackbar, setSnackbar] = useState({ open: false, message: '', severity: 'success' });
 
-  const showSnackbar = (message, severity = 'success') => {
-    setSnackbar({ open: true, message, severity });
+  const showAlert = (message, type = 'success') => {
+    Swal.fire({
+      icon: type,
+      title: message,
+      timer: 2000,
+      showConfirmButton: false,
+      position: 'top-end',
+      toast: true
+    });
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
 
-    try {
-      await axios.post('https://api.exoticnairobi.com/api/register', form, {
-        headers: {
-          'Content-Type': 'application/json'
-        }
+    const handleSubmit = async (e) => {
+      e.preventDefault();
+
+      const result = await Swal.fire({
+        title: 'Are you sure?',
+        text: 'Do you want to register this user?',
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, register',
+        cancelButtonText: 'Cancel'
       });
-      showSnackbar('User registered successfully');
-      setForm({ name: '', email: '', password: '', role: 'sub_admin' });
-    } catch (error) {
-      console.error('Registration failed:', error);
-      showSnackbar('Failed to register user', 'error');
-    } finally {
-      setLoading(false);
-    }
-  };
+
+      if (!result.isConfirmed) return;
+
+      setLoading(true);
+
+      try {
+       const res = await axios.post('https://api.exoticnairobi.com/api/register', form, {
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
+        console.log(res);
+        showAlert('User registered successfully', 'success');
+        setForm({ name: '', email: '', password: '', role: 'sub_admin' });
+      } catch (error) {
+        console.error('Registration failed:', error);
+        showAlert('Failed to register user', 'error');
+      } finally {
+        setLoading(false);
+      }
+    };
+
 
   return (
     <Paper elevation={3} sx={{ maxWidth: 500, mx: 'auto', mt: 4, p: 3 }}>

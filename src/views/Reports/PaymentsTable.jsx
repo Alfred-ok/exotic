@@ -10,6 +10,7 @@ import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianG
 
 import MainCard from 'ui-component/cards/MainCard';
 import AssessmentIcon from '@mui/icons-material/Assessment';
+import { zoomies } from 'ldrs'
 
 const exportToPDF = (data, headers, fileName) => {
   const doc = new jsPDF();
@@ -31,12 +32,23 @@ const exportToExcel = (data, fileName) => {
 
 export default function PaymentsTable() {
   const [payments, setPayments] = useState([]);
-  const [filters, setFilters] = useState({});
+  const [filters, setFilters] = useState({
+    id: '',
+    userId: '',
+    phone: '',
+    status: '',
+    dateFrom: '',
+    dateTo: ''
+  });
+
   const [currentPage, setCurrentPage] = useState(1);
   const [tabIndex, setTabIndex] = useState(0);
   const rowsPerPage = 5;
+  zoomies.register();
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    setLoading(true);
     fetch('https://api.exoticnairobi.com/api/payments')
       .then(res => res.json())
       .then(data => {
@@ -51,6 +63,7 @@ export default function PaymentsTable() {
           date: p.created_at.split(' ')[0]
         }));
         setPayments(transformed);
+        setLoading(false);
       })
       .catch(err => console.error('Error fetching payments:', err));
   }, []);
@@ -59,14 +72,15 @@ export default function PaymentsTable() {
     setFilters(prev => ({ ...prev, [field]: value }));
     setCurrentPage(1);
   };
-
   const filteredPayments = payments.filter(payment =>
     (!filters.id || payment.id.toLowerCase().includes(filters.id.toLowerCase())) &&
     (!filters.userId || payment.userId.toLowerCase().includes(filters.userId.toLowerCase())) &&
     (!filters.phone || payment.phone.includes(filters.phone)) &&
     (!filters.status || payment.status.toLowerCase().includes(filters.status.toLowerCase())) &&
-    (!filters.date || payment.date.includes(filters.date))
+    (!filters.dateFrom || new Date(payment.date) >= new Date(filters.dateFrom)) &&
+    (!filters.dateTo || new Date(payment.date) <= new Date(filters.dateTo))
   );
+
 
   const paginatedPayments = filteredPayments.slice((currentPage - 1) * rowsPerPage, currentPage * rowsPerPage);
 
@@ -101,27 +115,67 @@ export default function PaymentsTable() {
               <AssessmentIcon />
               <span>Payment Reports</span>
             </div>
+            
           }
       >
+      {loading ? (
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: "20px", margin: "0px auto", backgroundColor: 'rgb(240, 242, 246)' }}>
+          <l-zoomies
+            size="300"
+            speed="1.5"
+            color="rgb(59, 130, 246)"
+          ></l-zoomies>
+        </div>
+      ) : (
+       <> 
     <Box>
       <Tabs value={tabIndex} onChange={(e, newVal) => setTabIndex(newVal)} sx={{ mb: 2 }}>
         <Tab label="Table View" />
         <Tab label="Chart View" />
       </Tabs>
+      
 
       {tabIndex === 0 && (
         <>
-          <Box display="flex" justifyContent="flex-end" gap={2} mb={2}>
+        <div style={{ display:"flex", justifyContent:"space-between", marginTop:"25px", marginBottom:"20px" }}>
+          <Box mb={2}>
+            <strong>Total Records:</strong> {filteredPayments.length} &nbsp; | &nbsp;
+            <strong>Total Amount:</strong> KES {filteredPayments.reduce((sum, p) => sum + p.amount, 0).toFixed(2)}
+          </Box>
+          <Box display="flex" gap={2} mb={2}>
             <Button variant="contained" onClick={handleExportExcel}>Export Excel</Button>
             <Button variant="contained" color="secondary" onClick={handleExportPDF}>Export PDF</Button>
           </Box>
-
+        </div>
           <Grid container spacing={2} mb={2}>
             <Grid item xs={2}><TextField label="Payment ID" size="small" fullWidth value={filters.id || ''} onChange={(e) => handleFilterChange('id', e.target.value)} /></Grid>
             <Grid item xs={2}><TextField label="User ID" size="small" fullWidth value={filters.userId || ''} onChange={(e) => handleFilterChange('userId', e.target.value)} /></Grid>
             <Grid item xs={2}><TextField label="Phone" size="small" fullWidth value={filters.phone || ''} onChange={(e) => handleFilterChange('phone', e.target.value)} /></Grid>
             <Grid item xs={2}><TextField label="Status" size="small" fullWidth value={filters.status || ''} onChange={(e) => handleFilterChange('status', e.target.value)} /></Grid>
-            <Grid item xs={2}><TextField label="Date" size="small" fullWidth value={filters.date || ''} onChange={(e) => handleFilterChange('date', e.target.value)} placeholder="YYYY-MM-DD" /></Grid>
+            {/*<Grid item xs={2}><TextField label="Date" size="small" fullWidth value={filters.date || ''} onChange={(e) => handleFilterChange('date', e.target.value)} placeholder="YYYY-MM-DD" /></Grid>*/}
+            <Grid item xs={2}>
+              <TextField
+                label="From Date"
+                type="date"
+                size="small"
+                fullWidth
+                InputLabelProps={{ shrink: true }}
+                value={filters.dateFrom}
+                onChange={(e) => handleFilterChange('dateFrom', e.target.value)}
+              />
+            </Grid>
+            <Grid item xs={2}>
+              <TextField
+                label="To Date"
+                type="date"
+                size="small"
+                fullWidth
+                InputLabelProps={{ shrink: true }}
+                value={filters.dateTo}
+                onChange={(e) => handleFilterChange('dateTo', e.target.value)}
+              />
+            </Grid>
+
           </Grid>
 
           <TableContainer component={Paper} elevation={2}>
@@ -193,6 +247,8 @@ export default function PaymentsTable() {
         </Box>
       )}
     </Box>
+     </> 
+    )}
     </MainCard>
   );
 }
