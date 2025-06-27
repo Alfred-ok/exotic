@@ -1,4 +1,7 @@
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import PropTypes from 'prop-types';
+
 // material-ui
 import { styled, useTheme } from '@mui/material/styles';
 import Avatar from '@mui/material/Avatar';
@@ -46,13 +49,33 @@ const CardWrapper = styled(MainCard)(({ theme }) => ({
 
 export default function TotalIncomeDarkCard({ isLoading }) {
   const theme = useTheme();
+  const [totalSuccess, setTotalSuccess] = useState(0);
+
+  useEffect(() => {
+    const fetchPayments = async () => {
+      try {
+        const response = await axios.get('https://api.exoticnairobi.com/api/payments');
+        const payments = response.data || [];
+
+        const total = payments
+          .filter((payment) => payment.status === 'success')
+          .reduce((sum, payment) => sum + parseFloat(payment.amount || 0), 0);
+
+        setTotalSuccess(total);
+      } catch (error) {
+        console.error('Failed to fetch payments:', error);
+      }
+    };
+
+    fetchPayments();
+  }, []);
 
   return (
     <>
       {/*isLoading*/ false ? (
         <TotalIncomeCard />
       ) : (
-        <CardWrapper border={false} content={false} sx={{boxShadow: '0 4px 12px rgba(0, 0, 0, 0.2)',}}>
+        <CardWrapper border={false} content={false} sx={{ boxShadow: '0 4px 12px rgba(0, 0, 0, 0.2)' }}>
           <Box sx={{ p: 2 }}>
             <List sx={{ py: 0 }}>
               <ListItem alignItems="center" disableGutters sx={{ py: 0 }}>
@@ -70,14 +93,10 @@ export default function TotalIncomeDarkCard({ isLoading }) {
                   </Avatar>
                 </ListItemAvatar>
                 <ListItemText
-                  sx={{
-                    py: 0,
-                    mt: 0.45,
-                    mb: 0.45
-                  }}
+                  sx={{ py: 0, mt: 0.45, mb: 0.45 }}
                   primary={
                     <Typography variant="h4" sx={{ color: '#fff' }}>
-                      ksh 1,203,0000
+                      KES {totalSuccess.toLocaleString()}
                     </Typography>
                   }
                   secondary={
@@ -95,4 +114,6 @@ export default function TotalIncomeDarkCard({ isLoading }) {
   );
 }
 
-TotalIncomeDarkCard.propTypes = { isLoading: PropTypes.bool };
+TotalIncomeDarkCard.propTypes = {
+  isLoading: PropTypes.bool
+};
