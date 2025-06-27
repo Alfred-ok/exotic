@@ -173,12 +173,12 @@ const EscortPostsTable = () => {
             Total Escort Profiles: {totalPosts}
           </Typography> &nbsp; | &nbsp;
           {chartData.map((item) => (
-            <Typography style={{display:"flex"}} key={item.status} variant="body2">
+            <Typography  color="primary" style={{display:"flex"}} key={item.status} variant="body2">
               {item.status}: {item.count} &nbsp; | &nbsp;
             </Typography>
           ))}
         </div>
-        <Box display="flex" justifyContent="flex-end" gap={2} mb={2}>
+        <Box display="flex" justifyContent="flex" gap={2} mb={2} style={{marginTop:"20px"}}>
             <Button variant="contained" color="secondary" onClick={exportToPDF}>Export PDF</Button>
             <Button variant="contained" color="primary" onClick={exportToExcel}>Export Excel</Button>
         </Box>

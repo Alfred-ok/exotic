@@ -25,7 +25,7 @@ import {
 import MainCard from 'ui-component/cards/MainCard';
 import axios from 'axios';
 import Swal from 'sweetalert2';
-import { waveform } from 'ldrs';
+import { zoomies } from 'ldrs'
 
 
 export default function Products() {
@@ -36,7 +36,9 @@ export default function Products() {
   const [form, setForm] = useState({ name: '', price: '', currency: 'KES' });
   const [loading, setLoading] = useState(false);
   const [loadingProducts, setLoadingProducts] = useState(true);
-  waveform.register();
+  zoomies.register();
+  const [refreshTrigger, setRefreshTrigger] = useState(false);
+
 
 
   const showAlert = (message, type = 'success') => {
@@ -64,9 +66,11 @@ export default function Products() {
     }
   };
 
+
   useEffect(() => {
     fetchProducts();
-  }, []);
+  }, [refreshTrigger]);
+
 
   const handleFormOpen = (product = null) => {
     if (product) {
@@ -104,7 +108,8 @@ export default function Products() {
     console.log(data)
 
       setOpenDialog(false);
-      fetchProducts();
+      //fetchProducts();
+      setRefreshTrigger(prev => !prev); // 👈 Trigger table reload
     } catch (error) {
       console.error('Error saving product:', error);
       showAlert('Failed to save product', 'error');
@@ -121,7 +126,8 @@ export default function Products() {
         withCredentials: true
       });
       showAlert('Product deleted successfully');
-      fetchProducts();
+      //fetchProducts();
+      setRefreshTrigger(prev => !prev); // 👈 Trigger table reload
     } catch (error) {
       console.error('Error deleting product:', error);
       showAlert('Failed to delete product', 'error');
@@ -142,21 +148,27 @@ export default function Products() {
 
       <Paper elevation={2}>
         {loadingProducts ? (
-            <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', py: 6 }}>
-              <l-waveform size="45" speed="2.5" color="#1976d2"></l-waveform>
-            </Box>
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: "20px", margin: "0px auto", backgroundColor: 'rgb(240, 242, 246)' }}>
+              <l-zoomies
+                size="300"
+                speed="1.5"
+                color="rgb(59, 130, 246)"
+              ></l-zoomies>
+            </div>
           ) : products.length > 0 ? (
           <TableContainer component={Paper}>
             <Table>
-              <TableHead style={{color:"#fff"}} sx={{ backgroundColor: '#1976d2' }}>
-                <TableRow style={{color:"#fff"}}>
-                  <TableCell>#</TableCell>
-                  <TableCell>Name</TableCell>
-                  <TableCell>Price</TableCell>
-                  <TableCell>Currency</TableCell>
-                  <TableCell>Actions</TableCell>
+              <TableHead>
+                <TableRow sx={{ backgroundColor: '#1976d2' }}>
+                  <TableCell sx={{ color: '#ffffff !important', fontWeight: 'bold' }}>#</TableCell>
+                  <TableCell sx={{ color: '#ffffff !important', fontWeight: 'bold' }}>Name</TableCell>
+                  <TableCell sx={{ color: '#ffffff !important', fontWeight: 'bold' }}>Price</TableCell>
+                  <TableCell sx={{ color: '#ffffff !important', fontWeight: 'bold' }}>Currency</TableCell>
+                  <TableCell sx={{ color: '#ffffff !important', fontWeight: 'bold' }}>Actions</TableCell>
                 </TableRow>
               </TableHead>
+
+
               <TableBody>
                 {products.map((product, index) => (
                   <TableRow key={product.id} sx={{ backgroundColor: index % 2 === 0 ? '#f9f9f9' : '#fff' }}>
