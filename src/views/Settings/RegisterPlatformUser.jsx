@@ -19,7 +19,7 @@ export default function RegisterPlatformUser() {
     name: '',
     email: '',
     password: '',
-    role: 'sub admin'
+    role: 'sub_admin'
   });
   const [loading, setLoading] = useState(false);
   const [snackbar, setSnackbar] = useState({ open: false, message: '', severity: 'success' });
