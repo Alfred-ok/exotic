@@ -32,7 +32,7 @@ const Administrator = {
       children: [
         {
           id: 'report-users',
-          title: 'Users',
+          title: 'Escort Profiles',
           type: 'item',
           url: '/reports/users',
           breadcrumbs: false
