@@ -335,7 +335,7 @@ export default function AuthLogin() {
       </Box>
 
       <Box sx={{ mt: 2 }}>
-        <div id="googleSignInDiv" style={{ width: '100%' }}></div>
+        <div id="googleSignInDiv" style={{ width: '100%' }}>Sign In with Google</div>
       </Box>
     </>
   );
