@@ -58,26 +58,31 @@ const LineChartArea = () => {
     return true;
   };
 
-  useEffect(() => {
-    const filtered = payments
-      .filter((item) => item.status === statusFilter && filterByPeriod(item.created_at))
-      .map((item) => ({
-        name: new Date(item.created_at).toLocaleDateString(),
-        amount: parseFloat(item.amount),
-      }));
+    useEffect(() => {
+      const filtered = payments
+        .filter((item) => item.status === statusFilter && filterByPeriod(item.created_at))
+        .map((item) => ({
+          name: new Date(item.created_at).toLocaleDateString(), // for display
+          date: new Date(item.created_at), // for sorting
+          amount: parseFloat(item.amount),
+        }));
 
-    const grouped = filtered.reduce((acc, curr) => {
-      const existing = acc.find((item) => item.name === curr.name);
-      if (existing) {
-        existing.amount += curr.amount;
-      } else {
-        acc.push({ ...curr });
-      }
-      return acc;
-    }, []);
+      const grouped = filtered.reduce((acc, curr) => {
+        const existing = acc.find((item) => item.name === curr.name);
+        if (existing) {
+          existing.amount += curr.amount;
+        } else {
+          acc.push({ name: curr.name, amount: curr.amount, date: curr.date });
+        }
+        return acc;
+      }, []);
 
-    setFilteredPayments(grouped);
-  }, [payments, statusFilter, periodFilter]);
+      // Sort by date (ascending)
+      grouped.sort((a, b) => a.date - b.date);
+
+      setFilteredPayments(grouped);
+    }, [payments, statusFilter, periodFilter]);
+
 
   return (
     <div className="w-full h-100 bg-white rounded-xl shadow p-4 dark:bg-gray-800">
@@ -112,15 +117,22 @@ const LineChartArea = () => {
         {!loading ?
         <>
       <ResponsiveContainer width="100%" height={400}>
-        <AreaChart data={filteredPayments} margin={{ top: 10, right: 30, left: 0, bottom: 20 }}>
+        <AreaChart data={filteredPayments} margin={{ top: 10, right: 30, left: 0, bottom: 40 }}>
           <defs>
             <linearGradient id="colorAmount" x1="0" y1="0" x2="0" y2="1">
               <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.4} />
               <stop offset="95%" stopColor="#3b82f6" stopOpacity={0} />
             </linearGradient>
           </defs>
-          <XAxis dataKey="name" stroke="#94a3b8" />
-          <YAxis stroke="#94a3b8" />
+          <XAxis 
+            dataKey="name" 
+            stroke="#94a3b8" 
+            label={{ value: 'Date', position: 'insideBottom', offset: -25 }}
+          />
+          <YAxis 
+            stroke="#94a3b8" 
+            label={{ value: 'Amount (KES)', angle: -90, position: 'insideLeft' }}
+          />
           <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
           <Tooltip />
           <Area
@@ -131,6 +143,7 @@ const LineChartArea = () => {
             fill="url(#colorAmount)"
           />
         </AreaChart>
+
       </ResponsiveContainer>
 
       {/* Switch Toggle */}

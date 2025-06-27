@@ -12,14 +12,14 @@ import {
 } from '@mui/material';
 import axios from 'axios';
 
-const roles = ['admin', 'sub_admin', 'user'];
+const roles = ['admin', 'sub_admin', 'sales'];
 
 export default function RegisterPlatformUser() {
   const [form, setForm] = useState({
     name: '',
     email: '',
     password: '',
-    role: 'sub_admin'
+    role: 'sub admin'
   });
   const [loading, setLoading] = useState(false);
   const [snackbar, setSnackbar] = useState({ open: false, message: '', severity: 'success' });
