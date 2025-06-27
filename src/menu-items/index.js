@@ -11,7 +11,7 @@ import Report from './Report';
 // ==============================|| MENU ITEMS ||============================== //
 //Change
 const menuItems = {
-  items: [dividlogo, platformSelector, dashboard, administrator/*administrator other pages, utilities*/]
+  items: [dividlogo, platformSelector, dashboard, administrator].filter(Boolean) // Removes null if platform isn't 'Exotic Nairobi'
 };
 
 export default menuItems;

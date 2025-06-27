@@ -164,6 +164,7 @@ export default function PlatformSelector() {
       const result = await response.json();
 
       if (result?.platform === "Exotic Nairobi") {
+        localStorage.setItem('platform', result.platform);
         navigate("/dashboard/default");
       } else {
         Swal.fire({

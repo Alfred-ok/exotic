@@ -17,6 +17,7 @@ const icons = {
 };
 
 // ==============================|| Administrator ||============================== //
+const platform = localStorage.getItem('platform');
 
 const Administrator = {
   id: 'administrator',
@@ -103,4 +104,5 @@ const Administrator = {
   ]
 };
 
-export default Administrator;
+//export default Administrator;
+export default platform === 'Exotic Nairobi' ? Administrator : null;

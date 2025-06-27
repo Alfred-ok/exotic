@@ -5,6 +5,7 @@ import { IconDashboard } from '@tabler/icons-react';
 const icons = { IconDashboard };
 
 // ==============================|| DASHBOARD MENU ITEMS ||============================== //
+const platform = localStorage.getItem('platform');
 
 const dashboard = {
   id: 'dashboard',
@@ -22,4 +23,5 @@ const dashboard = {
   ]
 };
 
-export default dashboard;
+//export default dashboard;
+export default platform === 'Exotic Nairobi' ? dashboard : null;
