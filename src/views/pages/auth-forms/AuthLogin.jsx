@@ -1,5 +1,5 @@
 
-/*
+
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -162,21 +162,23 @@ export default function AuthLogin() {
           </Button>
         </AnimateButton>
       </Box>
-
+      {/*    
       <Box sx={{ mt: 2 }}>
         <AnimateButton>
           <Button color="dark" fullWidth size="large" variant="contained" style={{ color: '#fff' }} onClick={() => navigate('/platform-selector')}>
             Sign In with Google
           </Button>
         </AnimateButton>
+      </Box>*/}
+     <Box sx={{ mt: 2 }}>
+        <div id="googleSignInDiv" style={{ width: '100%' }}></div>
       </Box>
-     
 
     </>
   );
 }
-  */
-
+  
+/*
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -340,4 +342,4 @@ export default function AuthLogin() {
     </>
   );
 }
-
+*/
