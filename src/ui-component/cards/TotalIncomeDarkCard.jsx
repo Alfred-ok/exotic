@@ -55,8 +55,9 @@ export default function TotalIncomeDarkCard({ isLoading }) {
     const fetchPayments = async () => {
       try {
         const response = await axios.get('https://api.exoticnairobi.com/api/payments');
-        const payments = response.data || [];
+        const payments = response.data.payments || [];
 
+        console.log(payments);
         const total = payments
           .filter((payment) => payment.status === 'success')
           .reduce((sum, payment) => sum + parseFloat(payment.amount || 0), 0);
