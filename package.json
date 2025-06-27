@@ -19,6 +19,7 @@
     "framer-motion": "11.12.0",
     "jspdf": "^3.0.1",
     "jspdf-autotable": "^5.0.2",
+    "ldrs": "^1.1.7",
     "lodash-es": "4.17.21",
     "material-ui-popup-state": "5.3.1",
     "react": "18.3.1",

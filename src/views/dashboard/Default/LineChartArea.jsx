@@ -11,6 +11,8 @@ import {
 import axios from 'axios';
 import { Switch, FormControlLabel, TextField, MenuItem } from '@mui/material';
 import MainCard from 'ui-component/cards/MainCard';
+import { zoomies } from 'ldrs'
+
 
 
 const LineChartArea = () => {
@@ -18,15 +20,22 @@ const LineChartArea = () => {
   const [filteredPayments, setFilteredPayments] = useState([]);
   const [statusFilter, setStatusFilter] = useState('success');
   const [periodFilter, setPeriodFilter] = useState('month');
+  const [loading, setLoading] = useState(true);
+
+  zoomies.register();
 
   useEffect(() => {
     const fetchPayments = async () => {
+      setLoading(true);
       try {
         const response = await axios.get('https://api.exoticnairobi.com/api/payments');
         setPayments(response.data.payments);
+        setLoading(false);
       } catch (error) {
         console.error('Error fetching payments:', error);
-      }
+      } finally {
+      setLoading(false);
+    }
     };
     fetchPayments();
   }, []);
@@ -100,6 +109,8 @@ const LineChartArea = () => {
       </div>
 
       {/* Chart */}
+        {!loading ?
+        <>
       <ResponsiveContainer width="100%" height={400}>
         <AreaChart data={filteredPayments} margin={{ top: 10, right: 30, left: 0, bottom: 20 }}>
           <defs>
@@ -135,6 +146,18 @@ const LineChartArea = () => {
           label={statusFilter === 'success' ? 'Processed payments' : 'Pending payments'}
         />
       </div>
+      </>
+      :
+        <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+          <l-zoomies
+            size="200"
+            speed="1.5" 
+            color="rgb(59, 130, 246)" 
+          ></l-zoomies>
+        </div>
+         }
+        
+      
     </div>
   );
 };

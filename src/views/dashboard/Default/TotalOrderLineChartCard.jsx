@@ -25,17 +25,20 @@ import SkeletonTotalOrderCard from 'ui-component/cards/Skeleton/EarningCard';
 // assets
 import LocalMallOutlinedIcon from '@mui/icons-material/LocalMallOutlined';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
+import { bouncy } from 'ldrs'
 
 
 export default function TotalOrderLineChartCard({ isLoading }) {
   const [dashboardData, setDashboardData] = useState();
 
   const theme = useTheme();
-
+  bouncy.register()
+  
   const [timeValue, setTimeValue] = React.useState(false);
   const handleChangeTime = (event, newValue) => {
     setTimeValue(newValue);
   };
+
 
   
     useEffect(() => {
@@ -145,9 +148,9 @@ export default function TotalOrderLineChartCard({ isLoading }) {
                     <Grid container sx={{ alignItems: 'center' }}>
                       <Grid>
                         {timeValue ? (
-                          <Typography sx={{ fontSize: '2.125rem', fontWeight: 500, mr: 1, mt: 1.75, mb: 0.75 }}>{dashboardData?.deactivated_profiles ?? '...'}</Typography>
+                          <Typography sx={{ fontSize: '2.125rem', fontWeight: 500, mr: 1, mt: 1.75, mb: 0.75 }}>{dashboardData?.deactivated_profiles ?? <l-bouncy size="25" speed="1.75" color="white" ></l-bouncy>}</Typography>
                         ) : (
-                          <Typography sx={{ fontSize: '2.125rem', fontWeight: 500, mr: 1, mt: 1.75, mb: 0.75 }}>{dashboardData?.dormant_accounts ?? '...'}</Typography>
+                          <Typography sx={{ fontSize: '2.125rem', fontWeight: 500, mr: 1, mt: 1.75, mb: 0.75 }}>{dashboardData?.dormant_accounts ?? <l-bouncy size="25" speed="1.75" color="white" ></l-bouncy>}</Typography>
                         )}
                       </Grid>
                       <Grid>

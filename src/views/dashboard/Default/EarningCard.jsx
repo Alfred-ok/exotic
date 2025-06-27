@@ -25,9 +25,12 @@ import GetAppTwoToneIcon from '@mui/icons-material/GetAppOutlined';
 import FileCopyTwoToneIcon from '@mui/icons-material/FileCopyOutlined';
 import PictureAsPdfTwoToneIcon from '@mui/icons-material/PictureAsPdfOutlined';
 import ArchiveTwoToneIcon from '@mui/icons-material/ArchiveOutlined';
+import { bouncy } from 'ldrs'
+
 
 export default function EarningCard({ isLoading }) {
   const theme = useTheme();
+  bouncy.register()
 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [dashboardData, setDashboardData] = useState({});
@@ -165,7 +168,7 @@ export default function EarningCard({ isLoading }) {
                 <Grid container sx={{ alignItems: 'center' }}>
                   <Grid>
                     <Typography sx={{ fontSize: '2.125rem', fontWeight: 500, mr: 1, mt: 1.75, mb: 0.75 }}>
-                      {dashboardData?.active_profiles ?? '...'}
+                      {dashboardData?.active_profiles ?? <l-bouncy size="25" speed="1.75" color="white" ></l-bouncy>}
                     </Typography>
                   </Grid>
                   <Grid>

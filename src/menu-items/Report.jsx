@@ -10,7 +10,7 @@ const icons = {
 // ==============================|| EXTRA PAGES MENU ITEMS ||============================== //
 
 const Report = {
-  //id: 'default',
+  id: 'default',
   icon: icons.IconKey,
   type: 'group',
   children: [

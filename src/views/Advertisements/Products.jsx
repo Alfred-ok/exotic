@@ -25,6 +25,8 @@ import {
 import MainCard from 'ui-component/cards/MainCard';
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import { waveform } from 'ldrs';
+
 
 export default function Products() {
   const [products, setProducts] = useState([]);
@@ -34,6 +36,8 @@ export default function Products() {
   const [form, setForm] = useState({ name: '', price: '', currency: 'KES' });
   const [loading, setLoading] = useState(false);
   const [loadingProducts, setLoadingProducts] = useState(true);
+  waveform.register();
+
 
   const showAlert = (message, type = 'success') => {
   Swal.fire({
@@ -138,8 +142,10 @@ export default function Products() {
 
       <Paper elevation={2}>
         {loadingProducts ? (
-          <Typography>Loading...</Typography>
-        ) : products.length > 0 ? (
+            <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', py: 6 }}>
+              <l-waveform size="45" speed="2.5" color="#1976d2"></l-waveform>
+            </Box>
+          ) : products.length > 0 ? (
           <TableContainer component={Paper}>
             <Table>
               <TableHead style={{color:"#fff"}} sx={{ backgroundColor: '#1976d2' }}>
