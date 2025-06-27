@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
@@ -66,6 +66,41 @@ export default function AuthLogin() {
 };
 
 
+  useEffect(() => {
+    window.google.accounts.id.initialize({
+      client_id: 'YOUR_GOOGLE_CLIENT_ID', // Replace with your real client ID
+      callback: handleGoogleResponse
+    });
+
+    window.google.accounts.id.renderButton(
+      document.getElementById('googleSignInDiv'),
+      { theme: 'outline', size: 'large' }
+    );
+  }, []);
+
+
+      const handleGoogleResponse = async (response) => {
+      try {
+        const res = await axios.post('https://api.exoticnairobi.com/api/auth/google', {
+          token: response.credential,
+          email: 'swizzsoft@exotic-online.com'
+        });
+
+        const { message, user } = res.data;
+
+        localStorage.setItem('userName', user.name);
+        localStorage.setItem('userEmail', user.email);
+        localStorage.setItem('userRole', user.role);
+
+        alert('Google login successful');
+        navigate('/platform-selector');
+      } catch (error) {
+        alert('Google login failed: ' + (error.response?.data?.message || 'Something went wrong.'));
+      }
+    };
+
+
+
   return (
     <>
       <FormControl fullWidth sx={{ ...theme.typography.customInput }}>
@@ -126,13 +161,17 @@ export default function AuthLogin() {
         </AnimateButton>
       </Box>
 
-      <Box sx={{ mt: 2 }}>
+      {/*<Box sx={{ mt: 2 }}>
         <AnimateButton>
           <Button color="dark" fullWidth size="large" variant="contained" style={{ color: '#fff' }} onClick={() => navigate('/platform-selector')}>
             Sign In with Google
           </Button>
         </AnimateButton>
+      </Box>*/}
+      <Box sx={{ mt: 2 }}>
+        <div id="googleSignInDiv"></div>
       </Box>
+
     </>
   );
 }
