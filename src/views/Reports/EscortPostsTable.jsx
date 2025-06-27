@@ -4,7 +4,8 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import {
   Box, Button, Grid, MenuItem, Paper, Table, TableBody, TableCell, TableContainer,
-  TableHead, TableRow, TableSortLabel, TextField, Pagination, Tabs, Tab
+  TableHead, TableRow, TableSortLabel, TextField, Pagination, Tabs, Tab,
+  Typography
 } from '@mui/material';
 import { jsPDF } from 'jspdf';
 import 'jspdf-autotable';
@@ -42,6 +43,7 @@ const EscortPostsTable = () => {
   const rowsPerPage = 5;
   zoomies.register();
   const [loading, setLoading] = useState(false);
+  const totalPosts = posts.length;
 
   useEffect(() => {
     setLoading(true);
@@ -160,6 +162,16 @@ const EscortPostsTable = () => {
       ) : (
       <>
       <Box mb={2}>
+      <Paper elevation={2} sx={{ p: 2, mb: 2, backgroundColor: '#f5f5f5' }}>
+        <Typography variant="h6" color="primary">
+          Total Escort Profiles: {totalPosts}
+        </Typography>
+        {chartData.map((item) => (
+          <Typography key={item.status} variant="body2">
+            {item.status}: {item.count}
+          </Typography>
+        ))}
+      </Paper>
         <Tabs value={viewTab} onChange={(e, val) => setViewTab(val)}>
           <Tab label="Table View" />
           <Tab label="Chart View" />
@@ -258,7 +270,7 @@ const EscortPostsTable = () => {
                             color: '#1976d2',
                             textDecoration: 'underline',
                             cursor: 'pointer'
-                          }}>{post.guid.slice(0, 8)}</a>
+                          }}>{post.guid.slice(0, 21)}</a>
                       </TableCell>
                   </TableRow>
                 ))}
