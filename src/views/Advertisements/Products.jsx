@@ -52,6 +52,7 @@ export default function Products() {
 };
 
   const fetchProducts = async () => {
+    setLoadingProducts(true);
     try {
       const res = await axios.get('https://api.exoticnairobi.com/api/products', {
         withCredentials: true
