@@ -31,7 +31,7 @@ export default function Products() {
   const [openDialog, setOpenDialog] = useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
-  const [form, setForm] = useState({ name: '', price: '', currency: 'KES' });
+  const [form, setForm] = useState({ name: '', monthly_price: '', biweekly_price: '', currency: 'KES' });
   const [loading, setLoading] = useState(false);
   const [loadingProducts, setLoadingProducts] = useState(true);
   zoomies.register();
@@ -74,10 +74,16 @@ export default function Products() {
   const handleFormOpen = (product = null) => {
     if (product) {
       setSelectedProduct(product);
-      setForm({ name: product.name, price: product.price, currency: product.currency });
+      setForm({
+        name: product.name,
+        biweekly_price: product.biweekly_price,
+        monthly_price: product.monthly_price,
+        currency: product.currency
+      });
+
     } else {
       setSelectedProduct(null);
-      setForm({ name: '', price: '', currency: 'KES' });
+      setForm({ name: '', biweekly_price: '', monthly_price: '', currency: 'KES' });
     }
     setOpenDialog(true);
   };
@@ -161,7 +167,8 @@ export default function Products() {
                 <TableRow sx={{ backgroundColor: '#1976d2' }}>
                   <TableCell sx={{ color: '#ffffff !important', fontWeight: 'bold' }}>#</TableCell>
                   <TableCell sx={{ color: '#ffffff !important', fontWeight: 'bold' }}>Name</TableCell>
-                  <TableCell sx={{ color: '#ffffff !important', fontWeight: 'bold' }}>Price</TableCell>
+                  <TableCell sx={{ color: '#ffffff !important', fontWeight: 'bold' }}>Biweekly Price</TableCell>
+                  <TableCell sx={{ color: '#ffffff !important', fontWeight: 'bold' }}>Monthly Price</TableCell>
                   <TableCell sx={{ color: '#ffffff !important', fontWeight: 'bold' }}>Currency</TableCell>
                   <TableCell sx={{ color: '#ffffff !important', fontWeight: 'bold' }}>Actions</TableCell>
                 </TableRow>
@@ -173,7 +180,8 @@ export default function Products() {
                   <TableRow key={product.id} sx={{ backgroundColor: index % 2 === 0 ? '#f9f9f9' : '#fff' }}>
                     <TableCell>{index + 1}</TableCell>
                     <TableCell>{product.name}</TableCell>
-                    <TableCell>{product.price}</TableCell>
+                    <TableCell>{product.biweekly_price}</TableCell>
+                    <TableCell>{product.monthly_price}</TableCell>
                     <TableCell>{product.currency}</TableCell>
                     <TableCell>
                       <Button
@@ -221,21 +229,29 @@ export default function Products() {
                   required
                 />
               </Grid>
+              
               <Grid item xs={12}>
                 <TextField
-                  label="Price"
+                  label="Biweekly Price"
                   type="number"
                   fullWidth
-                  value={form.price}
-                  onChange={(e) => {
-                    const value = e.target.value;
-                    if (!isNaN(value) && Number(value) >= 0) {
-                      setForm({ ...form, price: value });
-                    }
-                  }}
+                  value={form.biweekly_price}
+                  onChange={(e) => setForm({ ...form, biweekly_price: e.target.value })}
                   required
                 />
               </Grid>
+
+              <Grid item xs={12}>
+                <TextField
+                  label="Monthly Price"
+                  type="number"
+                  fullWidth
+                  value={form.monthly_price}
+                  onChange={(e) => setForm({ ...form, monthly_price: e.target.value })}
+                  required
+                />
+              </Grid>
+
               <Grid item xs={12}>
                 <TextField
                   select
