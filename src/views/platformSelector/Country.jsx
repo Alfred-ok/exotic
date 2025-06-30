@@ -118,7 +118,7 @@ export default function Country({ isLoading, dat }) {
               <Grid>
                 <Grid container sx={{ alignItems: 'center' }}>
                   <Grid>
-                    <Typography sx={{ fontSize: '0.125rem', fontWeight: 500, mr: 1, mt: 1.75, mb: 0.75 }}>
+                    <Typography sx={{ fontSize: '1rem', fontWeight: 500, mr: 1, mt: 1.75, mb: 0.75 }}>
                       {dat.name || 'Unknown Platform'}
                     </Typography>
 
