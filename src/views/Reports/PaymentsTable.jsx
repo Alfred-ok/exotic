@@ -18,6 +18,9 @@ import HourglassTopIcon from '@mui/icons-material/HourglassTop';
 import CancelIcon from '@mui/icons-material/Cancel';
 import PaidIcon from '@mui/icons-material/Paid'; // Optional: for total amount
 
+import FileDownloadIcon from '@mui/icons-material/FileDownload';
+import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
+
 
 const exportToPDF = (data, headers, fileName) => {
   const doc = new jsPDF();
@@ -146,13 +149,13 @@ export default function PaymentsTable() {
         <>
         <div style={{ display:"flex", justifyContent:"space-between", marginTop:"25px", marginBottom:"20px" }}>
           <Box mb={2}>
-            <Button variant="contained" color="primary" style={{marginRight:"8px"}}><strong>Total Records:</strong> {filteredPayments.length} </Button>
+            <Button variant="contained" color="primary" style={{marginRight:"8px"}}><strong>Total Records : </strong> {filteredPayments.length} </Button>
            <Button
               variant="contained"
               style={{ marginRight: "8px", backgroundColor: '#2e7d32' }}
               startIcon={<CheckCircleIcon />}
             >
-              <strong>Success:</strong> KES {filteredPayments
+              <strong>Success : </strong> KES {filteredPayments
                 .filter(p => p.status.toLowerCase() === 'success')
                 .reduce((sum, p) => sum + p.amount, 0)
                 .toFixed(2)}
@@ -163,7 +166,7 @@ export default function PaymentsTable() {
               style={{ marginRight: "8px", backgroundColor: '#f9a825' }}
               startIcon={<HourglassTopIcon />}
             >
-              <strong>Pending:</strong> KES {filteredPayments
+              <strong>Pending : </strong> KES {filteredPayments
                 .filter(p => p.status.toLowerCase() === 'pending')
                 .reduce((sum, p) => sum + p.amount, 0)
                 .toFixed(2)}
@@ -174,7 +177,7 @@ export default function PaymentsTable() {
               style={{ marginRight: "8px", backgroundColor: '#c62828' }}
               startIcon={<CancelIcon />}
             >
-              <strong>Failed:</strong> KES {filteredPayments
+              <strong>Failed : </strong> KES {filteredPayments
                 .filter(p => p.status.toLowerCase() === 'failed')
                 .reduce((sum, p) => sum + p.amount, 0)
                 .toFixed(2)}
@@ -186,15 +189,12 @@ export default function PaymentsTable() {
               style={{ marginRight: "8px" }}
               startIcon={<PaidIcon />}
             >
-              <strong>Total:</strong> KES {filteredPayments
+              <strong>Total : </strong> KES {filteredPayments
                 .reduce((sum, p) => sum + p.amount, 0)
                 .toFixed(2)}
             </Button>
           </Box>
-          <Box display="flex" gap={2} mb={2}>
-            <Button variant="contained" onClick={handleExportExcel}>Export Excel</Button>
-            <Button variant="contained" color="secondary" onClick={handleExportPDF}>Export PDF</Button>
-          </Box>
+          
         </div>
           <Grid container spacing={2} mb={2}>
             <Grid item xs={2}><TextField label="Payment ID" size="small" fullWidth value={filters.id || ''} onChange={(e) => handleFilterChange('id', e.target.value)} /></Grid>
@@ -226,6 +226,24 @@ export default function PaymentsTable() {
             </Grid>
 
           </Grid>
+          <Box display="flex" gap={2} mb={2}>
+            <Button
+              variant="contained"
+              onClick={handleExportExcel}
+              startIcon={<FileDownloadIcon />}
+            >
+              Export Excel
+            </Button>
+
+            <Button
+              variant="contained"
+              color="secondary"
+              onClick={handleExportPDF}
+              startIcon={<PictureAsPdfIcon />}
+            >
+              Export PDF
+            </Button>
+          </Box>
 
           <TableContainer component={Paper} elevation={2}>
             <Table>
