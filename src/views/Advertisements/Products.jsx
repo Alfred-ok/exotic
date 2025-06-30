@@ -170,7 +170,7 @@ export default function Products() {
                   <TableCell sx={{ color: '#ffffff !important', fontWeight: 'bold' }}>Biweekly Price</TableCell>
                   <TableCell sx={{ color: '#ffffff !important', fontWeight: 'bold' }}>Monthly Price</TableCell>
                   <TableCell sx={{ color: '#ffffff !important', fontWeight: 'bold' }}>Currency</TableCell>
-                  <TableCell sx={{ color: '#ffffff !important', fontWeight: 'bold' }}>Actions</TableCell>
+                  <TableCell sx={{ color: '#ffffff !important', fontWeight: 'bold' }} align="right">Actions</TableCell>
                 </TableRow>
               </TableHead>
 
@@ -183,10 +183,10 @@ export default function Products() {
                     <TableCell>{product.biweekly_price}</TableCell>
                     <TableCell>{product.monthly_price}</TableCell>
                     <TableCell>{product.currency}</TableCell>
-                    <TableCell>
+                    <TableCell align="right">
                       <Button
                         size="small"
-                        variant="outlined"
+                        variant="contained"
                         onClick={() => handleFormOpen(product)}
                         sx={{ mr: 1 }}
                       >
