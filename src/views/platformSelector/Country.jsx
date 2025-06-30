@@ -119,7 +119,7 @@ export default function Country({ isLoading, dat }) {
                 <Grid container sx={{ alignItems: 'center' }}>
                   <Grid>
                     <Typography sx={{ fontSize: '0.125rem', fontWeight: 500, mr: 1, mt: 1.75, mb: 0.75 }}>
-                      {dat.domain || 'No website domain'}
+                      {dat.name || 'Unknown Platform'}
                     </Typography>
 
                   </Grid>
@@ -145,7 +145,7 @@ export default function Country({ isLoading, dat }) {
                     color: 'secondary.200'
                   }}
                 >
-                 {dat.country}, {dat.country || 'Unknown Country'} 
+                 {dat.country || 'Unknown Country'} 
                 </Typography>
               </Grid>
             </Grid>
