@@ -273,19 +273,19 @@ export default function PaymentsTable() {
                       <Box
                         sx={{
                           backgroundColor:
-                            pay.product === 'vip'
+                            pay.product == 'vip'
                               ? '#e3f2fd'
-                              : pay.product === 'premium'
+                              : pay.product == 'premium'
                               ? '#f3e5f5'
-                              : pay.product === 'basic'
+                              : pay.product == 'basic'
                               ? '#e8f5e9'
                               : '#e0e0e0',
                           color:
-                            pay.product === 'vip'
+                            pay.product == 'vip'
                               ? '#0d47a1'
-                              : pay.product === 'premium'
+                              : pay.product == 'premium'
                               ? '#6a1b9a'
-                              : pay.product === 'basic'
+                              : pay.product == 'basic'
                               ? '#2e7d32'
                               : '#333',
                           px: 1.5,
