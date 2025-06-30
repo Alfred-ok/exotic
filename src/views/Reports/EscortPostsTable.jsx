@@ -311,36 +311,36 @@ const EscortPostsTable = () => {
                     <TableCell>{post.phone}</TableCell>
 
                     <TableCell>
-      <Box
-        sx={{
-          backgroundColor:
-            post.status.toLowerCase() === 'success'
-              ? '#d4edda'
-              : post.status.toLowerCase() === 'pending'
-              ? '#fff3cd'
-              : post.status.toLowerCase() === 'failed'
-              ? '#f8d7da'
-              : '#e0e0e0',
-          color:
-            post.status.toLowerCase() === 'success'
-              ? '#155724'
-              : post.status.toLowerCase() === 'pending'
-              ? '#856404'
-              : post.status.toLowerCase() === 'failed'
-              ? '#721c24'
-              : '#333',
-          px: 1.5,
-          py: 0.5,
-          borderRadius: '12px',
-          display: 'inline-block',
-          fontWeight: 500,
-          fontSize: '0.75rem',
-          textTransform: 'capitalize'
-        }}
-      >
-        {post.status}
-      </Box>
-    </TableCell>
+                      <Box
+                        sx={{
+                          backgroundColor:
+                            post.status == 'publish'
+                              ? '#d4edda'
+                              : post.status == 'private'
+                              ? '#fff3cd'
+                              : post.status == 'failed'
+                              ? '#f8d7da'
+                              : '#e0e0e0',
+                          color:
+                            post.status == 'publish'
+                              ? '#155724'
+                              : post.status == 'private'
+                              ? '#856404'
+                              : post.status == 'failed'
+                              ? '#721c24'
+                              : '#333',
+                          px: 1.5,
+                          py: 0.5,
+                          borderRadius: '12px',
+                          display: 'inline-block',
+                          fontWeight: 500,
+                          fontSize: '0.75rem',
+                          textTransform: 'capitalize'
+                        }}
+                      >
+                        {post.status}
+                      </Box>
+                    </TableCell>
 
                     <TableCell>{post.registered}</TableCell>
                      <TableCell>
