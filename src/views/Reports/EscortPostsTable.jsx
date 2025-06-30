@@ -16,6 +16,14 @@ import MainCard from 'ui-component/cards/MainCard';
 import AssessmentIcon from '@mui/icons-material/Assessment';
 import { zoomies } from 'ldrs'
 
+//icons
+import PersonIcon from '@mui/icons-material/Person';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import HourglassEmptyIcon from '@mui/icons-material/HourglassEmpty';
+import ErrorIcon from '@mui/icons-material/Error';
+import FileDownloadIcon from '@mui/icons-material/FileDownload';
+import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
+
 const escortStatusOptions = [
   { value: '', label: 'All' },
   { value: 'publish', label: 'Published' },
@@ -170,17 +178,55 @@ const EscortPostsTable = () => {
         <div style={{display:"flex", justifyContent:"space-between"}}>
         <div style={{ display:"flex", marginTop:"25px", marginBottom:"20px" }}>
           <Typography variant="h6" color="primary">
-            <Button variant="contained" color="primary" style={{marginRight:"8px"}}>Total Escort Profiles: {totalPosts}</Button>
+            <Button
+              variant="contained"
+              color="primary"
+              style={{ marginRight: "8px" }}
+              startIcon={<PersonIcon />}
+            >
+              Total Escort Profiles: {totalPosts}
+            </Button>
           </Typography> 
-          {chartData.map((item) => (
-            <Typography  color="primary" style={{display:"flex"}} key={item.status} variant="body2">
-              <Button variant="contained" color="primary" style={{marginRight:"8px"}}>{item.status}: {item.count}</Button>
-            </Typography>
-          ))}
+          
+          {chartData.map((item) => {
+              let icon;
+
+                // Assign icon based on item.status
+                switch (item.status.toLowerCase()) {
+                  case 'success':
+                    icon = <CheckCircleIcon />;
+                    break;
+                  case 'pending':
+                    icon = <HourglassEmptyIcon />;
+                    break;
+                  case 'failed':
+                    icon = <ErrorIcon />;
+                    break;
+                  default:
+                    icon = <PersonIcon />;
+                }
+                return (
+                  <Typography
+                    color="primary"
+                    style={{ display: "flex" }}
+                    key={item.status}
+                    variant="body2"
+                  >
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      style={{ marginRight: "8px" }}
+                      startIcon={icon}
+                    >
+                      {item.status}: {item.count}
+                    </Button>
+                  </Typography>
+                );
+          })}
         </div>
         <Box display="flex" justifyContent="flex" gap={2} mb={2} style={{marginTop:"20px"}}>
-            <Button variant="contained" color="secondary" onClick={exportToPDF}>Export PDF</Button>
-            <Button variant="contained" color="primary" onClick={exportToExcel}>Export Excel</Button>
+            <Button variant="contained" color="secondary" startIcon={<PictureAsPdfIcon />} onClick={exportToPDF}>Export PDF</Button>
+            <Button variant="contained" color="primary" startIcon={<FileDownloadIcon />}  onClick={exportToExcel}>Export Excel</Button>
         </Box>
         </div>
       </Box>
