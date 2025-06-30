@@ -149,7 +149,6 @@ export default function PaymentsTable() {
         <>
         <div style={{ display:"flex", justifyContent:"space-between", marginTop:"25px", marginBottom:"20px" }}>
           <Box mb={2}>
-          <div>
             <Button variant="contained" color="primary" style={{marginRight:"8px"}}><strong>Total Records : </strong> {filteredPayments.length} </Button>
             <Button
               variant="contained"
@@ -161,8 +160,6 @@ export default function PaymentsTable() {
                 .reduce((sum, p) => sum + p.amount, 0)
                 .toFixed(2)}
             </Button>
-            </div>
-            <div>
            <Button
               variant="contained"
               style={{ marginRight: "8px", backgroundColor: '#2e7d32' }}
@@ -195,7 +192,6 @@ export default function PaymentsTable() {
                 .reduce((sum, p) => sum + p.amount, 0)
                 .toFixed(2)}
             </Button>
-            </div>
           </Box>
           
         </div>
