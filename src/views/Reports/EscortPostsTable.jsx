@@ -170,11 +170,11 @@ const EscortPostsTable = () => {
         <div style={{display:"flex", justifyContent:"space-between"}}>
         <div style={{ display:"flex", marginTop:"25px", marginBottom:"20px" }}>
           <Typography variant="h6" color="primary">
-            <Button variant="contained" color="secondary">Total Escort Profiles: {totalPosts}</Button>
-          </Typography> &nbsp; | &nbsp;
+            <Button variant="contained" color="secondary" style={{marginRight:"8px"}}>Total Escort Profiles: {totalPosts}</Button>
+          </Typography> 
           {chartData.map((item) => (
             <Typography  color="primary" style={{display:"flex"}} key={item.status} variant="body2">
-              <Button variant="contained" color="secondary">{item.status}: {item.count} &nbsp; | &nbsp;</Button>
+              <Button variant="contained" color="secondary" style={{marginRight:"8px"}}>{item.status}: {item.count}</Button>
             </Typography>
           ))}
         </div>
