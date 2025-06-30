@@ -226,6 +226,7 @@ export default function PaymentsTable() {
             </Grid>
 
           </Grid>
+          <div style={{display:"flex", justifyContent:"flex-end", alignItems:"center"}}>
           <Box display="flex" gap={2} mb={2}>
             <Button
               variant="contained"
@@ -244,6 +245,7 @@ export default function PaymentsTable() {
               Export PDF
             </Button>
           </Box>
+          </div>
 
           <TableContainer component={Paper} elevation={2}>
             <Table>
