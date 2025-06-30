@@ -268,8 +268,70 @@ export default function PaymentsTable() {
                     <TableCell>{pay.userId}</TableCell>
                     <TableCell>{pay.phone}</TableCell>
                     <TableCell>{pay.amount}</TableCell>
-                    <TableCell>{pay.product}</TableCell>
-                    <TableCell>{pay.status}</TableCell>
+                    {/* Product with background color */}
+                    <TableCell>
+                      <Box
+                        sx={{
+                          backgroundColor:
+                            pay.product === 'vip'
+                              ? '#e3f2fd'
+                              : pay.product === 'premium'
+                              ? '#f3e5f5'
+                              : pay.product === 'basic'
+                              ? '#e8f5e9'
+                              : '#e0e0e0',
+                          color:
+                            pay.product === 'vip'
+                              ? '#0d47a1'
+                              : pay.product === 'premium'
+                              ? '#6a1b9a'
+                              : pay.product === 'basic'
+                              ? '#2e7d32'
+                              : '#333',
+                          px: 1.5,
+                          py: 0.5,
+                          borderRadius: '12px',
+                          display: 'inline-block',
+                          fontWeight: 500,
+                          fontSize: '0.75rem',
+                          textTransform: 'capitalize'
+                        }}
+                      >
+                        {pay.product}
+                      </Box>
+                    </TableCell>
+                    {/* Status with background color */}
+                    <TableCell>
+                      <Box
+                        sx={{
+                          backgroundColor:
+                            pay.status === 'success'
+                              ? '#d4edda'
+                              : pay.status === 'pending'
+                              ? '#fff3cd'
+                              : pay.status === 'failed'
+                              ? '#f8d7da'
+                              : '#e0e0e0',
+                          color:
+                            pay.status === 'success'
+                              ? '#155724'
+                              : pay.status === 'pending'
+                              ? '#856404'
+                              : pay.status === 'failed'
+                              ? '#721c24'
+                              : '#333',
+                          px: 1.5,
+                          py: 0.5,
+                          borderRadius: '12px',
+                          display: 'inline-block',
+                          fontWeight: 500,
+                          fontSize: '0.75rem',
+                          textTransform: 'capitalize'
+                        }}
+                      >
+                        {pay.status}
+                      </Box>
+                    </TableCell>
                     <TableCell>{pay.ref}</TableCell>
                     <TableCell>{pay.date}</TableCell>
                   </TableRow>
