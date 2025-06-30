@@ -149,7 +149,20 @@ export default function PaymentsTable() {
         <>
         <div style={{ display:"flex", justifyContent:"space-between", marginTop:"25px", marginBottom:"20px" }}>
           <Box mb={2}>
+          <div>
             <Button variant="contained" color="primary" style={{marginRight:"8px"}}><strong>Total Records : </strong> {filteredPayments.length} </Button>
+            <Button
+              variant="contained"
+              color="primary"
+              style={{ marginRight: "8px" }}
+              startIcon={<PaidIcon />}
+            >
+              <strong>Total : </strong> KES {filteredPayments
+                .reduce((sum, p) => sum + p.amount, 0)
+                .toFixed(2)}
+            </Button>
+            </div>
+            <div>
            <Button
               variant="contained"
               style={{ marginRight: "8px", backgroundColor: '#2e7d32' }}
@@ -182,17 +195,7 @@ export default function PaymentsTable() {
                 .reduce((sum, p) => sum + p.amount, 0)
                 .toFixed(2)}
             </Button>
-
-            <Button
-              variant="contained"
-              color="primary"
-              style={{ marginRight: "8px" }}
-              startIcon={<PaidIcon />}
-            >
-              <strong>Total : </strong> KES {filteredPayments
-                .reduce((sum, p) => sum + p.amount, 0)
-                .toFixed(2)}
-            </Button>
+            </div>
           </Box>
           
         </div>
@@ -273,17 +276,17 @@ export default function PaymentsTable() {
                       <Box
                         sx={{
                           backgroundColor:
-                            pay.product == 'Vip'
+                            pay.product == 'VIP'
                               ? '#e3f2fd'
-                              : pay.product == 'Premium'
+                              : pay.product == 'premimum'
                               ? '#f3e5f5'
                               : pay.product == 'Basic'
                               ? '#e8f5e9'
                               : '#e0e0e0',
                           color:
-                            pay.product == 'Vip'
+                            pay.product == 'VIP'
                               ? '#0d47a1'
-                              : pay.product == 'Premium'
+                              : pay.product == 'premimum'
                               ? '#6a1b9a'
                               : pay.product == 'Basic'
                               ? '#2e7d32'
