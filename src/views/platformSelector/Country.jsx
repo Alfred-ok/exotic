@@ -25,7 +25,9 @@ import FileCopyTwoToneIcon from '@mui/icons-material/FileCopyOutlined';
 import PictureAsPdfTwoToneIcon from '@mui/icons-material/PictureAsPdfOutlined';
 import ArchiveTwoToneIcon from '@mui/icons-material/ArchiveOutlined';
 
-export default function Country({ isLoading, dat = {} }) {
+
+
+export default function Country({ isLoading, dat }) {
   const theme = useTheme();
 
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -92,7 +94,7 @@ export default function Country({ isLoading, dat = {} }) {
                         mt: 1
                       }}
                     >
-                      {/*<CardMedia sx={{ width: 24, height: 24 }} alt="Notification" />*/}
+                     
                       <LanguageIcon style={{color:"#fff"}}/>
                     </Avatar>
                   </Grid>
@@ -108,7 +110,7 @@ export default function Country({ isLoading, dat = {} }) {
                         zIndex: 1
                       }}
                     >
-                      {/*<MoreHorizIcon fontSize="inherit" />*/}
+                     
                     </Avatar>
                   </Grid>
                 </Grid>
