@@ -12,6 +12,13 @@ import MainCard from 'ui-component/cards/MainCard';
 import AssessmentIcon from '@mui/icons-material/Assessment';
 import { zoomies } from 'ldrs'
 
+//icons
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import HourglassTopIcon from '@mui/icons-material/HourglassTop';
+import CancelIcon from '@mui/icons-material/Cancel';
+import PaidIcon from '@mui/icons-material/Paid'; // Optional: for total amount
+
+
 const exportToPDF = (data, headers, fileName) => {
   const doc = new jsPDF();
   doc.text(fileName, 14, 15);
@@ -139,8 +146,50 @@ export default function PaymentsTable() {
         <>
         <div style={{ display:"flex", justifyContent:"space-between", marginTop:"25px", marginBottom:"20px" }}>
           <Box mb={2}>
-            <strong>Total Records:</strong> {filteredPayments.length} &nbsp; | &nbsp;
-            <strong>Total Amount:</strong> KES {filteredPayments.reduce((sum, p) => sum + p.amount, 0).toFixed(2)}
+            <Button variant="contained" color="primary" style={{marginRight:"8px"}}><strong>Total Records:</strong> {filteredPayments.length} </Button>
+           <Button
+              variant="contained"
+              style={{ marginRight: "8px", backgroundColor: '#2e7d32' }}
+              startIcon={<CheckCircleIcon />}
+            >
+              <strong>Success:</strong> KES {filteredPayments
+                .filter(p => p.status.toLowerCase() === 'success')
+                .reduce((sum, p) => sum + p.amount, 0)
+                .toFixed(2)}
+            </Button>
+
+            <Button
+              variant="contained"
+              style={{ marginRight: "8px", backgroundColor: '#f9a825' }}
+              startIcon={<HourglassTopIcon />}
+            >
+              <strong>Pending:</strong> KES {filteredPayments
+                .filter(p => p.status.toLowerCase() === 'pending')
+                .reduce((sum, p) => sum + p.amount, 0)
+                .toFixed(2)}
+            </Button>
+
+            <Button
+              variant="contained"
+              style={{ marginRight: "8px", backgroundColor: '#c62828' }}
+              startIcon={<CancelIcon />}
+            >
+              <strong>Failed:</strong> KES {filteredPayments
+                .filter(p => p.status.toLowerCase() === 'failed')
+                .reduce((sum, p) => sum + p.amount, 0)
+                .toFixed(2)}
+            </Button>
+
+            <Button
+              variant="contained"
+              color="primary"
+              style={{ marginRight: "8px" }}
+              startIcon={<PaidIcon />}
+            >
+              <strong>Total:</strong> KES {filteredPayments
+                .reduce((sum, p) => sum + p.amount, 0)
+                .toFixed(2)}
+            </Button>
           </Box>
           <Box display="flex" gap={2} mb={2}>
             <Button variant="contained" onClick={handleExportExcel}>Export Excel</Button>
