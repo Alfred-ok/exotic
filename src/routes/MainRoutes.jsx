@@ -13,6 +13,7 @@ import PaymentsTable from '../views/Reports/PaymentsTable';
 import EscortPostsTable from '../views/Reports/EscortPostsTable';
 import PlatformManager from '../views/Settings/PlatformManager';
 import RegisterPlatformUser from '../views/Settings/RegisterPlatformUser';
+import ProtectedRoute from './ProtectedRoute';
 
 // dashboard routing
 const DashboardDefault = Loadable(lazy(() => import('views/dashboard/Default')));
@@ -29,7 +30,11 @@ const SamplePage = Loadable(lazy(() => import('views/sample-page')));
 
 const MainRoutes = {
   path: '/',
-  element: <MainLayout />,
+  element: (
+    <ProtectedRoute>
+      <MainLayout />
+    </ProtectedRoute>
+  ),
   children: [
     {
       path: '/',

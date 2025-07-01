@@ -105,4 +105,4 @@ const Administrator = {
 };
 
 //export default Administrator;
-export default platform === 'Exotic Nairobi' ? Administrator : null;
+export default platform ? Administrator : null;
