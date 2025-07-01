@@ -306,42 +306,21 @@ export default function PlatformSelector() {
         </div>
       ) : (
         <Box sx={{ width: '100%'}}>
-          <Tabs
-            value={selectedTab}
-            onChange={handleTabChange}
-            variant="scrollable"
-            scrollButtons="auto"
-            TabIndicatorProps={{
-              sx: {
-                backgroundColor: '#fff'
-              }
-            }}
-            sx={{
-              backgroundColor: theme.palette.secondary.main,
-              color: 'white',
-              borderRadius: 2,
-              mb: 2
-            }}
-            style={{
-              padding:"10px"
-            }}
-          >
-            {countries.map((country) => (
-              <Tab
-                key={country}
-                label={country}
-                value={country}
-                sx={{
-                  fontWeight: 'bold',
-                  color: 'rgba(255, 255, 255, 0.7)',
-                  '&.Mui-selected': {
-                    color: "#fff",
-                    borderRadius: 1,
-                    padding:2,
-                  }
-                }}
-              />
-            ))}
+          
+           <Tabs
+          value={selectedTab}
+          onChange={handleTabChange}
+          variant="scrollable"
+          scrollButtons="auto"
+          sx={{ mb: 2 }}
+        >
+          {countries.map((country) => (
+            <Tab
+              key={country}
+              label={country}
+              value={country}
+            />
+          ))}
           </Tabs>
 
           <Grid container spacing={gridSpacing}>
