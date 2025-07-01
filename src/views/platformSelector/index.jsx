@@ -312,7 +312,7 @@ export default function PlatformSelector() {
             variant="scrollable"
             scrollButtons="auto"
             textColor="primary"
-            indicatorColor="primary"
+            indicatorColor="#fff"
             sx={{
               backgroundColor: theme.palette.secondary.main,
               color: 'white',
