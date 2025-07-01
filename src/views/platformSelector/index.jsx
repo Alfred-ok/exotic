@@ -305,7 +305,7 @@ export default function PlatformSelector() {
           <Typography variant="body2" sx={{ mt: 2 }}>Loading platforms...</Typography>
         </div>
       ) : (
-        <Box sx={{ width: '100%' }}>
+        <Box sx={{ width: '100%'}} style={{padding:"10px"}}>
           <Tabs
             value={selectedTab}
             onChange={handleTabChange}
