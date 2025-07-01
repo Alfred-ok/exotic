@@ -330,7 +330,7 @@ export default function PlatformSelector() {
                   color: 'white',
                   '&.Mui-selected': {
                     color: theme.palette.primary.main,
-                    backgroundColor: 'white',
+                    //backgroundColor: 'white',
                     borderRadius: 1
                   }
                 }}
