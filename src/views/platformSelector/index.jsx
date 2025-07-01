@@ -229,6 +229,8 @@ export default function PlatformSelector() {
     { name: 'South Africa', code: 'za' }
   ];
 
+
+
   useEffect(() => {
     const fetchPlatforms = async () => {
       try {
@@ -364,9 +366,10 @@ export default function PlatformSelector() {
                 value={country.name}
                 label={
                   <Box display="flex" alignItems="center" gap={1}>
-                    <span
-                      className={`flag-icon flag-icon-${country.code}`}
-                      style={{ width: 20, height: 15, borderRadius: 2 }}
+                    <img
+                      src={`https://flagcdn.com/w40/${country.code}.png`}
+                      alt={country.name}
+                      style={{ width: 24, height: 16, borderRadius: 2 }}
                     />
                     {`${country.name} (${countryCounts[country.name] || 0})`}
                   </Box>
@@ -374,6 +377,7 @@ export default function PlatformSelector() {
               />
             ))}
           </Tabs>
+
 
           <Grid container spacing={gridSpacing}>
             {platforms
