@@ -209,7 +209,7 @@ import Swal from 'sweetalert2';
 import { gridSpacing } from 'store/constant';
 import Country from './Country';
 import MainCard from 'ui-component/cards/MainCard';
-import 'flag-icon-css/css/flag-icon.min.css';
+//import 'flag-icon-css/css/flag-icon.min.css';
 
 
 export default function PlatformSelector() {
