@@ -32,8 +32,8 @@ export default function AuthLogin() {
   const [checked, setChecked] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
 
-  const [email, setEmail] = useState('admin@exotic.com');
-  const [password, setPassword] = useState('admin1234');
+  const [email, setEmail] = useState('alfred@gmail.com');
+  const [password, setPassword] = useState('password254#');
 
   const handleClickShowPassword = () => setShowPassword(!showPassword);
   const handleMouseDownPassword = (event) => event.preventDefault();

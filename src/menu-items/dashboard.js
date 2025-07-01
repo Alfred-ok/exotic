@@ -24,4 +24,4 @@ const dashboard = {
 };
 
 //export default dashboard;
-export default platform === 'Exotic Nairobi' ? dashboard : null;
+export default platform  ? dashboard : null;
