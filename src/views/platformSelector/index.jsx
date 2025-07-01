@@ -305,7 +305,7 @@ export default function PlatformSelector() {
           <Typography variant="body2" sx={{ mt: 2 }}>Loading platforms...</Typography>
         </div>
       ) : (
-        <Box sx={{ width: '100%'}} style={{padding:"10px"}}>
+        <Box sx={{ width: '100%'}}>
           <Tabs
             value={selectedTab}
             onChange={handleTabChange}
@@ -313,7 +313,7 @@ export default function PlatformSelector() {
             scrollButtons="auto"
             TabIndicatorProps={{
               sx: {
-                backgroundColor: '#fff'  // ✅ white underline
+                backgroundColor: '#fff'
               }
             }}
             sx={{
@@ -321,6 +321,9 @@ export default function PlatformSelector() {
               color: 'white',
               borderRadius: 2,
               mb: 2
+            }}
+            style={{
+              padding:"20px"
             }}
           >
             {countries.map((country) => (
