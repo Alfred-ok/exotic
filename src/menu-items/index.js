@@ -6,6 +6,7 @@ import platformSelector from './platformSelector';
 import dividlogo from './dividlogo';
 import administrator from './Administrator';
 import Report from './Report';
+import getAdministratorMenu from './Administrator';
 
 
 // ==============================|| MENU ITEMS ||============================== //
