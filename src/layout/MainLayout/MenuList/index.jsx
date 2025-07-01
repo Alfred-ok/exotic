@@ -79,22 +79,17 @@ export default memo(MenuList);
 
 
 
-
-
-
 import { memo, useState, useEffect, useContext } from 'react';
 import Divider from '@mui/material/Divider';
 import List from '@mui/material/List';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 
-// project imports
 import NavItem from './NavItem';
 import NavGroup from './NavGroup';
+import rawMenuItems from 'menu-items';
 import { useGetMenuMaster } from 'api/menu';
-import { PlatformContext } from 'contexts/PlatformContext'; // make sure path is correct
-
-// ==============================|| SIDEBAR MENU LIST ||============================== //
+import { PlatformContext } from 'contexts/PlatformContext';
 
 function MenuList() {
   const { menuMaster } = useGetMenuMaster();
@@ -107,11 +102,9 @@ function MenuList() {
   const lastItem = null;
 
   useEffect(() => {
-    if (!platform) return;
-
-    // Dynamically reload menuItems when platform is updated
-    const dynamicMenuItems = require('menu-items').default;
-    setMenuItems(dynamicMenuItems);
+    if (platform) {
+      setMenuItems(rawMenuItems); // ✅ import used, no require()
+    }
   }, [platform]);
 
   let lastItemIndex = menuItems.items.length - 1;
@@ -121,16 +114,12 @@ function MenuList() {
   if (lastItem && lastItem < menuItems.items.length) {
     lastItemId = menuItems.items[lastItem - 1].id;
     lastItemIndex = lastItem - 1;
-    remItems = menuItems.items
-      .slice(lastItem - 1, menuItems.items.length)
-      .map((item) => ({
-        title: item.title,
-        elements: item.children,
-        icon: item.icon,
-        ...(item.url && {
-          url: item.url
-        })
-      }));
+    remItems = menuItems.items.slice(lastItem - 1).map((item) => ({
+      title: item.title,
+      elements: item.children,
+      icon: item.icon,
+      ...(item.url && { url: item.url })
+    }));
   }
 
   const navItems = menuItems.items.slice(0, lastItemIndex + 1).map((item, index) => {
@@ -144,7 +133,6 @@ function MenuList() {
             </List>
           );
         }
-
         return (
           <NavGroup
             key={item.id}
@@ -169,4 +157,3 @@ function MenuList() {
 }
 
 export default memo(MenuList);
-
