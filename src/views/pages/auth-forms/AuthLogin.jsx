@@ -60,7 +60,7 @@ export default function AuthLogin() {
     localStorage.setItem('userEmail', user.email);
     localStorage.setItem('userRole', user.role);
 
-    alert(message);
+    //alert(message);
     navigate('/platform-selector');
   } catch (error) {
     alert('Login failed: ' + (error.response?.data?.message || 'Something went wrong.'));
