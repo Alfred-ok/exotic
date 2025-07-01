@@ -327,11 +327,11 @@ export default function PlatformSelector() {
                 value={country}
                 sx={{
                   fontWeight: 'bold',
-                  color: 'white',
+                  color: 'rgba(255, 255, 255, 0.7)',
                   '&.Mui-selected': {
-                    color: theme.palette.primary.main,
-                    //backgroundColor: 'white',
-                    borderRadius: 1
+                    color: "#fff",
+                    borderRadius: 1,
+                    padding:2,
                   }
                 }}
               />
