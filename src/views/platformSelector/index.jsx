@@ -149,12 +149,10 @@ export default function PlatformSelector() {
           <span>Platform Selector</span>
         </div>
       }
-      secondary={
-        <Typography variant="subtitle2" color="textSecondary" sx={{ mt: 1 }}>
-          Choose a country to view its platforms and statistics.
-        </Typography>
-      }
     >
+      <Typography variant="body2" style={{ padding: "15px" }}>
+        Select a Country to Explore Available Sites
+      </Typography>
 
       {globalLoading ? (
         <div style={{ textAlign: 'center', padding: '50px' }}>
