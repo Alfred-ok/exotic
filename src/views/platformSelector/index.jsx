@@ -17,7 +17,8 @@ import Swal from 'sweetalert2';
 import { gridSpacing } from 'store/constant';
 import Country from './Country';
 import MainCard from 'ui-component/cards/MainCard';
-//import 'flag-icon-css/css/flag-icon.min.css';
+import { useContext } from 'react';
+import { PlatformContext } from '../../contexts/PlatformContext';
 
 
 export default function PlatformSelector() {
@@ -26,6 +27,7 @@ export default function PlatformSelector() {
   const [platforms, setPlatforms] = useState([]);
   const [countryCounts, setCountryCounts] = useState({});
   const [selectedTab, setSelectedTab] = useState('');
+  const { platform, setPlatform } = useContext(PlatformContext);
 
   const navigate = useNavigate();
   const theme = useTheme();
@@ -102,6 +104,7 @@ export default function PlatformSelector() {
 
       if (result?.platform) {
         localStorage.setItem('platform', result.platform);
+        setPlatform(result.platform); // 👈 triggers UI reactivity
         navigate("/dashboard/default");
       } else {
         Swal.fire({

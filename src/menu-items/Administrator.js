@@ -110,12 +110,6 @@ export default platform ? Administrator : null;
 */
 
 
-
-
-
-
-
-// Administrator.js
 import {
   IconReportAnalytics,
   IconSpeakerphone,
