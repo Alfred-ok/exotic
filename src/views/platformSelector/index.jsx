@@ -311,8 +311,11 @@ export default function PlatformSelector() {
             onChange={handleTabChange}
             variant="scrollable"
             scrollButtons="auto"
-            textColor="primary"
-            indicatorColor="#fff"
+            TabIndicatorProps={{
+              sx: {
+                backgroundColor: '#fff'  // ✅ white underline
+              }
+            }}
             sx={{
               backgroundColor: theme.palette.secondary.main,
               color: 'white',
