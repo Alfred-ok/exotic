@@ -68,7 +68,7 @@ export default function AuthLogin() {
 };
 
 
-  /*useEffect(() => {
+  useEffect(() => {
     window.google.accounts.id.initialize({
       client_id: 'YOUR_GOOGLE_CLIENT_ID', // Replace with your real client ID
       callback: handleGoogleResponse
@@ -100,7 +100,7 @@ export default function AuthLogin() {
         alert('Google login failed: ' + (error.response?.data?.message || 'Something went wrong.'));
       }
     };
-*/
+
 
 
   return (
@@ -169,9 +169,9 @@ export default function AuthLogin() {
           </Button>
         </AnimateButton>
       </Box>
-     {/*<Box sx={{ mt: 2 }}>
+      <Box sx={{ mt: 2 }}>
         <div id="googleSignInDiv" style={{ width: '100%' }}></div>
-      </Box>*/}
+      </Box>
 
     </>
   );
