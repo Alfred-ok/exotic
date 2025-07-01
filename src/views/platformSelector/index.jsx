@@ -323,7 +323,7 @@ export default function PlatformSelector() {
               mb: 2
             }}
             style={{
-              padding:"20px"
+              padding:"10px"
             }}
           >
             {countries.map((country) => (
