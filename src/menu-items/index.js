@@ -12,7 +12,7 @@ import getAdministratorMenu from './Administrator';
 // ==============================|| MENU ITEMS ||============================== //
 //Change
 const menuItems = {
-  items: [dividlogo, platformSelector, dashboard, administrator, getAdministratorMenu].filter(Boolean)
+  items: [dividlogo, platformSelector, dashboard, getAdministratorMenu].filter(Boolean)
 };
 
 export default menuItems;
