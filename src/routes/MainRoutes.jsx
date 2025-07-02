@@ -8,12 +8,13 @@ import PlatformSelector from '../views/platformSelector';
 import Advertisements from '../views/Advertisements';
 import Messages from '../views/Messages';
 import ActiveLog from '../views/ActiveLog';
-import FreeTrialActivation from '../views/FreeTrialActivation';
+import FreeTrialActivation from '../views/ActiveProfile/FreeTrialActivation';
 import PaymentsTable from '../views/Reports/PaymentsTable';
 import EscortPostsTable from '../views/Reports/EscortPostsTable';
 import PlatformManager from '../views/Settings/PlatformManager';
 import PlatformUser from '../views/Settings/PlatformUser';
 import ProtectedRoute from './ProtectedRoute';
+import ActiveProfile from '../views/ActiveProfile';
 
 // dashboard routingtt
 const DashboardDefault = Loadable(lazy(() => import('views/dashboard/Default')));
@@ -75,8 +76,8 @@ const MainRoutes = {
       element: <Advertisements/>
     },
     {
-      path: 'free-trial-activation',
-      element: <FreeTrialActivation/>
+      path: 'ActivatedProfile',
+      element: <ActiveProfile/>
     },
 
     {

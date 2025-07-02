@@ -56,10 +56,10 @@ const Administrator = {
       breadcrumbs: false
     },
     {
-      id: 'free-trial-activation',
-      title: 'Free Trial Activation',
+      id: 'ActivatedProfile',
+      title: 'Activated Profile',
       type: 'item',
-      url: '/free-trial-activation',
+      url: '/ActivatedProfile',
       icon: icons.IconKey,
       breadcrumbs: false
     },
