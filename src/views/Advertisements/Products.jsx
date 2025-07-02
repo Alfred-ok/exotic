@@ -24,6 +24,9 @@ import MainCard from 'ui-component/cards/MainCard';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import { zoomies } from 'ldrs'
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
+
 
 
 export default function Products() {
@@ -187,6 +190,7 @@ export default function Products() {
                       <Button
                         size="small"
                         variant="contained"
+                        startIcon={<EditIcon />}
                         onClick={() => handleFormOpen(product)}
                         sx={{ mr: 1 }}
                       >
@@ -196,6 +200,7 @@ export default function Products() {
                         size="small"
                         variant="outlined"
                         color="error"
+                        startIcon={<DeleteIcon />}
                         onClick={() => {
                           setSelectedProduct(product);
                           setDeleteDialogOpen(true);

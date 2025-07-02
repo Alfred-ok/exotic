@@ -147,7 +147,7 @@ export default function PaymentsTable() {
 
       {tabIndex === 0 && (
         <>
-        <div style={{ display:"flex", justifyContent:"space-between", marginTop:"25px", marginBottom:"20px", backgroundColor:"rgba(255,255,255,0.3)" }}>
+        <div style={{ display:"flex", justifyContent:"space-between", marginTop:"25px", marginBottom:"20px" }}>
           <Box mb={2}>
             <Button variant="contained" color="primary" style={{marginRight:"8px"}}><strong>Total Records : </strong> {filteredPayments.length} </Button>
             <Button
