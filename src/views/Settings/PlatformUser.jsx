@@ -224,20 +224,43 @@ export default function PlatformUser() {
   );
 
   return (
-    <MainCard title="User List">
-      <Typography variant="body2" gutterBottom>
-        Below is a list of users retrieved from the system.
-      </Typography>
-      <Box sx={{ p: 2 }}>
-      <Button variant="contained" onClick={() => setOpen(true)}>
-        Add New Platform User
-      </Button>
+    <MainCard 
+      sx={{
+            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
+            transition: 'box-shadow 0.3s ease-in-out',
+            '&:hover': {
+              boxShadow: '0 6px 16px rgba(0, 0, 0, 0.15)' // or keep the same value to prevent disappearing
+            }
+          }}
+      title={
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px',
+            backgroundColor: '#1976d2',
+            color: 'white',
+            padding: '20px 16px',
+            borderRadius: '8px'
+          }}>
+            <span>User List</span>
+          </div>
+        }
+      >
+      <div style={{display:"flex", alignItems:"center", justifyContent:"space-between"}}>
+        <Typography variant="body2" gutterBottom>
+          Below is a list of users retrieved from the system.
+        </Typography>
+        <Box sx={{ p: 2 }}>
+          <Button variant="contained" onClick={() => setOpen(true)}>
+            Add New Platform User
+          </Button>
 
-      <PlatformUserRegistration open={open} setOpen={setOpen} onSuccess={() => {
-        // optional: refresh user list here if needed
-        console.log("User created, refresh list...");
-      }} />
-    </Box>
+          <PlatformUserRegistration open={open} setOpen={setOpen} onSuccess={() => {
+            // optional: refresh user list here if needed
+            console.log("User created, refresh list...");
+          }} /> 
+        </Box>
+      </div>
 
       {loading ? (
         <CircularProgress sx={{ mt: 2 }} />
