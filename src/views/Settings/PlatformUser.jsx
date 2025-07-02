@@ -172,9 +172,12 @@ import {
   CircularProgress,
   Alert,
   TableSortLabel,
-  TablePagination
+  TablePagination,
+  Box,
+  Button
 } from '@mui/material';
 import MainCard from 'ui-component/cards/MainCard';
+import PlatformUserRegistration from './PlatformUserRegistration';
 
 export default function PlatformUser() {
   const [users, setUsers] = useState([]);
