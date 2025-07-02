@@ -305,7 +305,13 @@ const EscortPostsTable = () => {
                 
                 
                   {paginatedPosts.map((post, idx) => (
-                  <TableRow key={post.id} sx={{ backgroundColor: idx % 2 === 0 ? '#f9f9f9' : '#fff' }}>
+                  <TableRow key={post.id} sx={{ 
+                    backgroundColor: idx % 2 === 0 ? '#f9f9f9' : '#fff', 
+                    '&:hover': {
+                        transform: 'translateY(-2px)',
+                        boxShadow: '0 4px 16px rgba(0,0,0,0.12)'
+                      }
+                    }}>
                     <TableCell>{post.id}</TableCell>
                     <TableCell>{post.name}</TableCell>
                     <TableCell>{post.phone}</TableCell>
