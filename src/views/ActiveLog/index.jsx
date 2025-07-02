@@ -34,27 +34,28 @@ const ActiveLog = () => {
 
   // API call
   const fetchLogs = async (page = 1) => {
-    setLoading(true);
-    try {
-      const payload = {
-        current_page: page,
-        ...(startDate && { start_date: dayjs(startDate).format('YYYY-MM-DD') }),
-        ...(endDate && { end_date: dayjs(endDate).format('YYYY-MM-DD') })
-      };
+  setLoading(true);
+  try {
+    const params = {
+      current_page: page,
+      ...(startDate && { start_date: dayjs(startDate).format('YYYY-MM-DD') }),
+      ...(endDate && { end_date: dayjs(endDate).format('YYYY-MM-DD') })
+    };
 
-      const res = await axios.post('https://api.exoticnairobi.com/api/activity-logs', payload);
-      const data = res.data;
+    const res = await axios.get('https://api.exoticnairobi.com/api/activity-logs', { params });
+    const data = res.data;
 
-      setLogs(data.data);
-      setFilteredLogs(data.data);
-      setTotalPages(data.last_page || 1);
-      setCurrentPage(data.current_page || 1);
-    } catch (err) {
-      setError('Failed to fetch activity logs');
-    } finally {
-      setLoading(false);
-    }
-  };
+    setLogs(data.data);
+    setFilteredLogs(data.data);
+    setTotalPages(data.last_page || 1);
+    setCurrentPage(data.current_page || 1);
+  } catch (err) {
+    setError('Failed to fetch activity logs');
+  } finally {
+    setLoading(false);
+  }
+};
+
 
 
   useEffect(() => {
