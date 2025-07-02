@@ -218,7 +218,7 @@ export default function PopularCard() {
                 New Profiles ({totalUsers})
               </Typography>
 
-              <FormControl size="small" sx={{ minWidth: 150, backgroundColor: '#fff', borderRadius: 1 }}>
+              <FormControl size="small" sx={{ minWidth: 120, backgroundColor: '#fff', borderRadius: 1 }}>
                 <Select
                   value={selectedDays}
                   onChange={(e) => setSelectedDays(e.target.value)}
