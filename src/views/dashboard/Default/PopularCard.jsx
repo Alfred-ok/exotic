@@ -214,7 +214,7 @@ export default function PopularCard() {
                 alignItems: 'center'
               }}
             >
-              <Typography variant="h6" sx={{ color: '#fff' }}>
+              <Typography variant="h2" sx={{ color: '#fff', padding:"5px" }}>
                 New Profiles ({totalUsers})
               </Typography>
 
