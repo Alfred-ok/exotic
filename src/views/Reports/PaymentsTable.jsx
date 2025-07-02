@@ -147,7 +147,7 @@ export default function PaymentsTable() {
 
       {tabIndex === 0 && (
         <>
-        <div style={{ display:"flex", justifyContent:"space-between", marginTop:"25px", marginBottom:"20px" }}>
+        <div style={{ display:"flex", justifyContent:"space-between", marginTop:"25px", marginBottom:"20px", backgroundColor:"rgba(255,255,255,0.3)" }}>
           <Box mb={2}>
             <Button variant="contained" color="primary" style={{marginRight:"8px"}}><strong>Total Records : </strong> {filteredPayments.length} </Button>
             <Button
@@ -262,7 +262,13 @@ export default function PaymentsTable() {
               </TableHead>
               <TableBody>
                 {paginatedPayments.map((pay, index) => (
-                  <TableRow key={pay.id} sx={{ backgroundColor: index % 2 === 0 ? '#f0f8ff' : '#fff' }}>
+                  <TableRow key={pay.id} sx={{ 
+                      backgroundColor: index % 2 === 0 ? '#f0f8ff' : '#fff',
+                      '&:hover': {
+                          transform: 'translateY(-2px)',
+                          boxShadow: '0 4px 16px rgba(0,0,0,0.12)'
+                       } 
+                    }}>
                     <TableCell>{pay.id}</TableCell>
                     <TableCell>{pay.userId}</TableCell>
                     <TableCell>{pay.phone}</TableCell>

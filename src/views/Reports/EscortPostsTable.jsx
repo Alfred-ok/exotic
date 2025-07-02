@@ -175,7 +175,7 @@ const EscortPostsTable = () => {
           <Tab label="Table View" />
           <Tab label="Chart View" />
         </Tabs>
-        <div style={{display:"flex", justifyContent:"space-between"}}>
+        <div style={{display:"flex", justifyContent:"space-between", backgroundColor:"rgba(255,255,255,0.3)"}}>
         <div style={{ display:"flex", marginTop:"25px", marginBottom:"20px" }}>
           <Typography variant="h6" color="primary">
             <Button
