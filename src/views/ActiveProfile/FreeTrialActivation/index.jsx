@@ -27,8 +27,9 @@ export default function FreeTrialActivation() {
 
   // Pre-fill postId when component mounts
   useEffect(() => {
-    if (id) {
-      setPostId(id);
+  if (id) {
+      const numericId = id.replace(/\D/g, ''); // removes all non-digits (e.g., "P120" → "120")
+      setPostId(numericId);
     }
   }, [id]);
 
