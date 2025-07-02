@@ -5,8 +5,8 @@ import FreeTrialActivation from './FreeTrialActivation'
 function ActiveProfile() {
   return (
     <div>
-       <FreeTrialActivation/> 
-      <ActivatedProfiles/>
+        {/*<FreeTrialActivation/>*/} 
+        <ActivatedProfiles/>
     </div>
   )
 }

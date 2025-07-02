@@ -79,6 +79,10 @@ const MainRoutes = {
       path: 'ActivatedProfile',
       element: <ActiveProfile/>
     },
+    {
+      path: 'FreeTrialActivation',
+      element: <FreeTrialActivation/>
+    },
 
     {
       path: 'messages',
