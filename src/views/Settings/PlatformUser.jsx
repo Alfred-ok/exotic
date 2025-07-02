@@ -178,6 +178,8 @@ import {
 } from '@mui/material';
 import MainCard from 'ui-component/cards/MainCard';
 import PlatformUserRegistration from './PlatformUserRegistration';
+import EditPlatformUserModal from './EditPlatformUserModal'; // adjust path
+
 
 export default function PlatformUser() {
   const [users, setUsers] = useState([]);
@@ -189,18 +191,32 @@ export default function PlatformUser() {
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [open, setOpen] = useState(false);
 
+  const [editOpen, setEditOpen] = useState(false);
+  const [selectedUser, setSelectedUser] = useState(null);
+
+  const handleEdit = (user) => {
+    setSelectedUser(user);
+    setEditOpen(true);
+  };
+
   // Fetch users
+  const fetchUsers = async () => {
+    setLoading(true);
+    try {
+      const res = await axios.get('https://api.exoticnairobi.com/api/users');
+      setUsers(res.data.users);
+      setError(null);
+    } catch (err) {
+      setError('Failed to load users. Please try again later.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    axios.get('https://api.exoticnairobi.com/api/users')
-      .then((res) => {
-        setUsers(res.data.users);
-        setLoading(false);
-      })
-      .catch((err) => {
-        setError('Failed to load users. Please try again later.');
-        setLoading(false);
-      });
+    fetchUsers();
   }, []);
+
 
   // Sorting logic
   const handleSort = (property) => {
@@ -222,6 +238,9 @@ export default function PlatformUser() {
     page * rowsPerPage,
     page * rowsPerPage + rowsPerPage
   );
+
+
+
 
   return (
     <MainCard 
@@ -255,10 +274,8 @@ export default function PlatformUser() {
             Add New Platform User
           </Button>
 
-          <PlatformUserRegistration open={open} setOpen={setOpen} onSuccess={() => {
-            // optional: refresh user list here if needed
-            console.log("User created, refresh list...");
-          }} /> 
+          <PlatformUserRegistration open={open} setOpen={setOpen} onSuccess={fetchUsers/* optional: refresh user list here if needed*/ }/> 
+            /* optional: refresh user list here if needed*/ 
         </Box>
       </div>
 
@@ -293,6 +310,15 @@ export default function PlatformUser() {
                     <TableCell>{user.email}</TableCell>
                     <TableCell>{user.role}</TableCell>
                     <TableCell>{new Date(user.created_at).toLocaleString()}</TableCell>
+                    <TableCell>
+                      <Button
+                        size="small"
+                        variant="outlined"
+                        onClick={() => handleEdit(user)}
+                      >
+                        Edit
+                      </Button>
+                    </TableCell>
                   </TableRow>
                 ))}
               </TableBody>
@@ -312,6 +338,13 @@ export default function PlatformUser() {
           />
         </>
       )}
+
+      <EditPlatformUserModal
+        open={editOpen}
+        onClose={() => setEditOpen(false)}
+        userData={selectedUser}
+        onUpdated={fetchUsers}
+      />
     </MainCard>
   );
 }
