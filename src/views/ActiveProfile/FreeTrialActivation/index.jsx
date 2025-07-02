@@ -32,6 +32,7 @@ export default function FreeTrialActivation() {
     }
   }, [id]);
 
+  console.log(id);
 
   const handleActivateTrial = async () => {
     if (!postId || !days) {
