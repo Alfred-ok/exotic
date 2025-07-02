@@ -90,7 +90,7 @@ export default function Products() {
     }
     setOpenDialog(true);
   };
-/*
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -103,6 +103,8 @@ export default function Products() {
         withCredentials: true
       });
       showAlert('Product updated successfully');
+      //window.location.reload();
+      setRefreshTrigger(prev => !prev); // 👈 Trigger table reload
     } else {
       // Create
       const response = await axios.post('https://api.exoticnairobi.com/api/products', form, {
@@ -111,6 +113,8 @@ export default function Products() {
       });
       console.log(response.data);
       showAlert('Product created successfully');
+      //window.location.reload();
+      setRefreshTrigger(prev => !prev); // 👈 Trigger table reload
     }
 
     console.log(data)
@@ -125,47 +129,6 @@ export default function Products() {
       setLoading(false);
     }
   };
-*/
-
-const handleSubmit = async (e) => {
-  e.preventDefault();
-  setLoading(true);
-
-  try {
-    if (selectedProduct) {
-      // Update
-      const response = await axios.put(
-        `https://api.exoticnairobi.com/api/products/${selectedProduct.id}`,
-        form,
-        {
-          headers: { 'Content-Type': 'application/json' },
-          withCredentials: true
-        }
-      );
-      showAlert('Product updated successfully');
-    } else {
-      // Create
-      const response = await axios.post(
-        'https://api.exoticnairobi.com/api/products',
-        form,
-        {
-          headers: { 'Content-Type': 'application/json' },
-          withCredentials: true
-        }
-      );
-      showAlert('Product created successfully');
-    }
-
-    setOpenDialog(false);
-    setRefreshTrigger(prev => !prev); // ✅ Refresh table after update/create
-  } catch (error) {
-    console.error('Error saving product:', error);
-    showAlert('Failed to save product', 'error');
-  } finally {
-    setLoading(false);
-  }
-};
-
 
   const handleDelete = async () => {
     if (!selectedProduct) return;
@@ -177,6 +140,7 @@ const handleSubmit = async (e) => {
       showAlert('Product deleted successfully');
       //fetchProducts();
       setRefreshTrigger(prev => !prev); // 👈 Trigger table reload
+      //window.location.reload();
     } catch (error) {
       console.error('Error deleting product:', error);
       showAlert('Failed to delete product', 'error');
@@ -185,12 +149,6 @@ const handleSubmit = async (e) => {
       setLoading(false);
     }
   };
-
-  useEffect(() => {
-  console.log('Fetching products due to refreshTrigger change');
-  fetchProducts();
-}, [refreshTrigger]);
-
 
   return (
     <MainCard>
