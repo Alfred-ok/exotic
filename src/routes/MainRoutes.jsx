@@ -12,7 +12,7 @@ import FreeTrialActivation from '../views/FreeTrialActivation';
 import PaymentsTable from '../views/Reports/PaymentsTable';
 import EscortPostsTable from '../views/Reports/EscortPostsTable';
 import PlatformManager from '../views/Settings/PlatformManager';
-import RegisterPlatformUser from '../views/Settings/RegisterPlatformUser';
+import PlatformUser from '../views/Settings/PlatformUser';
 import ProtectedRoute from './ProtectedRoute';
 
 // dashboard routingtt
@@ -89,8 +89,8 @@ const MainRoutes = {
       element: <PlatformManager/>
     },
     {
-      path: '/settings/userRegistration',
-      element: <RegisterPlatformUser/>
+      path: '/settings/user',
+      element: <PlatformUser/>
     },
     {
       path: 'active-log',

@@ -165,10 +165,10 @@ const ActiveLog = () => {
           <Table>
             <TableHead sx={{ backgroundColor: '#1976d2' }}>
               <TableRow>
-                <TableCell><strong>User</strong></TableCell>
-                <TableCell><strong>Action</strong></TableCell>
-                <TableCell><strong>Timestamp</strong></TableCell>
-                <TableCell><strong>Details</strong></TableCell>
+                <TableCell style={{ color: '#fff' }}><strong>User</strong></TableCell>
+                <TableCell style={{ color: '#fff' }}><strong>Action</strong></TableCell>
+                <TableCell style={{ color: '#fff' }}><strong>Timestamp</strong></TableCell>
+                <TableCell style={{ color: '#fff' }}><strong>Details</strong></TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
