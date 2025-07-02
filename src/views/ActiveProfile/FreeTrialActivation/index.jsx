@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import { useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 // material-ui
 import {
@@ -21,6 +22,7 @@ export default function FreeTrialActivation() {
   const [postId, setPostId] = useState('');
   const [days, setDays] = useState('');
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const location = useLocation();
   const { id } = location.state || {}; // id passed via navigate
@@ -61,7 +63,7 @@ export default function FreeTrialActivation() {
           <p><strong>Expires At:</strong> ${response.data.expires_at}</p>
         `
       });
-
+      navigate('/ActivatedProfile');
       setPostId('');
       setDays('');
     } catch (error) {
