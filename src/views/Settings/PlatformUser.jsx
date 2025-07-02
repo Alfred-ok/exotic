@@ -275,7 +275,6 @@ export default function PlatformUser() {
           </Button>
 
           <PlatformUserRegistration open={open} setOpen={setOpen} onSuccess={fetchUsers/* optional: refresh user list here if needed*/ }/> 
-            /* optional: refresh user list here if needed*/ 
         </Box>
       </div>
 
@@ -288,9 +287,9 @@ export default function PlatformUser() {
           <TableContainer component={Paper} sx={{ mt: 2 }}>
             <Table>
               <TableHead>
-                <TableRow>
+                <TableRow sx={{ backgroundColor: '#1976d2' }}>
                   {['id', 'name', 'email', 'role', 'created_at'].map((col) => (
-                    <TableCell key={col}>
+                    <TableCell key={col} sx={{ color: '#fff', fontWeight: 'bold' }}>
                       <TableSortLabel
                         active={orderBy === col}
                         direction={orderBy === col ? order : 'asc'}
@@ -303,8 +302,14 @@ export default function PlatformUser() {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {paginatedUsers.map((user) => (
-                  <TableRow key={user.id}>
+                {paginatedUsers.map((user, index) => (
+                  <TableRow key={user.id}  sx={{ 
+                      backgroundColor: index % 2 === 0 ? '#f0f8ff' : '#fff',
+                      '&:hover': {
+                          transform: 'translateY(-2px)',
+                          boxShadow: '0 4px 16px rgba(0,0,0,0.12)'
+                       } 
+                    }}>
                     <TableCell>{user.id}</TableCell>
                     <TableCell>{user.name}</TableCell>
                     <TableCell>{user.email}</TableCell>
