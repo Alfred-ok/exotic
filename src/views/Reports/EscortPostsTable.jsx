@@ -23,6 +23,7 @@ import HourglassEmptyIcon from '@mui/icons-material/HourglassEmpty';
 import ErrorIcon from '@mui/icons-material/Error';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
+import { useNavigate } from 'react-router-dom';
 
 const escortStatusOptions = [
   { value: '', label: 'All' },
@@ -36,7 +37,8 @@ const escortHeaders = [
   { id: 'phone', label: 'Phone Number' },
   { id: 'status', label: 'Post Status' },
   { id: 'registered', label: 'Post Date' },
-  { id: 'guid', label: 'GUID' }
+  { id: 'guid', label: 'GUID' },
+  { id: 'activation', label: 'Activation' }
 ];
 
 
@@ -52,6 +54,7 @@ const EscortPostsTable = () => {
   zoomies.register();
   const [loading, setLoading] = useState(false);
   const totalPosts = posts.length;
+  const navigate = useNavigate();
 
   useEffect(() => {
     setLoading(true);
@@ -360,6 +363,14 @@ const EscortPostsTable = () => {
                             cursor: 'pointer'
                           }}>{post.guid.slice(0, 21)}</a>
                       </TableCell>
+                       <TableCell>
+                        <Button variant="contained" color="success" startIcon={<CheckCircleIcon />} 
+                        onClick={() =>
+                          navigate('/FreeTrialActivation', { state: { id: post.id } })
+                        }>
+                          Free Trial Activation
+                        </Button>
+                       </TableCell>
                   </TableRow>
                 ))}
                 

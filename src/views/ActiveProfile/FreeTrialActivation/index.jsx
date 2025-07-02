@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import { useLocation } from 'react-router-dom';
 
 // material-ui
 import {
@@ -20,6 +21,17 @@ export default function FreeTrialActivation() {
   const [postId, setPostId] = useState('');
   const [days, setDays] = useState('');
   const [loading, setLoading] = useState(false);
+
+  const location = useLocation();
+  const { id } = location.state || {}; // id passed via navigate
+
+  // Pre-fill postId when component mounts
+  useEffect(() => {
+    if (id) {
+      setPostId(id);
+    }
+  }, [id]);
+
 
   const handleActivateTrial = async () => {
     if (!postId || !days) {
