@@ -87,7 +87,7 @@ const Administrator = {
         },
         {
           id: 'user',
-          title: 'User',
+          title: 'Platform User',
           type: 'item',
           url: '/settings/user',
           breadcrumbs: false

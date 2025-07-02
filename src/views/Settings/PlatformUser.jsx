@@ -184,6 +184,7 @@ export default function PlatformUser() {
   const [order, setOrder] = useState('asc');
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [open, setOpen] = useState(false);
 
   // Fetch users
   useEffect(() => {
@@ -224,6 +225,16 @@ export default function PlatformUser() {
       <Typography variant="body2" gutterBottom>
         Below is a list of users retrieved from the system.
       </Typography>
+      <Box sx={{ p: 2 }}>
+      <Button variant="contained" onClick={() => setOpen(true)}>
+        Add New Platform User
+      </Button>
+
+      <PlatformUserRegistration open={open} setOpen={setOpen} onSuccess={() => {
+        // optional: refresh user list here if needed
+        console.log("User created, refresh list...");
+      }} />
+    </Box>
 
       {loading ? (
         <CircularProgress sx={{ mt: 2 }} />
