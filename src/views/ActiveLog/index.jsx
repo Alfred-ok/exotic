@@ -56,6 +56,7 @@ const ActiveLog = () => {
     }
   };
 
+
   useEffect(() => {
     fetchLogs();
   }, []);
@@ -84,6 +85,8 @@ const ActiveLog = () => {
     }
     return '-';
   };
+
+  console.log(logs);
 
   return (
     <MainCard title="Activity Log">
