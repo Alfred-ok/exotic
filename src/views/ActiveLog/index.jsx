@@ -1,73 +1,94 @@
-/*
-// material-ui
-import Typography from '@mui/material/Typography';
-
-// project imports
+import React, { useState, useEffect } from 'react';
+import {
+  Grid,
+  Typography,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+  TextField,
+  CircularProgress,
+  Pagination,
+  Button
+} from '@mui/material';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import MainCard from 'ui-component/cards/MainCard';
-
-// ==============================|| SAMPLE PAGE ||============================== //
-
-export default function ActiveLog() {
-  return (
-    <MainCard title="Active Log">
-      <Typography variant="body2">
-        Lorem ipsum dolor sit amen, consenter nipissing eli, sed do elusion tempos incident ut laborers et doolie magna alissa. Ut enif ad
-        minim venice, quin nostrum exercitation illampu laborings nisi ut liquid ex ea commons construal. Duos aube grue dolor in
-        reprehended in voltage veil esse colum doolie eu fujian bulla parian. Exceptive sin ocean cuspidate non president, sunk in culpa qui
-        officiate descent molls anim id est labours.
-      </Typography>
-    </MainCard>
-  );
-}
-*/
-
-import React, { useState } from 'react';
-
-// material-ui components
-import { Grid, Typography, Table, TableBody, TableCell, TableHead, TableRow, TextField } from '@mui/material';
-import MainCard from 'ui-component/cards/MainCard';
-
-// Sample activity log data
-const sampleLogs = [
-  {
-    user: 'admin01',
-    action: 'Logged In',
-    timestamp: '2025-05-08 09:23:12',
-    details: 'Admin logged into dashboard'
-  },
-  {
-    user: 'john_doe',
-    action: 'Sent Message',
-    timestamp: '2025-05-08 10:15:45',
-    details: 'Message sent to 150 recipients'
-  },
-  {
-    user: 'admin01',
-    action: 'Updated Settings',
-    timestamp: '2025-05-08 10:47:33',
-    details: 'Changed SMS cost from 0.5 to 0.6'
-  },
-  {
-    user: 'jane_doe',
-    action: 'Viewed Reports',
-    timestamp: '2025-05-08 11:02:11',
-    details: 'Accessed Payments report for April'
-  }
-];
+import axios from 'axios';
+import dayjs from 'dayjs';
 
 const ActiveLog = () => {
+  const [logs, setLogs] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
+  const [filteredLogs, setFilteredLogs] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
 
-  const filteredLogs = sampleLogs.filter((log) =>
-    Object.values(log).some((value) =>
-      value.toLowerCase().includes(searchTerm.toLowerCase())
-    )
-  );
+  // Pagination
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+
+  // Date filters
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
+
+  // API call
+  const fetchLogs = async (page = 1) => {
+    setLoading(true);
+    try {
+      const payload = {
+        current_page: page,
+        ...(startDate && { start_date: dayjs(startDate).format('YYYY-MM-DD') }),
+        ...(endDate && { end_date: dayjs(endDate).format('YYYY-MM-DD') })
+      };
+
+      const res = await axios.post('https://api.exoticnairobi.com/api/activity-logs', payload);
+      const data = res.data;
+
+      setLogs(data.data);
+      setFilteredLogs(data.data);
+      setTotalPages(data.last_page || 1);
+      setCurrentPage(data.current_page || 1);
+    } catch (err) {
+      setError('Failed to fetch activity logs');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchLogs();
+  }, []);
+
+  useEffect(() => {
+    const filtered = logs.filter((log) =>
+      JSON.stringify(log).toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setFilteredLogs(filtered);
+  }, [searchTerm, logs]);
+
+  const handlePageChange = (event, page) => {
+    setCurrentPage(page);
+    fetchLogs(page);
+  };
+
+  const handleFilter = () => {
+    fetchLogs(1);
+  };
+
+  const formatDetails = (log) => {
+    if (log.payload) {
+      return Object.entries(log.payload)
+        .map(([key, val]) => `${key}: ${val}`)
+        .join(', ');
+    }
+    return '-';
+  };
 
   return (
     <MainCard title="Activity Log">
-      <Grid container spacing={2} justifyContent="space-between" alignItems="center">
-        <Grid item xs={12} sm={6}>
+      <Grid container spacing={2} alignItems="center" justifyContent="space-between" sx={{ mb: 2 }}>
+        <Grid item xs={12} sm={4}>
           <TextField
             label="Search Activities"
             fullWidth
@@ -77,10 +98,45 @@ const ActiveLog = () => {
             onChange={(e) => setSearchTerm(e.target.value)}
           />
         </Grid>
+
+        <Grid item xs={6} sm={2}>
+          <DatePicker
+            label="Start Date"
+            value={startDate}
+            onChange={(newValue) => setStartDate(newValue)}
+            slotProps={{ textField: { size: 'small', fullWidth: true } }}
+          />
+        </Grid>
+        <Grid item xs={6} sm={2}>
+          <DatePicker
+            label="End Date"
+            value={endDate}
+            onChange={(newValue) => setEndDate(newValue)}
+            slotProps={{ textField: { size: 'small', fullWidth: true } }}
+          />
+        </Grid>
+
+        <Grid item xs={12} sm={2}>
+          <Button
+            variant="contained"
+            size="medium"
+            fullWidth
+            onClick={handleFilter}
+            disabled={loading}
+          >
+            Filter
+          </Button>
+        </Grid>
       </Grid>
 
-      <Grid container sx={{ mt: 3 }}>
-        <Grid item xs={12}>
+      {loading ? (
+        <Grid container justifyContent="center" sx={{ my: 5 }}>
+          <CircularProgress />
+        </Grid>
+      ) : error ? (
+        <Typography color="error">{error}</Typography>
+      ) : (
+        <>
           <Table>
             <TableHead>
               <TableRow>
@@ -92,12 +148,12 @@ const ActiveLog = () => {
             </TableHead>
             <TableBody>
               {filteredLogs.length > 0 ? (
-                filteredLogs.map((log, index) => (
-                  <TableRow key={index}>
-                    <TableCell>{log.user}</TableCell>
+                filteredLogs.map((log) => (
+                  <TableRow key={log.id}>
+                    <TableCell>{log.user?.name || 'Anonymous'}</TableCell>
                     <TableCell>{log.action}</TableCell>
-                    <TableCell>{log.timestamp}</TableCell>
-                    <TableCell>{log.details}</TableCell>
+                    <TableCell>{new Date(log.created_at).toLocaleString()}</TableCell>
+                    <TableCell>{formatDetails(log)}</TableCell>
                   </TableRow>
                 ))
               ) : (
@@ -109,11 +165,19 @@ const ActiveLog = () => {
               )}
             </TableBody>
           </Table>
-        </Grid>
-      </Grid>
+
+          <Grid container justifyContent="center" sx={{ mt: 3 }}>
+            <Pagination
+              count={totalPages}
+              page={currentPage}
+              onChange={handlePageChange}
+              color="primary"
+            />
+          </Grid>
+        </>
+      )}
     </MainCard>
   );
 };
 
 export default ActiveLog;
-

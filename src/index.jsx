@@ -25,13 +25,18 @@ import '@fontsource/poppins/500.css';
 import '@fontsource/poppins/600.css';
 import '@fontsource/poppins/700.css';
 
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+
 // ==============================|| REACT DOM RENDER ||============================== //
 
 const container = document.getElementById('root');
 const root = createRoot(container);
 root.render(
   <ConfigProvider>
-      <App />
+    <LocalizationProvider dateAdapter={AdapterDayjs}>
+        <App />
+    </LocalizationProvider>    
   </ConfigProvider>
 );
 
