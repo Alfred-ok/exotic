@@ -1,3 +1,5 @@
+
+/*
 import { useState } from 'react';
 import axios from 'axios';
 import Swal from 'sweetalert2';
@@ -119,3 +121,77 @@ export default function FreeTrialActivation() {
     </MainCard>
   );
 }
+
+*/
+
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import {
+  Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
+  Paper, Typography, CircularProgress, Box
+} from '@mui/material';
+
+const FreeTrialActivation = () => {
+  const [profiles, setProfiles] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+
+  useEffect(() => {
+    axios.get('https://api.exoticnairobi.com/api/activated-profiles')
+      .then(response => {
+        setProfiles(response.data.activated_profiles);
+        setLoading(false);
+      })
+      .catch(error => {
+        console.error('Error fetching activated profiles:', error);
+        setError('Failed to fetch activated profiles');
+        setLoading(false);
+      });
+  }, []);
+
+  if (loading) {
+    return <Box display="flex" justifyContent="center"><CircularProgress /></Box>;
+  }
+
+  if (error) {
+    return <Typography color="error">{error}</Typography>;
+  }
+
+  return (
+    <Box>
+      <Typography variant="h5" gutterBottom>
+        Activated Profiles
+      </Typography>
+      <TableContainer component={Paper}>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell>Post ID</TableCell>
+              <TableCell>Title</TableCell>
+              <TableCell>Status</TableCell>
+              <TableCell>Author</TableCell>
+              <TableCell>Post Date</TableCell>
+              <TableCell>Activated At</TableCell>
+              <TableCell>Expires At</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {profiles.map((profile) => (
+              <TableRow key={profile.post_id}>
+                <TableCell>{profile.post_id}</TableCell>
+                <TableCell>{profile.post_title}</TableCell>
+                <TableCell>{profile.post_status}</TableCell>
+                <TableCell>{profile.post_author}</TableCell>
+                <TableCell>{profile.post_date}</TableCell>
+                <TableCell>{profile.activated_at}</TableCell>
+                <TableCell>{profile.expires_at}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </Box>
+  );
+};
+
+export default FreeTrialActivation;
