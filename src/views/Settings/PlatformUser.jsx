@@ -261,13 +261,13 @@ export default function PlatformUser() {
             padding: '20px 16px',
             borderRadius: '8px'
           }}>
-            <span>User List</span>
+            <span>Platform User</span>
           </div>
         }
       >
       <div style={{display:"flex", alignItems:"center", justifyContent:"space-between"}}>
         <Typography variant="body2" gutterBottom>
-          Below is a list of users retrieved from the system.
+          Below is a list of platform users.
         </Typography>
         <Box sx={{ p: 2 }}>
           <Button variant="contained" onClick={() => setOpen(true)}>
@@ -288,12 +288,13 @@ export default function PlatformUser() {
             <Table>
               <TableHead>
                 <TableRow sx={{ backgroundColor: '#1976d2' }}>
-                  {['id', 'name', 'email', 'role', 'created_at'].map((col) => (
+                  {['id', 'name', 'email', 'role', 'created_at', 'action'].map((col) => (
                     <TableCell key={col} sx={{ color: '#fff', fontWeight: 'bold' }}>
                       <TableSortLabel
                         active={orderBy === col}
                         direction={orderBy === col ? order : 'asc'}
                         onClick={() => handleSort(col)}
+                        sx={{ color: '#fff' }}
                       >
                         {col.replace('_', ' ').toUpperCase()}
                       </TableSortLabel>
