@@ -89,7 +89,7 @@ const Administrator = {
           id: 'user',
           title: 'User',
           type: 'item',
-          url: '/settings/userRegistration',
+          url: '/settings/user',
           breadcrumbs: false
         }
       ]
