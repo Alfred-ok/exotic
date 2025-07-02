@@ -15,7 +15,7 @@ import PlatformManager from '../views/Settings/PlatformManager';
 import RegisterPlatformUser from '../views/Settings/RegisterPlatformUser';
 import ProtectedRoute from './ProtectedRoute';
 
-// dashboard routing
+// dashboard routingtt
 const DashboardDefault = Loadable(lazy(() => import('views/dashboard/Default')));
 
 // utilities routing
