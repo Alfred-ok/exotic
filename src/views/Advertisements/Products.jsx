@@ -90,7 +90,7 @@ export default function Products() {
     }
     setOpenDialog(true);
   };
-
+/*
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -125,6 +125,47 @@ export default function Products() {
       setLoading(false);
     }
   };
+*/
+
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  setLoading(true);
+
+  try {
+    if (selectedProduct) {
+      // Update
+      const response = await axios.put(
+        `https://api.exoticnairobi.com/api/products/${selectedProduct.id}`,
+        form,
+        {
+          headers: { 'Content-Type': 'application/json' },
+          withCredentials: true
+        }
+      );
+      showAlert('Product updated successfully');
+    } else {
+      // Create
+      const response = await axios.post(
+        'https://api.exoticnairobi.com/api/products',
+        form,
+        {
+          headers: { 'Content-Type': 'application/json' },
+          withCredentials: true
+        }
+      );
+      showAlert('Product created successfully');
+    }
+
+    setOpenDialog(false);
+    setRefreshTrigger(prev => !prev); // ✅ Refresh table after update/create
+  } catch (error) {
+    console.error('Error saving product:', error);
+    showAlert('Failed to save product', 'error');
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   const handleDelete = async () => {
     if (!selectedProduct) return;
@@ -144,6 +185,12 @@ export default function Products() {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+  console.log('Fetching products due to refreshTrigger change');
+  fetchProducts();
+}, [refreshTrigger]);
+
 
   return (
     <MainCard>
