@@ -90,7 +90,28 @@ const ActiveLog = () => {
   console.log(logs);
 
   return (
-    <MainCard title="Activity Log">
+    <MainCard 
+      sx={{
+          boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
+          transition: 'box-shadow 0.3s ease-in-out',
+          '&:hover': {
+            boxShadow: '0 6px 16px rgba(0, 0, 0, 0.15)' // or keep the same value to prevent disappearing
+          }
+        }}
+      title={
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px',
+            backgroundColor: '#1976d2',
+            color: 'white',
+            padding: '20px 16px',
+            borderRadius: '8px'
+          }}>
+            <span>Activity Log</span>
+          </div>
+        }
+    >
       <Grid container spacing={2} alignItems="center" justifyContent="space-between" sx={{ mb: 2 }}>
         <Grid item xs={12} sm={4}>
           <TextField
@@ -142,7 +163,7 @@ const ActiveLog = () => {
       ) : (
         <>
           <Table>
-            <TableHead>
+            <TableHead sx={{ backgroundColor: '#1976d2' }}>
               <TableRow>
                 <TableCell><strong>User</strong></TableCell>
                 <TableCell><strong>Action</strong></TableCell>
@@ -152,8 +173,14 @@ const ActiveLog = () => {
             </TableHead>
             <TableBody>
               {filteredLogs.length > 0 ? (
-                filteredLogs.map((log) => (
-                  <TableRow key={log.id}>
+                filteredLogs.map((log, index) => (
+                  <TableRow key={log.id} sx={{ 
+                      backgroundColor: index % 2 === 0 ? '#f0f8ff' : '#fff',
+                      '&:hover': {
+                          transform: 'translateY(-2px)',
+                          boxShadow: '0 4px 16px rgba(0,0,0,0.12)'
+                       } 
+                    }}>
                     <TableCell>{log.user?.name || 'Anonymous'}</TableCell>
                     <TableCell>{log.action}</TableCell>
                     <TableCell>{new Date(log.created_at).toLocaleString()}</TableCell>
