@@ -36,8 +36,8 @@ export default function AuthLogin() {
   const [checked, setChecked] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
 
-  const [email, setEmail] = useState('alfred@gmail.com');
-  const [password, setPassword] = useState('password254#');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   const [loading, setLoading] = useState(false);
 
