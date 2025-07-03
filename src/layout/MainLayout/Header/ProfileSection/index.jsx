@@ -76,7 +76,7 @@ export default function ProfileSection() {
       localStorage.removeItem('userName');
       localStorage.removeItem('userEmail');
       localStorage.removeItem('userRole');
-
+      localStorage.removeItem('platform');
       // Redirect to login page
       navigate('/pages/login');
     } catch (error) {
@@ -85,6 +85,7 @@ export default function ProfileSection() {
     }
   };
 
+  
 
   const prevOpen = useRef(open);
   useEffect(() => {
