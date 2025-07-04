@@ -35,7 +35,7 @@ const container = document.getElementById('root');
 const root = createRoot(container);
 root.render(
   <ConfigProvider>
-   <GoogleOAuthProvider clientId="YOUR_GOOGLE_CLIENT_ID">
+   <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}>
     <LocalizationProvider dateAdapter={AdapterDayjs}>
         <App />
     </LocalizationProvider> 
