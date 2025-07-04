@@ -37,7 +37,6 @@ export default function PlatformSelector() {
   ];
 
 
-
   useEffect(() => {
     const fetchPlatforms = async () => {
       try {
@@ -93,7 +92,7 @@ export default function PlatformSelector() {
       const response = await fetch('https://api.exoticnairobi.com/api/dashboard-summary', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ platform_id: id }),
+        body: JSON.stringify({ platformId: id }),
       });
 
       if (!response.ok) throw new Error(`Server responded with ${response.status}`);
@@ -101,7 +100,7 @@ export default function PlatformSelector() {
 
       if (result?.platform) {
         localStorage.setItem('platform', result.platform);
-        navigate("/dashboard/default");
+        navigate("/dashboard/default ", { state: { platform_id: id } });
         window.location.reload(); // Force reload after navigation
       } else {
         Swal.fire({

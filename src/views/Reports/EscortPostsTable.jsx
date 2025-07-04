@@ -24,6 +24,7 @@ import ErrorIcon from '@mui/icons-material/Error';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import { useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 const escortStatusOptions = [
   { value: '', label: 'All' },
@@ -40,6 +41,9 @@ const escortHeaders = [
   { id: 'guid', label: 'GUID' },
   { id: 'activation', label: 'Activation' }
 ];
+
+ const location = useLocation();
+ const { platformId } = location.state || {};
 
 
 const EscortPostsTable = () => {
@@ -58,7 +62,7 @@ const EscortPostsTable = () => {
 
   useEffect(() => {
     setLoading(true);
-    axios.post('https://api.exoticnairobi.com/api/escort-posts', { platform_id: 1 })
+    axios.post('https://api.exoticnairobi.com/api/escort-posts', { platform_id: platformId  })
       .then(res => {
         const escortData = res.data.escort_posts.map(post => ({
           id: `P${post.ID}`,

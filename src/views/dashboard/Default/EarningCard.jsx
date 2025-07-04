@@ -26,11 +26,15 @@ import FileCopyTwoToneIcon from '@mui/icons-material/FileCopyOutlined';
 import PictureAsPdfTwoToneIcon from '@mui/icons-material/PictureAsPdfOutlined';
 import ArchiveTwoToneIcon from '@mui/icons-material/ArchiveOutlined';
 import { bouncy } from 'ldrs'
+import { useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 
 export default function EarningCard({ isLoading }) {
   const theme = useTheme();
   bouncy.register()
+  const location = useLocation();
+  const { platformId } = location.state || {};
 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [dashboardData, setDashboardData] = useState({});
@@ -48,7 +52,7 @@ export default function EarningCard({ isLoading }) {
       try {
         const response = await axios.post(
           'https://api.exoticnairobi.com/api/summary',
-          { platform_id: 1 }
+          { platform_id: platformId }
         );
         console.log('Dashboard Response:', response.data); // Check structure
         setDashboardData(response.data);

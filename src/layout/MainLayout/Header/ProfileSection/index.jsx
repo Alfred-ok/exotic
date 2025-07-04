@@ -77,6 +77,7 @@ export default function ProfileSection() {
       localStorage.removeItem('userEmail');
       localStorage.removeItem('userRole');
       localStorage.removeItem('platform');
+
       // Redirect to login page
       navigate('/pages/login');
     } catch (error) {
@@ -84,6 +85,8 @@ export default function ProfileSection() {
       alert('Logout failed: ' + (error.response?.data?.message || 'Something went wrong.'));
     }
   };
+
+
 
   
 

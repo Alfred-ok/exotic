@@ -26,10 +26,14 @@ import SkeletonTotalOrderCard from 'ui-component/cards/Skeleton/EarningCard';
 import LocalMallOutlinedIcon from '@mui/icons-material/LocalMallOutlined';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import { bouncy } from 'ldrs'
+import { useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 
 export default function TotalOrderLineChartCard({ isLoading }) {
   const [dashboardData, setDashboardData] = useState();
+  const location = useLocation();
+  const { platformId } = location.state || {};
 
   const theme = useTheme();
   bouncy.register()
@@ -46,7 +50,7 @@ export default function TotalOrderLineChartCard({ isLoading }) {
         try {
           const response = await axios.post(
             'https://api.exoticnairobi.com/api/summary',
-            { platform_id: 1 }
+            { platform_id: platformId }
           );
           console.log('Dashboard Response:', response.data); // Check structure
           setDashboardData(response.data);
