@@ -4,15 +4,14 @@ import utilities from './utilities';
 import other from './other';
 import platformSelector from './platformSelector';
 import dividlogo from './dividlogo';
-//import administrator from './Administrator';
+import administrator from './Administrator';
 import Report from './Report';
-import getAdministratorMenu from './Administrator';
 
 
 // ==============================|| MENU ITEMS ||============================== //
 //Change
 const menuItems = {
-  items: [dividlogo, platformSelector, dashboard, getAdministratorMenu].filter(Boolean)
+  items: [dividlogo, platformSelector, dashboard, administrator].filter(Boolean)
 };
 
 export default menuItems;
