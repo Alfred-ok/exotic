@@ -26,14 +26,14 @@ import SkeletonTotalOrderCard from 'ui-component/cards/Skeleton/EarningCard';
 import LocalMallOutlinedIcon from '@mui/icons-material/LocalMallOutlined';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import { bouncy } from 'ldrs'
-import { useNavigate } from 'react-router-dom';
-import { useLocation } from 'react-router-dom';
-
+//import { useNavigate } from 'react-router-dom';
+//import { useLocation } from 'react-router-dom';
 
 export default function TotalOrderLineChartCard({ isLoading }) {
   const [dashboardData, setDashboardData] = useState();
-  const location = useLocation();
-  const { platformId } = location.state || {};
+ // const location = useLocation();
+  //const { platformId } = location.state || {};
+  const platformId = localStorage.getItem('platformId');
 
   const theme = useTheme();
   bouncy.register()

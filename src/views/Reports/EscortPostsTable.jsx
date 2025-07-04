@@ -24,7 +24,7 @@ import ErrorIcon from '@mui/icons-material/Error';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import { useNavigate } from 'react-router-dom';
-import { useLocation } from 'react-router-dom';
+//import { useLocation } from 'react-router-dom';
 
 const escortStatusOptions = [
   { value: '', label: 'All' },
@@ -42,8 +42,10 @@ const escortHeaders = [
   { id: 'activation', label: 'Activation' }
 ];
 
- const location = useLocation();
- const { platformId } = location.state || {};
+ //const location = useLocation();
+ //const { platformId } = location.state || {};
+
+ 
 
 
 const EscortPostsTable = () => {
@@ -59,6 +61,8 @@ const EscortPostsTable = () => {
   const [loading, setLoading] = useState(false);
   const totalPosts = posts.length;
   const navigate = useNavigate();
+
+  const platformId = localStorage.getItem('platformId');
 
   useEffect(() => {
     setLoading(true);

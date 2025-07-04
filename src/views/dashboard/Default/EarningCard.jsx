@@ -26,15 +26,17 @@ import FileCopyTwoToneIcon from '@mui/icons-material/FileCopyOutlined';
 import PictureAsPdfTwoToneIcon from '@mui/icons-material/PictureAsPdfOutlined';
 import ArchiveTwoToneIcon from '@mui/icons-material/ArchiveOutlined';
 import { bouncy } from 'ldrs'
-import { useNavigate } from 'react-router-dom';
-import { useLocation } from 'react-router-dom';
+//import { useNavigate } from 'react-router-dom';
+//import { useLocation } from 'react-router-dom';
 
 
 export default function EarningCard({ isLoading }) {
   const theme = useTheme();
-  bouncy.register()
-  const location = useLocation();
-  const { platformId } = location.state || {};
+  bouncy.register();
+  //const location = useLocation();
+  //const { platformId } = location.state || {};
+
+  const platformId = localStorage.getItem('platformId');
 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [dashboardData, setDashboardData] = useState({});

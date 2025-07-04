@@ -100,7 +100,8 @@ export default function PlatformSelector() {
 
       if (result?.platform) {
         localStorage.setItem('platform', result.platform);
-        navigate("/dashboard/default ", { state: { platform_id: id } });
+        localStorage.setItem('platformId', id);
+        navigate("/dashboard/default");
         window.location.reload(); // Force reload after navigation
       } else {
         Swal.fire({
