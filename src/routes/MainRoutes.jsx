@@ -16,6 +16,8 @@ import PlatformUser from '../views/Settings/PlatformUser';
 import ProtectedRoute from './ProtectedRoute';
 import ActiveProfile from '../views/ActiveProfile';
 
+import GoogleAuthCallback from '../views/pages/auth-forms/GoogleAuthCallback';
+
 // dashboard routingtt
 const DashboardDefault = Loadable(lazy(() => import('views/dashboard/Default')));
 
@@ -23,6 +25,7 @@ const DashboardDefault = Loadable(lazy(() => import('views/dashboard/Default')))
 const UtilsTypography = Loadable(lazy(() => import('views/utilities/Typography')));
 const UtilsColor = Loadable(lazy(() => import('views/utilities/Color')));
 const UtilsShadow = Loadable(lazy(() => import('views/utilities/Shadow')));
+
 
 // sample page routing
 const SamplePage = Loadable(lazy(() => import('views/sample-page')));
@@ -101,6 +104,11 @@ const MainRoutes = {
       path: 'active-log',
       element: <ActiveLog/>
     },
+    {
+      path: '/google-auth/callback',
+      element: <GoogleAuthCallback />
+    },
+
     {
       path: 'color',
       element: <UtilsColor />
