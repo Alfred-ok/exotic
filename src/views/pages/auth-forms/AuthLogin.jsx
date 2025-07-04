@@ -7,6 +7,8 @@ import { GoogleLogin } from '@react-oauth/google';
 import Swal from 'sweetalert2';
 
 
+
+
 // material-ui
 import { useTheme } from '@mui/material/styles';
 import {
@@ -80,25 +82,25 @@ export default function AuthLogin() {
 };
 
 
-    const handleLoginSuccess = async () => {
-        try {
-          //const idToken = credentialResponse.credential;
+    const handleLoginSuccess = async (credentialResponse) => {
+    try {
+      const idToken = credentialResponse.credential;
 
-          const response = await axios.post(
-            'https://api.exoticnairobi.com/api/auth/google',
-            //{ token: idToken }
-          );
+      const response = await axios.post(
+        'https://api.exoticnairobi.com/api/auth/google',
+        { token: idToken }
+      );
 
-          console.log('Auth Response:', response.data);
-          Swal.fire('Success', 'Login successful', 'success');
+      console.log('Auth Response:', response.data);
+      Swal.fire('Success', 'Login successful', 'success');
 
-          // Optionally save to localStorage
-          localStorage.setItem('user', JSON.stringify(response.data));
-        } catch (error) {
-          console.error('Google auth failed:', error);
-          Swal.fire('Error', 'Google authentication failed', 'error');
-        }
+      // Optionally save to localStorage
+      localStorage.setItem('user', JSON.stringify(response.data));
+    } catch (error) {
+      console.error('Google auth failed:', error);
+      Swal.fire('Error', 'Google authentication failed', 'error');
     }
+  };
 
 
   return (
@@ -174,8 +176,7 @@ export default function AuthLogin() {
           onError={() => {
             Swal.fire('Error', 'Google sign-in failed', 'error');
           }}
-        />
-        <Button onClick={handleLoginSuccess}>pressgoogle</Button>
+        /> 
       </Box>
       
 
