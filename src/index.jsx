@@ -27,7 +27,7 @@ import '@fontsource/poppins/700.css';
 
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { GoogleOAuthProvider } from '@react-oauth/google';
+//import { GoogleOAuthProvider } from '@react-oauth/google';
 
 // ==============================|| REACT DOM RENDER ||============================== //
 
@@ -35,11 +35,11 @@ const container = document.getElementById('root');
 const root = createRoot(container);
 root.render(
   <ConfigProvider>
-   <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}>
+   {/*<GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}>*/}
     <LocalizationProvider dateAdapter={AdapterDayjs}>
         <App />
     </LocalizationProvider> 
-    </GoogleOAuthProvider>   
+    {/*</GoogleOAuthProvider> */}  
   </ConfigProvider>
 );
 
