@@ -82,24 +82,8 @@ export default function AuthLogin() {
 };
 
 
-    const handleLoginSuccess = async (credentialResponse) => {
-    try {
-      const idToken = credentialResponse.credential;
-
-      const response = await axios.post(
-        'https://api.exoticnairobi.com/api/auth/google',
-        { token: idToken }
-      );
-
-      console.log('Auth Response:', response.data);
-      Swal.fire('Success', 'Login successful', 'success');
-
-      // Optionally save to localStorage
-      localStorage.setItem('user', JSON.stringify(response.data));
-    } catch (error) {
-      console.error('Google auth failed:', error);
-      Swal.fire('Error', 'Google authentication failed', 'error');
-    }
+   const handleGoogleLogin = () => {
+   window.location.href = 'https://api.exoticnairobi.com/api/auth/google';
   };
 
 
@@ -170,13 +154,21 @@ export default function AuthLogin() {
           </Button>
         </AnimateButton>
       </Box>
-      <Box>   
-        <GoogleLogin
-          onSuccess={handleLoginSuccess}
-          onError={() => {
-            Swal.fire('Error', 'Google sign-in failed', 'error');
-          }}
-        /> 
+      <Box sx={{ mt: 2 }}>   
+        <button
+        onClick={handleGoogleLogin}
+        style={{
+          padding: '10px 20px',
+          backgroundColor: '#4285F4',
+          color: '#fff',
+          border: 'none',
+          borderRadius: '5px',
+          fontSize: '16px',
+          cursor: 'pointer',
+        }}
+      >
+        Sign in with Google
+      </button>
       </Box>
       
 
