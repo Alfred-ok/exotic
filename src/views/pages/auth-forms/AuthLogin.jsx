@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { GoogleLogin } from '@react-oauth/google';
 
 
 // material-ui
@@ -77,7 +78,7 @@ export default function AuthLogin() {
   }
 };
 
-
+/*
   useEffect(() => {
     window.google.accounts.id.initialize({
       client_id: 'YOUR_GOOGLE_CLIENT_ID', // Replace with your real client ID
@@ -89,23 +90,31 @@ export default function AuthLogin() {
       { theme: 'outline', size: 'large' }
     );
   }, []);
+*/
 
+    
+  const handleGoogleResponse = async (credentialResponse) => {
+    try {
+      const idToken = credentialResponse.credential;
 
-      const handleGoogleResponse = async (response) => {
-      try {
-        const res = await axios.post('https://api.exoticnairobi.com/api/auth/google');
+      const response = await axios.post(
+        'https://api.exoticnairobi.com/api/auth/google',
+        { token: idToken }
+      );
 
-        const { message, user } = res.data;
+      console.log('Auth Response:', response.data);
+      Swal.fire('Success', 'Login successful', 'success');
 
-        localStorage.setItem('userName', user.name);
-        localStorage.setItem('userEmail', user.email);
-        localStorage.setItem('userRole', user.role);
+        //localStorage.setItem('userName', user.name);
+        //localStorage.setItem('userEmail', user.email);
+        //localStorage.setItem('userRole', user.role);
 
-        alert('Google login successful');
-        navigate('/platform-selector');
-      } catch (error) {
-        alert('Google login failed: ' + (error.response?.data?.message || 'Something went wrong.'));
-      }
+      // Optionally save to localStorage
+      //localStorage.setItem('user', JSON.stringify(response.data));
+      navigate('/platform-selector');
+    } catch (error) {
+      console.error('Google auth failed:', error);
+      Swal.fire('Error', 'Google authentication failed', 'error');
     };
 
 
