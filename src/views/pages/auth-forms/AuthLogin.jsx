@@ -93,10 +93,7 @@ export default function AuthLogin() {
 
       const handleGoogleResponse = async (response) => {
       try {
-        const res = await axios.post('https://api.exoticnairobi.com/api/auth/google', {
-          token: response.credential,
-          email: 'swizzsoft@exotic-online.com'
-        });
+        const res = await axios.post('https://api.exoticnairobi.com/api/auth/google');
 
         const { message, user } = res.data;
 
