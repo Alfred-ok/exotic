@@ -156,20 +156,32 @@ export default function AuthLogin() {
         </AnimateButton>
       </Box>
       <Box sx={{ mt: 2 }}>   
-        <button
-        onClick={handleGoogleLogin}
-        style={{
-          padding: '10px 20px',
-          backgroundColor: '#4285F4',
-          color: '#fff',
-          border: 'none',
-          borderRadius: '5px',
-          fontSize: '16px',
-          cursor: 'pointer',
-        }}
-      >
-        Sign in with Google
-      </button>
+       <button
+          onClick={handleGoogleLogin}
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '10px',
+            padding: '10px 20px',
+            backgroundColor: 'rgba(186, 186, 186, 0.2)',
+            border: '1px solid #ccc',
+            borderRadius: '5px',
+            fontSize: '16px',
+            cursor: 'pointer',
+            width: '100%',
+            color: '#333',
+            fontWeight: 500
+          }}
+        >
+          <img
+            src="https://developers.google.com/identity/images/g-logo.png"
+            alt="Google logo"
+            style={{ width: '20px', height: '20px' }}
+          />
+          Sign in with Google
+        </button>
+
       </Box>
       
 

@@ -8,6 +8,13 @@ export default function GoogleAuthCallback() {
   useEffect(() => {
     const query = new URLSearchParams(window.location.search);
     const token = query.get('token');
+    const error = query.get('error');
+
+    if (error) {
+      Swal.fire('Access Denied', decodeURIComponent(error), 'error');
+      navigate('/');
+      return;
+    }
 
     if (token) {
       try {
