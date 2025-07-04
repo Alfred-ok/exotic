@@ -42,6 +42,8 @@ export default function PlatformSelector() {
   const [success, setSuccess] = useState('');
   const [error, setError] = useState('');
 
+  const role = localStorage.getItem('userRole');
+
 
   const navigate = useNavigate();
   const theme = useTheme();
@@ -112,6 +114,7 @@ export default function PlatformSelector() {
     const res = await axios.post('https://api.exoticnairobi.com/api/platforms', form, {
       headers: { 'Content-Type': 'application/json' }
     });
+    setOpenDialog(false);
 
     Swal.fire({
       icon: 'success',
@@ -146,6 +149,7 @@ export default function PlatformSelector() {
 
   } catch (err) {
     console.error('Error creating platform:', err);
+    setOpenDialog(false);
     Swal.fire({
       icon: 'error',
       title: 'Error',
@@ -223,6 +227,8 @@ export default function PlatformSelector() {
             <span>Platform Selector</span>
           </div>
           <div>
+           {role == 'admin'?
+
             <Button
               variant="contained"
               onClick={() => setOpenDialog(true)}
@@ -238,7 +244,9 @@ export default function PlatformSelector() {
             >
               Add Platform
             </Button>
-
+            :
+            <></>
+           }
           </div>
         </div>
       }
