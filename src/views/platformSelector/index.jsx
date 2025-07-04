@@ -107,16 +107,28 @@ export default function PlatformSelector() {
   const handleSubmit = async (e) => {
   e.preventDefault();
   setLoading(true);
+
   try {
-    await axios.post('https://api.exoticnairobi.com/api/platforms', form, {
+    const res = await axios.post('https://api.exoticnairobi.com/api/platforms', form, {
       headers: { 'Content-Type': 'application/json' }
     });
-    Swal.fire('Success', 'Platform created successfully!', 'success');
+
+    Swal.fire({
+      icon: 'success',
+      title: 'Platform Created',
+      text: `${form.name} was added successfully!`,
+      timer: 2000,
+      showConfirmButton: false
+    });
+
+    // Reset form
     setForm({ name: '', domain: '', country: 'Kenya' });
     setOpenDialog(false);
+
     // Refetch platforms
     const response = await fetch('https://api.exoticnairobi.com/api/platforms');
     const result = await response.json();
+
     if (result.status === 200 && Array.isArray(result.platforms)) {
       const formatted = result.platforms.map((p) => ({
         id: p.id,
@@ -131,13 +143,19 @@ export default function PlatformSelector() {
       setPlatforms(formatted);
       setCountryCounts(counts);
     }
+
   } catch (err) {
     console.error('Error creating platform:', err);
-    Swal.fire('Error', 'Failed to create platform.', 'error');
+    Swal.fire({
+      icon: 'error',
+      title: 'Error',
+      text: err.response?.data?.message || 'Failed to create platform.'
+    });
   } finally {
     setLoading(false);
   }
 };
+
 
 
   const handleCountryClick = async (id) => {
@@ -200,7 +218,7 @@ export default function PlatformSelector() {
           padding: '20px 16px',
           borderRadius: '8px'
         }}>
-          <div>
+          <div style={{display:"flex", alignItems:'center',gap: '8px',}}>
             <PublicIcon />
             <span>Platform Selector</span>
           </div>
@@ -211,7 +229,7 @@ export default function PlatformSelector() {
               startIcon={<AddIcon />}
               sx={{
                 backgroundColor: '#ffffff',
-                color: theme.palette.primary.main,
+                color: theme.palette.secondary[800],
                 '&:hover': {
                   backgroundColor: '#f0f0f0'
                 },
