@@ -169,7 +169,7 @@ export default function PlatformSelector() {
       const response = await fetch('https://api.exoticnairobi.com/api/dashboard-summary', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ platformId: id }),
+        body: JSON.stringify({ platform_id: id }),
       });
 
       if (!response.ok) throw new Error(`Server responded with ${response.status}`);
