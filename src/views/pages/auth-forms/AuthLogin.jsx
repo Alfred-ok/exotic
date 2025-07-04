@@ -80,13 +80,13 @@ export default function AuthLogin() {
 };
 
 
-    const handleLoginSuccess = async (credentialResponse) => {
+    const handleLoginSuccess = async () => {
         try {
-          const idToken = credentialResponse.credential;
+          //const idToken = credentialResponse.credential;
 
           const response = await axios.post(
             'https://api.exoticnairobi.com/api/auth/google',
-            { token: idToken }
+            //{ token: idToken }
           );
 
           console.log('Auth Response:', response.data);
@@ -175,6 +175,7 @@ export default function AuthLogin() {
             Swal.fire('Error', 'Google sign-in failed', 'error');
           }}
         />
+        <Button onClick={handleLoginSuccess}>pressgoogle</Button>
       </Box>
       
 
