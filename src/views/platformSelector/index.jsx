@@ -17,6 +17,17 @@ import Swal from 'sweetalert2';
 import { gridSpacing } from 'store/constant';
 import Country from './Country';
 import MainCard from 'ui-component/cards/MainCard';
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  TextField,
+  Button,
+  Fab
+} from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
+
 
 
 export default function PlatformSelector() {
@@ -25,6 +36,12 @@ export default function PlatformSelector() {
   const [platforms, setPlatforms] = useState([]);
   const [countryCounts, setCountryCounts] = useState({});
   const [selectedTab, setSelectedTab] = useState('');
+
+  const [form, setForm] = useState({ name: '', domain: '', country: 'Kenya' });
+  const [openDialog, setOpenDialog] = useState(false);
+  const [success, setSuccess] = useState('');
+  const [error, setError] = useState('');
+
 
   const navigate = useNavigate();
   const theme = useTheme();
@@ -86,6 +103,43 @@ export default function PlatformSelector() {
     fetchPlatforms();
   }, []);
 
+
+  const handleSubmit = async (e) => {
+  e.preventDefault();
+  setLoading(true);
+  try {
+    await axios.post('https://api.exoticnairobi.com/api/platforms', form, {
+      headers: { 'Content-Type': 'application/json' }
+    });
+    Swal.fire('Success', 'Platform created successfully!', 'success');
+    setForm({ name: '', domain: '', country: 'Kenya' });
+    setOpenDialog(false);
+    // Refetch platforms
+    const response = await fetch('https://api.exoticnairobi.com/api/platforms');
+    const result = await response.json();
+    if (result.status === 200 && Array.isArray(result.platforms)) {
+      const formatted = result.platforms.map((p) => ({
+        id: p.id,
+        name: p.name,
+        domain: p.domain,
+        country: p.country
+      }));
+      const counts = {};
+      countries.forEach(c => {
+        counts[c.name] = formatted.filter(p => p.country === c.name).length;
+      });
+      setPlatforms(formatted);
+      setCountryCounts(counts);
+    }
+  } catch (err) {
+    console.error('Error creating platform:', err);
+    Swal.fire('Error', 'Failed to create platform.', 'error');
+  } finally {
+    setLoading(false);
+  }
+};
+
+
   const handleCountryClick = async (id) => {
     setLoading(true);
     try {
@@ -145,8 +199,21 @@ export default function PlatformSelector() {
           padding: '20px 16px',
           borderRadius: '8px'
         }}>
-          <PublicIcon />
-          <span>Platform Selector</span>
+          <div>
+            <PublicIcon />
+            <span>Platform Selector</span>
+          </div>
+          <div>
+            <Fab
+              color="primary"
+              aria-label="add"
+              onClick={() => setOpenDialog(true)}
+              style={{ position: 'fixed', bottom: 20, right: 20, zIndex: 1000 }}
+            >
+              <AddIcon />
+            </Fab>
+
+          </div>
         </div>
       }
     >
@@ -206,6 +273,50 @@ export default function PlatformSelector() {
           </Grid>
         </Box>
       )}
+
+
+
+
+      {/*Add Platform*/}
+      <Dialog open={openDialog} onClose={() => setOpenDialog(false)}>
+        <DialogTitle>Add New Platform</DialogTitle>
+        <DialogContent>
+          <form onSubmit={handleSubmit} id="platformForm">
+            <TextField
+              autoFocus
+              margin="dense"
+              label="Platform Name"
+              fullWidth
+              value={form.name}
+              onChange={(e) => setForm({ ...form, name: e.target.value })}
+              required
+            />
+            <TextField
+              margin="dense"
+              label="Domain"
+              fullWidth
+              value={form.domain}
+              onChange={(e) => setForm({ ...form, domain: e.target.value })}
+              required
+            />
+            <TextField
+              margin="dense"
+              label="Country"
+              fullWidth
+              value={form.country}
+              onChange={(e) => setForm({ ...form, country: e.target.value })}
+              required
+            />
+          </form>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setOpenDialog(false)}>Cancel</Button>
+          <Button type="submit" form="platformForm" variant="contained" disabled={isLoading}>
+            {isLoading ? 'Saving...' : 'Save'}
+          </Button>
+        </DialogActions>
+      </Dialog>
+
     </MainCard>
   );
 }

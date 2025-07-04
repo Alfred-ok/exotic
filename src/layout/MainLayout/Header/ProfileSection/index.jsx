@@ -73,10 +73,12 @@ export default function ProfileSection() {
       await axios.post('https://api.exoticnairobi.com/api/logout');
       
       // Optionally clear localStorage
-      localStorage.removeItem('userName');
-      localStorage.removeItem('userEmail');
-      localStorage.removeItem('userRole');
-      localStorage.removeItem('platform');
+      //localStorage.removeItem('userName');
+      //localStorage.removeItem('userEmail');
+      //localStorage.removeItem('userRole');
+      //localStorage.removeItem('platform');
+
+      localStorage.clear();
 
       // Redirect to login page
       navigate('/pages/login');
