@@ -51,7 +51,8 @@ export default function FreeTrialActivation() {
     try {
       const response = await axios.post('https://api.exoticnairobi.com/api/activate-profile', {
         post_id: parseInt(postId),
-        days: parseInt(days)
+        days: parseInt(days),
+        product_id: 1,
       });
 
       Swal.fire({
