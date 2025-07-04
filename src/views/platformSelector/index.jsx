@@ -193,6 +193,7 @@ export default function PlatformSelector() {
         <div style={{
           display: 'flex',
           alignItems: 'center',
+          justifyContent:"space-between",
           gap: '8px',
           backgroundColor: theme.palette.secondary[800],
           color: 'white',
