@@ -205,14 +205,21 @@ export default function PlatformSelector() {
             <span>Platform Selector</span>
           </div>
           <div>
-            <Fab
-              color="primary"
-              aria-label="add"
+            <Button
+              variant="contained"
               onClick={() => setOpenDialog(true)}
-              style={{ position: 'fixed', bottom: 20, right: 20, zIndex: 1000 }}
+              startIcon={<AddIcon />}
+              sx={{
+                backgroundColor: '#ffffff',
+                color: theme.palette.primary.main,
+                '&:hover': {
+                  backgroundColor: '#f0f0f0'
+                },
+                fontWeight: 600
+              }}
             >
-              <AddIcon />
-            </Fab>
+              Add Platform
+            </Button>
 
           </div>
         </div>
