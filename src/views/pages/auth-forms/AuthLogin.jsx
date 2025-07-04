@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { GoogleLogin } from '@react-oauth/google';
+import Swal from 'sweetalert2';
 
 
 // material-ui
@@ -79,32 +80,25 @@ export default function AuthLogin() {
 };
 
 
+    const handleLoginSuccess = async (credentialResponse) => {
+        try {
+          const idToken = credentialResponse.credential;
 
-    
-  const handleGoogleResponse = async (credentialResponse) => {
-    try {
-      const idToken = credentialResponse.credential;
+          const response = await axios.post(
+            'https://api.exoticnairobi.com/api/auth/google',
+            { token: idToken }
+          );
 
-      const response = await axios.post(
-        'https://api.exoticnairobi.com/api/auth/google',
-        { token: idToken }
-      );
+          console.log('Auth Response:', response.data);
+          Swal.fire('Success', 'Login successful', 'success');
 
-      console.log('Auth Response:', response.data);
-      Swal.fire('Success', 'Login successful', 'success');
-
-        //localStorage.setItem('userName', user.name);
-        //localStorage.setItem('userEmail', user.email);
-        //localStorage.setItem('userRole', user.role);
-
-      // Optionally save to localStorage
-      //localStorage.setItem('user', JSON.stringify(response.data));
-      navigate('/platform-selector');
-    } catch (error) {
-      console.error('Google auth failed:', error);
-      Swal.fire('Error', 'Google authentication failed', 'error');
-    };
-
+          // Optionally save to localStorage
+          localStorage.setItem('user', JSON.stringify(response.data));
+        } catch (error) {
+          console.error('Google auth failed:', error);
+          Swal.fire('Error', 'Google authentication failed', 'error');
+        }
+    }
 
 
   return (
@@ -173,15 +167,8 @@ export default function AuthLogin() {
             {loading ? 'Signing In...' : 'Sign In'}
           </Button>
         </AnimateButton>
-      </Box>   
-      {/*<Box sx={{ mt: 2 }}>
-        <AnimateButton>
-          <Button color="dark" fullWidth size="large" variant="contained" style={{ color: '#fff' }} onClick={() => navigate('/platform-selector')}>
-            Sign In with Google
-          </Button>
-        </AnimateButton>
-      </Box>*/}
-      <Box sx={{ mt: 2 }}>
+      </Box>
+      <Box>   
         <GoogleLogin
           onSuccess={handleLoginSuccess}
           onError={() => {
@@ -189,6 +176,7 @@ export default function AuthLogin() {
           }}
         />
       </Box>
+      
 
     </>
   );
