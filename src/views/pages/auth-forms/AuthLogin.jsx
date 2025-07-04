@@ -78,19 +78,7 @@ export default function AuthLogin() {
   }
 };
 
-/*
-  useEffect(() => {
-    window.google.accounts.id.initialize({
-      client_id: 'YOUR_GOOGLE_CLIENT_ID', // Replace with your real client ID
-      callback: handleGoogleResponse
-    });
 
-    window.google.accounts.id.renderButton(
-      document.getElementById('googleSignInDiv'),
-      { theme: 'outline', size: 'large' }
-    );
-  }, []);
-*/
 
     
   const handleGoogleResponse = async (credentialResponse) => {
@@ -194,7 +182,12 @@ export default function AuthLogin() {
         </AnimateButton>
       </Box>*/}
       <Box sx={{ mt: 2 }}>
-        <div id="googleSignInDiv" style={{ width: '100%' }}></div>
+        <GoogleLogin
+          onSuccess={handleLoginSuccess}
+          onError={() => {
+            Swal.fire('Error', 'Google sign-in failed', 'error');
+          }}
+        />
       </Box>
 
     </>
