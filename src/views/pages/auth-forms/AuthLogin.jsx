@@ -127,12 +127,12 @@ export default function AuthLogin() {
       </FormControl>
 
       <Grid container sx={{ alignItems: 'center', justifyContent: 'space-between' }}>
-        <Grid>
+        {/*<Grid>
           <FormControlLabel
             control={<Checkbox checked={checked} onChange={(event) => setChecked(event.target.checked)} name="checked" color="primary" />}
             label="Keep me logged in"
           />
-        </Grid>
+        </Grid>*/}
         <Grid>
           <Typography variant="subtitle1" component={Link} to="/forgot-password" color="secondary" sx={{ textDecoration: 'none' }}>
             Forgot Password?

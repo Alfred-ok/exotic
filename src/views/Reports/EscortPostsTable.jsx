@@ -372,9 +372,9 @@ const EscortPostsTable = () => {
                           }}>{post.guid.slice(0, 21)}</a>
                       </TableCell>
                        <TableCell>
-                        <Button variant="contained" color="success" style={{color:"#fff"}} 
+                        <Button variant="contained" color="primary" style={{color:"#fff"}} 
                         onClick={() =>
-                          navigate('/FreeTrialActivation', { state: { id: post.id } })
+                          navigate('/FreeTrialActivation', { state: { id: post.id,  } })
                         }>
                           Free Trial
                         </Button>
