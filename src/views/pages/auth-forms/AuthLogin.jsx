@@ -83,8 +83,8 @@ export default function AuthLogin() {
 
 
    const handleGoogleLogin = () => {
-   window.location.href = 'https://api.exoticnairobi.com/api/auth/google';
-   console.log('touch down');
+   //window.location.href = 'https://api.exoticnairobi.com/api/auth/google';
+   window.open('https://api.exoticnairobi.com/api/auth/google', '_blank');
   };
 
 
