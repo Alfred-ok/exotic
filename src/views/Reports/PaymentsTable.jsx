@@ -479,33 +479,44 @@ console.log('pId',selectedPostId, 'productId', selectedProductId);
      </> 
     )}
 
-    <Dialog open={openModal} onClose={handleCloseModal}>
-      <DialogTitle>Deactivate Profile</DialogTitle>
-      <DialogContent>
-        <Box display="flex" flexDirection="column" gap={2} mt={1} style={{width:"250px", padding:"10px"}}>
-          <TextField
-            label="Post ID"
-            type="number"
-            value={selectedPostId || ''}
-            onChange={(e) => setSelectedPostId(Number(e.target.value))}
-            fullWidth
-          />
-          <TextField
-            label="Product ID"
-            type="number"
-            value={selectedProductId || ''}
-            onChange={(e) => setSelectedProductId(Number(e.target.value))}
-            fullWidth
-          />
-        </Box>
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={handleCloseModal}>Cancel</Button>
-        <Button onClick={handleDeactivate} color="error" variant="contained">
-          Deactivate
-        </Button>
-      </DialogActions>
-    </Dialog>
+   <Dialog
+  open={openModal}
+  onClose={handleCloseModal}
+  PaperProps={{
+    sx: {
+      width: '250px',
+      padding: '16px',
+      borderRadius: '12px'
+    }
+  }}
+>
+  <DialogTitle>Deactivate Profile</DialogTitle>
+  <DialogContent>
+    <Box display="flex" flexDirection="column" gap={2} mt={1}>
+      <TextField
+        label="Post ID"
+        type="number"
+        value={selectedPostId || ''}
+        onChange={(e) => setSelectedPostId(Number(e.target.value))}
+        fullWidth
+      />
+      <TextField
+        label="Product ID"
+        type="number"
+        value={selectedProductId || ''}
+        onChange={(e) => setSelectedProductId(Number(e.target.value))}
+        fullWidth
+      />
+    </Box>
+  </DialogContent>
+  <DialogActions>
+    <Button onClick={handleCloseModal}>Cancel</Button>
+    <Button onClick={handleDeactivate} color="error" variant="contained">
+      Deactivate
+    </Button>
+  </DialogActions>
+</Dialog>
+
 
 
     </MainCard>
