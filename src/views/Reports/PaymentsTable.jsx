@@ -61,7 +61,7 @@ export default function PaymentsTable() {
 
   const [openModal, setOpenModal] = useState(false);
   const [selectedProductId, setSelectedProductId] = useState(null);
-  const [selectedPostId, setSelectedPostId] = useState(null);
+  const [selectedPostId, setSelectedPostId] = useState();
 
   useEffect(() => {
     setLoading(true);
@@ -119,14 +119,14 @@ export default function PaymentsTable() {
 
 const handleOpenModal = (productId, postId) => {
   setSelectedProductId(productId);
-  setSelectedPostId(postId);
+  //setSelectedPostId(postId);
   setOpenModal(true);
 };
 
 const handleCloseModal = () => {
   setOpenModal(false);
   setSelectedProductId(null);
-  setSelectedPostId(null);
+  setSelectedPostId('');
 };
 
 const handleDeactivate = async () => {
@@ -155,6 +155,8 @@ const handleDeactivate = async () => {
   }
 };
 
+
+console.log('pId',selectedPostId, 'productId', selectedProductId);
 
 
 
@@ -478,32 +480,32 @@ const handleDeactivate = async () => {
     )}
 
     <Dialog open={openModal} onClose={handleCloseModal}>
-  <DialogTitle>Deactivate Profile</DialogTitle>
-  <DialogContent>
-    <Box display="flex" flexDirection="column" gap={2} mt={1}>
-      <TextField
-        label="Post ID"
-        type="number"
-        value={selectedPostId || ''}
-        onChange={(e) => setSelectedPostId(Number(e.target.value))}
-        fullWidth
-      />
-      <TextField
-        label="Product ID"
-        type="number"
-        value={selectedProductId || ''}
-        onChange={(e) => setSelectedProductId(Number(e.target.value))}
-        fullWidth
-      />
-    </Box>
-  </DialogContent>
-  <DialogActions>
-    <Button onClick={handleCloseModal}>Cancel</Button>
-    <Button onClick={handleDeactivate} color="error" variant="contained">
-      Deactivate
-    </Button>
-  </DialogActions>
-</Dialog>
+      <DialogTitle>Deactivate Profile</DialogTitle>
+      <DialogContent>
+        <Box display="flex" flexDirection="column" gap={2} mt={1} style={{width:"250px", padding:"10px"}}>
+          <TextField
+            label="Post ID"
+            type="number"
+            value={selectedPostId || ''}
+            onChange={(e) => setSelectedPostId(Number(e.target.value))}
+            fullWidth
+          />
+          <TextField
+            label="Product ID"
+            type="number"
+            value={selectedProductId || ''}
+            onChange={(e) => setSelectedProductId(Number(e.target.value))}
+            fullWidth
+          />
+        </Box>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={handleCloseModal}>Cancel</Button>
+        <Button onClick={handleDeactivate} color="error" variant="contained">
+          Deactivate
+        </Button>
+      </DialogActions>
+    </Dialog>
 
 
     </MainCard>
