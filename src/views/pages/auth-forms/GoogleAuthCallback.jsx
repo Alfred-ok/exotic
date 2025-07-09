@@ -41,46 +41,52 @@ export default function GoogleAuthCallback() {
   */
 
 
-
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
-import axios from 'axios';
+import axios from 'axios'; // or use fetch
+
 export default function GoogleAuthCallback() {
   const navigate = useNavigate();
+
   useEffect(() => {
-    const authenticateWithBackend = async (code) => {
+    const authenticateWithGoogle = async () => {
       try {
-        const response = await axios.get('http://your-api-url/auth/google/callback', {
-          params: { code }
-        });
-        const user = response.data.user;
+        // Extract the code from the URL (Google sends it back)
+        const query = new URLSearchParams(window.location.search);
+        const code = query.get('code');
+
+        if (!code) {
+          throw new Error('No authorization code received.');
+        }
+
+        // Send the code to your backend for verification
+        const response = await axios.get(`/api/auth/google/callback?code=${code}`);
+        // Or using fetch:
+        // const response = await fetch(/api/auth/google/callback?code=${code});
+        // const data = await response.json();
+
+        if (response.data.error) {
+          throw new Error(response.data.error);
+        }
+
+        // Store user data in localStorage
+        const { user } = response.data;
         localStorage.setItem('userName', user.name);
         localStorage.setItem('userEmail', user.email);
         localStorage.setItem('userRole', user.role);
-        Swal.fire('Login Successful', `Welcome ${user.name}`, 'success');
+
+        Swal.fire(`Login Successful, Welcome ${user.name}, success`);
         navigate('/platform-selector');
+
       } catch (error) {
-        Swal.fire('Error', error.response?.data?.error || 'Authentication failed', 'error');
+        Swal.fire('Error', error.message || 'Failed to authenticate with Google', 'error');
         navigate('/');
       }
     };
-    const query = new URLSearchParams(window.location.search);
-    const code = query.get('code');
-    const error = query.get('error');
-    if (error) {
-      Swal.fire('Access Denied', decodeURIComponent(error), 'error');
-      navigate('/');
-      return;
-    }
-    if (code) {
-      authenticateWithBackend(code);
-    } else {
-      // If no code, maybe we got the user data directly (if you change backend to return token in URL)
-      // Otherwise:
-      Swal.fire('Error', 'No authorization code received', 'error');
-      navigate('/');
-    }
+
+    authenticateWithGoogle();
   }, [navigate]);
+
   return <div>Signing in...</div>;
-  }
+}
