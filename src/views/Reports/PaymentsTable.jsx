@@ -331,6 +331,7 @@ const handleDeactivate = async () => {
                   <TableCell style={{ color: '#fff' }}>Status</TableCell>
                   <TableCell style={{ color: '#fff' }}>Reference</TableCell>
                   <TableCell style={{ color: '#fff' }}>Date</TableCell>
+                  <TableCell style={{ color: '#fff' }}>Action</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -417,13 +418,16 @@ const handleDeactivate = async () => {
                         variant="outlined"
                         color="error"
                         size="small"
-                        onClick={() => handleOpenModal(
-                          pay.product === 'VIP' ? 1 : pay.product === 'premimum' ? 2 : 3,
-                          parseInt(pay.id.replace('P', '')) // extract numeric post_id
-                        )}
+                        onClick={() =>
+                          handleOpenModal(
+                            pay.product === 'VIP' ? 1 : pay.product === 'premimum' ? 2 : 3,
+                            parseInt(pay.id.replace('P', ''))
+                          )
+                        }
                       >
                         Deactivate
                       </Button>
+
                     </TableCell>
 
                   </TableRow>
@@ -474,17 +478,33 @@ const handleDeactivate = async () => {
     )}
 
     <Dialog open={openModal} onClose={handleCloseModal}>
-      <DialogTitle>Confirm Deactivation</DialogTitle>
-      <DialogContent>
-        <DialogContentText>
-          Are you sure you want to deactivate product ID: <strong>{selectedProductId}</strong>?
-        </DialogContentText>
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={handleCloseModal}>Cancel</Button>
-        <Button onClick={handleDeactivate} color="error" variant="contained">Confirm</Button>
-      </DialogActions>
-    </Dialog>
+  <DialogTitle>Deactivate Profile</DialogTitle>
+  <DialogContent>
+    <Box display="flex" flexDirection="column" gap={2} mt={1}>
+      <TextField
+        label="Post ID"
+        type="number"
+        value={selectedPostId || ''}
+        onChange={(e) => setSelectedPostId(Number(e.target.value))}
+        fullWidth
+      />
+      <TextField
+        label="Product ID"
+        type="number"
+        value={selectedProductId || ''}
+        onChange={(e) => setSelectedProductId(Number(e.target.value))}
+        fullWidth
+      />
+    </Box>
+  </DialogContent>
+  <DialogActions>
+    <Button onClick={handleCloseModal}>Cancel</Button>
+    <Button onClick={handleDeactivate} color="error" variant="contained">
+      Deactivate
+    </Button>
+  </DialogActions>
+</Dialog>
+
 
     </MainCard>
   );
