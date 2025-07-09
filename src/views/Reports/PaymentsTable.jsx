@@ -21,6 +21,8 @@ import PaidIcon from '@mui/icons-material/Paid'; // Optional: for total amount
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 
+import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
+
 
 const exportToPDF = (data, headers, fileName) => {
   const doc = new jsPDF();
@@ -56,6 +58,10 @@ export default function PaymentsTable() {
   const rowsPerPage = 5;
   zoomies.register();
   const [loading, setLoading] = useState(false);
+
+  const [openModal, setOpenModal] = useState(false);
+  const [selectedProductId, setSelectedProductId] = useState(null);
+  const [selectedPostId, setSelectedPostId] = useState(null);
 
   useEffect(() => {
     setLoading(true);
@@ -101,6 +107,73 @@ export default function PaymentsTable() {
   const handleExportExcel = () => {
     exportToExcel(filteredPayments, 'Payments');
   };
+
+
+
+
+
+
+
+
+
+
+const handleOpenModal = (productId, postId) => {
+  setSelectedProductId(productId);
+  setSelectedPostId(postId);
+  setOpenModal(true);
+};
+
+const handleCloseModal = () => {
+  setOpenModal(false);
+  setSelectedProductId(null);
+  setSelectedPostId(null);
+};
+
+const handleDeactivate = async () => {
+  try {
+    const res = await fetch('https://api.exoticnairobi.com/api/deactivate-profile', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        post_id: selectedPostId,
+        product_id: selectedProductId
+      })
+    });
+
+    const result = await res.json();
+    if (res.ok) {
+      alert("Deactivated successfully!");
+    } else {
+      alert("Error: " + result.message || "Failed to deactivate.");
+    }
+  } catch (error) {
+    alert("Network Error: " + error.message);
+  } finally {
+    handleCloseModal();
+  }
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   return (
     <MainCard 
@@ -339,6 +412,20 @@ export default function PaymentsTable() {
                     </TableCell>
                     <TableCell>{pay.ref}</TableCell>
                     <TableCell>{pay.date}</TableCell>
+                    <TableCell>
+                      <Button
+                        variant="outlined"
+                        color="error"
+                        size="small"
+                        onClick={() => handleOpenModal(
+                          pay.product === 'VIP' ? 1 : pay.product === 'premimum' ? 2 : 3,
+                          parseInt(pay.id.replace('P', '')) // extract numeric post_id
+                        )}
+                      >
+                        Deactivate
+                      </Button>
+                    </TableCell>
+
                   </TableRow>
                 ))}
               </TableBody>
@@ -385,6 +472,20 @@ export default function PaymentsTable() {
     </Box>
      </> 
     )}
+
+    <Dialog open={openModal} onClose={handleCloseModal}>
+      <DialogTitle>Confirm Deactivation</DialogTitle>
+      <DialogContent>
+        <DialogContentText>
+          Are you sure you want to deactivate product ID: <strong>{selectedProductId}</strong>?
+        </DialogContentText>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={handleCloseModal}>Cancel</Button>
+        <Button onClick={handleDeactivate} color="error" variant="contained">Confirm</Button>
+      </DialogActions>
+    </Dialog>
+
     </MainCard>
   );
 }
