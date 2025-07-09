@@ -1,4 +1,4 @@
-
+/*
 import {
   IconReportAnalytics,
   IconSpeakerphone,
@@ -19,6 +19,7 @@ const icons = {
 
 // ==============================|| Administrator ||============================== //
 const platform = localStorage.getItem('platform');
+
 
 const Administrator = {
   id: 'administrator',
@@ -107,3 +108,138 @@ const Administrator = {
 
 //export default Administrator;
 export default platform ? Administrator : null;
+*/
+
+
+import {
+  IconReportAnalytics,
+  IconSpeakerphone,
+  IconKey,
+  IconMessage,
+  IconSettings,
+  IconHistory
+} from '@tabler/icons-react';
+
+const icons = {
+  IconReportAnalytics,
+  IconSpeakerphone,
+  IconKey,
+  IconMessage,
+  IconSettings,
+  IconHistory
+};
+
+const reportsMenu = {
+  id: 'reports',
+  title: 'Reports',
+  type: 'collapse',
+  icon: icons.IconReportAnalytics,
+  children: [
+    {
+      id: 'report-users',
+      title: 'Escort Profiles',
+      type: 'item',
+      url: '/reports/users',
+      breadcrumbs: false
+    },
+    {
+      id: 'report-payments',
+      title: 'Payments',
+      type: 'item',
+      url: '/reports/payments',
+      breadcrumbs: false
+    }
+  ]
+};
+
+const advertisementsMenu = {
+  id: 'advertisements',
+  title: 'Advertisements',
+  type: 'item',
+  url: '/advertisements',
+  icon: icons.IconSpeakerphone,
+  breadcrumbs: false
+};
+
+const activatedProfileMenu = {
+  id: 'ActivatedProfile',
+  title: 'Activated Profile',
+  type: 'item',
+  url: '/ActivatedProfile',
+  icon: icons.IconKey,
+  breadcrumbs: false
+};
+
+const messagesMenu = {
+  id: 'messages',
+  title: 'Messages',
+  type: 'item',
+  url: '/messages',
+  icon: icons.IconMessage,
+  breadcrumbs: false
+};
+
+const settingsMenu = {
+  id: 'settings',
+  title: 'Settings',
+  type: 'collapse',
+  icon: icons.IconSettings,
+  children: [
+    {
+      id: 'platforms',
+      title: 'Platforms',
+      type: 'item',
+      url: '/settings/platforms',
+      breadcrumbs: false
+    },
+    {
+      id: 'user',
+      title: 'Platform User',
+      type: 'item',
+      url: '/settings/user',
+      breadcrumbs: false
+    }
+  ]
+};
+
+const activeLogMenu = {
+  id: 'active-log',
+  title: 'Active Log',
+  type: 'item',
+  url: '/active-log',
+  icon: icons.IconHistory,
+  breadcrumbs: false
+};
+
+const platform = localStorage.getItem('platform');
+const role = localStorage.getItem('userRole'); // 'admin', 'sub-admin', 'sales'
+
+// Define access by role
+let children = [];
+
+if (role === 'admin') {
+  children = [
+    reportsMenu,
+    advertisementsMenu,
+    activatedProfileMenu,
+    messagesMenu,
+    settingsMenu,
+    activeLogMenu
+  ];
+} else if (role === 'sub-admin' || role === 'sales') {
+  children = [
+    reportsMenu,
+    advertisementsMenu,
+    activatedProfileMenu
+  ];
+}
+
+const SidebarMenu = {
+  id: 'menu',
+  title: 'Menu',
+  type: 'group',
+  children
+};
+
+export default platform ? SidebarMenu : null;
+
