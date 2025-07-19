@@ -13,7 +13,7 @@ import { AreaChart, Area, XAxis, YAxis, Tooltip, CartesianGrid, ResponsiveContai
 import MainCard from 'ui-component/cards/MainCard';
 import AssessmentIcon from '@mui/icons-material/Assessment';
 import { zoomies } from 'ldrs'
-import jsPDF from 'jspdf';
+import { jsPDF } from 'jspdf';
 import 'jspdf-autotable';
 
 //icons

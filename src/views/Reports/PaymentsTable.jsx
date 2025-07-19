@@ -3,7 +3,7 @@ import {
   Box, Button, Grid, Paper, Table, TableBody, TableCell, TableContainer, TableHead,
   TableRow, TextField, Pagination, Tabs, Tab
 } from '@mui/material';
-import jsPDF from 'jspdf';
+import { jsPDF } from 'jspdf';
 import 'jspdf-autotable';
 import * as XLSX from 'xlsx';
 import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, Legend } from 'recharts';
@@ -25,23 +25,7 @@ import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 
 
-const exportToPDF = (data, headers, fileName) => {
-  const doc = new jsPDF();
-  doc.text(fileName, 14, 15);
-  doc.autoTable({
-    head: [headers],
-    body: data.map(row => headers.map(h => row[h])),
-    startY: 20
-  });
-  doc.save(`${fileName}.pdf`);
-};
 
-const exportToExcel = (data, fileName) => {
-  const worksheet = XLSX.utils.json_to_sheet(data);
-  const workbook = XLSX.utils.book_new();
-  XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
-  XLSX.writeFile(workbook, `${fileName}.xlsx`);
-};
 
 export default function PaymentsTable() {
   const [payments, setPayments] = useState([]);
@@ -63,6 +47,26 @@ export default function PaymentsTable() {
   const [openModal, setOpenModal] = useState(false);
   const [selectedProductId, setSelectedProductId] = useState(null);
   const [selectedPostId, setSelectedPostId] = useState();
+
+
+
+  const exportToPDF = (data, headers, fileName) => {
+  const doc = new jsPDF();
+  doc.text(fileName, 14, 15);
+  doc.autoTable({
+    head: [headers],
+    body: data.map(row => headers.map(h => row[h])),
+    startY: 20
+  });
+  doc.save(`${fileName}.pdf`);
+};
+
+const exportToExcel = (data, fileName) => {
+  const worksheet = XLSX.utils.json_to_sheet(data);
+  const workbook = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+  XLSX.writeFile(workbook, `${fileName}.xlsx`);
+};
 
   useEffect(() => {
     setLoading(true);
