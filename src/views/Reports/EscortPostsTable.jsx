@@ -7,14 +7,14 @@ import {
   TableHead, TableRow, TableSortLabel, TextField, Pagination, Tabs, Tab,
   Typography
 } from '@mui/material';
-import { jsPDF } from 'jspdf';
-import 'jspdf-autotable';
 import * as XLSX from 'xlsx';
 import { AreaChart, Area, XAxis, YAxis, Tooltip, CartesianGrid, ResponsiveContainer, Legend } from 'recharts';
 
 import MainCard from 'ui-component/cards/MainCard';
 import AssessmentIcon from '@mui/icons-material/Assessment';
 import { zoomies } from 'ldrs'
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
 
 //icons
 import PersonIcon from '@mui/icons-material/Person';
