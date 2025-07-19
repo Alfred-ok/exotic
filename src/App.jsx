@@ -7,12 +7,16 @@ import router from 'routes';
 import NavigationScroll from 'layout/NavigationScroll';
 
 import ThemeCustomization from 'themes';
+import { useRoleChangeRefresh } from './menu-items/Administrator';
 
 // auth provider
 
 // ==============================|| APP ||============================== //
 
 export default function App() {
+
+  useRoleChangeRefresh(); // This will auto-refresh on localStorage role change
+
   return (
     <ThemeCustomization>
       <NavigationScroll>

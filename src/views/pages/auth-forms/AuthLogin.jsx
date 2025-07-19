@@ -67,6 +67,7 @@ export default function AuthLogin() {
 
     const { message, user } = response.data;
 
+    
     // Save to localStorage
     localStorage.setItem('userName', user.name);
     localStorage.setItem('userEmail', user.email);

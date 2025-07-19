@@ -125,7 +125,7 @@ const Messages = () => {
             variant="outlined"
           >
             <MenuItem value="all">All</MenuItem>
-            <MenuItem value="success">Success</MenuItem>
+            <MenuItem value="sent">Sent</MenuItem>
             <MenuItem value="failed">Failed</MenuItem>
           </TextField>
         </Grid>
@@ -151,7 +151,7 @@ const Messages = () => {
                   <TableCell>
                     <Chip
                       label={log.status}
-                      color={log.status === 'success' ? 'success' : 'error'}
+                      color={log.status === 'sent' ? 'success' : 'error'}
                       size="small"
                     />
                   </TableCell>
@@ -161,7 +161,7 @@ const Messages = () => {
           ) : (
             <TableRow>
               <TableCell colSpan={4} align="center">
-                No SMS logs found.
+                Loading messages...
               </TableCell>
             </TableRow>
           )}

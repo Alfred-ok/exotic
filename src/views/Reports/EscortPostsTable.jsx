@@ -38,7 +38,7 @@ const escortHeaders = [
   { id: 'phone', label: 'Phone Number' },
   { id: 'status', label: 'Post Status' },
   { id: 'registered', label: 'Post Date' },
-  { id: 'guid', label: 'GUID' },
+  { id: 'guid', label: 'URL' },
   { id: 'activation', label: 'Activation' }
 ];
 

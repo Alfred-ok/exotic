@@ -111,6 +111,16 @@ export default platform ? Administrator : null;
 */
 
 
+
+
+
+
+
+
+
+
+
+
 import {
   IconReportAnalytics,
   IconSpeakerphone,
@@ -243,3 +253,20 @@ const SidebarMenu = {
 
 export default platform ? SidebarMenu : null;
 
+
+
+// Hook to listen for role changes across tabs
+export function useRoleChangeRefresh() {
+  useEffect(() => {
+    const handleStorageChange = (event) => {
+      if (event.key === 'userRole') {
+        window.location.reload(); // Reload the page if role changes
+      }
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+    };
+  }, []);
+}
