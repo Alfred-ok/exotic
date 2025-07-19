@@ -13,8 +13,8 @@ import { AreaChart, Area, XAxis, YAxis, Tooltip, CartesianGrid, ResponsiveContai
 import MainCard from 'ui-component/cards/MainCard';
 import AssessmentIcon from '@mui/icons-material/Assessment';
 import { zoomies } from 'ldrs'
-import { jsPDF } from 'jspdf';
-import 'jspdf-autotable';
+//import { jsPDF } from 'jspdf';
+//import 'jspdf-autotable';
 
 //icons
 import PersonIcon from '@mui/icons-material/Person';
@@ -118,6 +118,7 @@ const EscortPostsTable = () => {
     setSortConfig({ key: columnId, direction });
   };
 
+  /*
   const exportToPDF = () => {
     const doc = new jsPDF();
     doc.text('Escort Posts', 14, 15);
@@ -129,6 +130,7 @@ const EscortPostsTable = () => {
     });
     doc.save('escort-posts.pdf');
   };
+*/
 
   const exportToExcel = () => {
     const worksheet = XLSX.utils.json_to_sheet(filteredPosts);
@@ -236,7 +238,7 @@ const EscortPostsTable = () => {
           })}
         </div>
         <Box display="flex" justifyContent="flex" gap={2} mb={2} style={{marginTop:"20px"}}>
-            <Button variant="contained" color="secondary" startIcon={<PictureAsPdfIcon />} onClick={exportToPDF}>Export PDF</Button>
+           {/* <Button variant="contained" color="secondary" startIcon={<PictureAsPdfIcon />} onClick={exportToPDF}>Export PDF</Button>*/}
             <Button variant="contained" color="primary" startIcon={<FileDownloadIcon />}  onClick={exportToExcel}>Export Excel</Button>
         </Box>
         </div>

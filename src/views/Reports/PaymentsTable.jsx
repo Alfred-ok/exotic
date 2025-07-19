@@ -3,8 +3,8 @@ import {
   Box, Button, Grid, Paper, Table, TableBody, TableCell, TableContainer, TableHead,
   TableRow, TextField, Pagination, Tabs, Tab
 } from '@mui/material';
-import { jsPDF } from 'jspdf';
-import 'jspdf-autotable';
+//import { jsPDF } from 'jspdf';
+//import 'jspdf-autotable';
 import * as XLSX from 'xlsx';
 import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, Legend } from 'recharts';
 
@@ -49,7 +49,7 @@ export default function PaymentsTable() {
   const [selectedPostId, setSelectedPostId] = useState();
 
 
-
+/*
   const exportToPDF = (data, headers, fileName) => {
   const doc = new jsPDF();
   doc.text(fileName, 14, 15);
@@ -60,6 +60,7 @@ export default function PaymentsTable() {
   });
   doc.save(`${fileName}.pdf`);
 };
+*/
 
 const exportToExcel = (data, fileName) => {
   const worksheet = XLSX.utils.json_to_sheet(data);
@@ -104,10 +105,11 @@ const exportToExcel = (data, fileName) => {
 
 
   const paginatedPayments = filteredPayments.slice((currentPage - 1) * rowsPerPage, currentPage * rowsPerPage);
-
+/*
   const handleExportPDF = () => {
     exportToPDF(filteredPayments, ['id', 'userId', 'phone', 'amount', 'product', 'status', 'ref', 'date'], 'Payments');
   };
+*/
 
   const handleExportExcel = () => {
     exportToExcel(filteredPayments, 'Payments');
@@ -314,7 +316,7 @@ console.log('pId',selectedPostId, 'productId', selectedProductId);
             >
               Export Excel
             </Button>
-
+          {/*      
            <Button
               variant="contained"
               color="secondary"
@@ -323,6 +325,7 @@ console.log('pId',selectedPostId, 'productId', selectedProductId);
             >
               Export PDF
             </Button>
+            */}
           </Box>
           </div>
 
