@@ -49,6 +49,8 @@ export default function ProfileSection() {
 
   const navigate = useNavigate()
 
+  const username = localStorage.getItem('userName');
+
   /**
    * anchorRef is used on different components and specifying one type leads to other components throwing an error
    * */
@@ -168,7 +170,7 @@ export default function ProfileSection() {
                         <Stack direction="row" spacing={0.5} sx={{ alignItems: 'center' }}>
                           <Typography variant="h4">Good Morning,</Typography>
                           <Typography component="span" variant="h4" sx={{ fontWeight: 400 }}>
-                            Johne Doe
+                            {username && username}
                           </Typography>
                         </Stack>
                         {/*<Typography variant="subtitle2">Project Admin</Typography>*/}
@@ -259,13 +261,13 @@ export default function ProfileSection() {
                           '& .MuiListItemButton-root': { mt: 0.5 }
                         }}
                       >
-                        <ListItemButton sx={{ borderRadius: `${borderRadius}px` }} selected={selectedIndex === 0}>
+                        <ListItemButton sx={{ borderRadius: `${borderRadius}px` }} selected={selectedIndex === 0} onClick={navigate('/settings/platforms')}>
                           <ListItemIcon>
                             <IconSettings stroke={1.5} size="20px" />
                           </ListItemIcon>
-                          <ListItemText primary={<Typography variant="body2">Account Settings</Typography>} />
+                          <ListItemText primary={<Typography variant="body2">Settings</Typography>} />
                         </ListItemButton>
-                        <ListItemButton sx={{ borderRadius: `${borderRadius}px` }} selected={selectedIndex === 1}>
+                        <ListItemButton sx={{ borderRadius: `${borderRadius}px` }} selected={selectedIndex === 1} onClick={navigate('/ActivatedProfile')}>
                           <ListItemIcon>
                             <IconUser stroke={1.5} size="20px" />
                           </ListItemIcon>
@@ -273,16 +275,7 @@ export default function ProfileSection() {
                             primary={
                               <Grid container spacing={1} sx={{ justifyContent: 'space-between' }}>
                                 <Grid>
-                                  <Typography variant="body2">Social Profile</Typography>
-                                </Grid>
-                                <Grid>
-                                  <Chip
-                                    label="02"
-                                    variant="filled"
-                                    size="small"
-                                    color="warning"
-                                    sx={{ '& .MuiChip-label': { mt: 0.25 } }}
-                                  />
+                                  <Typography variant="body2">Activated Profile</Typography>
                                 </Grid>
                               </Grid>
                             }
