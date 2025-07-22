@@ -180,7 +180,7 @@ export default function PopularCard() {
 
   const fetchUsers = async (days) => {
     try {
-      const response = await axios.get(`https://api.exoticnairobi.com/api/recent-users?days=${days}`);
+      const response = await axios.get(`https://api.exoticnairobi.com/api/recent-users?platform_id=${1}&days=${days}`);
       const users = response.data.new_users || [];
       setTotalUsers(users.length);
       const top5 = users
