@@ -81,7 +81,11 @@ export default function ProfileSection() {
       localStorage.clear();
 
       // Redirect to login page
-      navigate('/pages/login');
+      //navigate('/pages/login');
+
+      // Redirect with full page reload
+      window.location.href = '/pages/login';
+
     } catch (error) {
       console.error('Logout failed:', error);
       alert('Logout failed: ' + (error.response?.data?.message || 'Something went wrong.'));
