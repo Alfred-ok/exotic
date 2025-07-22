@@ -21,12 +21,14 @@ import {
 import MainCard from 'ui-component/cards/MainCard';
 import CampaignIcon from '@mui/icons-material/Campaign';
 
+
 // Constant product map
 const productMap = {
   VIP: 1,
   premium: 2,
   basic: 3
 };
+
 
 export default function FreeTrialActivation() {
   const [postId, setPostId] = useState('');
@@ -64,6 +66,14 @@ export default function FreeTrialActivation() {
         platform_id: platformId,
         product_id: productMap[selectedProduct]
       });
+
+     /* {
+    "post_id": 462,
+    "days": 30,
+    "is_free_trial": false,
+    "product_id": 3,
+    "platform_id": 1
+}*/
 
       Swal.fire({
         icon: 'success',
