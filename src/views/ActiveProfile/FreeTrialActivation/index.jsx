@@ -59,13 +59,15 @@ export default function FreeTrialActivation() {
     }
 
     setLoading(true);
-    try {
-      const response = await axios.post('https://api.exoticnairobi.com/api/activate-profile', {
+    const activeProfile = {
         post_id: parseInt(postId),
         days: parseInt(days),
         platform_id: platformId,
         product_id: productMap[selectedProduct]
-      });
+      }
+      console.log(activeProfile);
+    try {
+      const response = await axios.post('https://api.exoticnairobi.com/api/activate-profile', activeProfile );
 
      /* {
     "post_id": 462,
