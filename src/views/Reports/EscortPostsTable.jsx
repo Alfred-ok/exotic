@@ -259,7 +259,7 @@ const EscortPostsTable = () => {
             </Grid>
             <Grid item xs={6} sm={2}>
               <TextField
-                label="GUID"
+                label="URL"
                 size="small"
                 fullWidth
                 value={filters.guid}

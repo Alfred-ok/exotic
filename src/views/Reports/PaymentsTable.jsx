@@ -35,7 +35,8 @@ export default function PaymentsTable() {
     phone: '',
     status: '',
     dateFrom: '',
-    dateTo: ''
+    dateTo: '',
+    ref: ''
   });
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -100,6 +101,7 @@ const exportToExcel = (data, fileName) => {
     (!filters.phone || payment.phone.includes(filters.phone)) &&
     (!filters.status || payment.status.toLowerCase().includes(filters.status.toLowerCase())) &&
     (!filters.dateFrom || new Date(payment.date) >= new Date(filters.dateFrom)) &&
+     (!filters.ref || payment.ref.toLowerCase().includes(filters.ref.toLowerCase())) &&
     (!filters.dateTo || new Date(payment.date) <= new Date(filters.dateTo))
   );
 
@@ -114,8 +116,6 @@ const exportToExcel = (data, fileName) => {
   const handleExportExcel = () => {
     exportToExcel(filteredPayments, 'Payments');
   };
-
-
 
 
 
@@ -164,20 +164,6 @@ const handleDeactivate = async () => {
 
 
 console.log('pId',selectedPostId, 'productId', selectedProductId);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -283,6 +269,16 @@ console.log('pId',selectedPostId, 'productId', selectedProductId);
             <Grid item xs={2}><TextField label="Phone" size="small" fullWidth value={filters.phone || ''} onChange={(e) => handleFilterChange('phone', e.target.value)} /></Grid>
             <Grid item xs={2}><TextField label="Status" size="small" fullWidth value={filters.status || ''} onChange={(e) => handleFilterChange('status', e.target.value)} /></Grid>
             {/*<Grid item xs={2}><TextField label="Date" size="small" fullWidth value={filters.date || ''} onChange={(e) => handleFilterChange('date', e.target.value)} placeholder="YYYY-MM-DD" /></Grid>*/}
+            <Grid item xs={2}>
+              <TextField
+                label="Reference"
+                size="small"
+                fullWidth
+                value={filters.ref || ''}
+                onChange={(e) => handleFilterChange('ref', e.target.value)}
+              />
+            </Grid>
+
             <Grid item xs={2}>
               <TextField
                 label="From Date"
