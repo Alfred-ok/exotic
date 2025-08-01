@@ -387,6 +387,7 @@ const handleSendStkPush = async () => {
                   <TableCell style={{ color: '#fff' }}>Reference</TableCell>
                   <TableCell style={{ color: '#fff' }}>Date</TableCell>
                   <TableCell style={{ color: '#fff' }}>Action</TableCell>
+                  <TableCell style={{ color: '#fff' }}></TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -494,7 +495,7 @@ const handleSendStkPush = async () => {
                           handleOpenStkModal(parseInt(pay.userId.replace('U', '')), pay.product)
                         }
                       >
-                      STK-Push
+                      STK Push
                       </Button>
 
                     </TableCell>
@@ -600,13 +601,19 @@ const handleSendStkPush = async () => {
   <DialogTitle>STK Push</DialogTitle>
   <DialogContent>
     <DialogContentText>Enter phone number to send STK push:</DialogContentText>
-    <TextField
+   <TextField
       label="Phone Number"
       fullWidth
-      value={stkPhone}
-      onChange={(e) => setStkPhone(e.target.value)}
+      value={stkPhone.startsWith('254') ? stkPhone.slice(3) : ''}
+      onChange={(e) => {
+        const input = e.target.value.replace(/\D/g, ''); // only digits
+        const trimmed = input.replace(/^0+/, '');
+        setStkPhone(`254${trimmed}`);
+      }}
       margin="normal"
+      helperText="Enter number without 0 (e.g. 712345678)"
     />
+
   </DialogContent>
   <DialogActions>
     <Button onClick={() => setStkModalOpen(false)}>Cancel</Button>
