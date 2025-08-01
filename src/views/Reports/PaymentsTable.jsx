@@ -494,7 +494,7 @@ const handleSendStkPush = async () => {
                           handleOpenStkModal(parseInt(pay.userId.replace('U', '')), pay.product)
                         }
                       >
-                        STK Push
+                      STK-Push
                       </Button>
 
                     </TableCell>
