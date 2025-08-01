@@ -49,6 +49,13 @@ export default function PaymentsTable() {
   const [selectedProductId, setSelectedProductId] = useState(null);
   const [selectedPostId, setSelectedPostId] = useState();
 
+  //STK push
+  const [stkModalOpen, setStkModalOpen] = useState(false);
+  const [stkPhone, setStkPhone] = useState('');
+  const [stkUserId, setStkUserId] = useState(null);
+  const [stkProductId, setStkProductId] = useState(null);
+
+
 
 /*
   const exportToPDF = (data, headers, fileName) => {
@@ -122,7 +129,7 @@ const exportToExcel = (data, fileName) => {
 
 
 
-
+//STK HANDLE FUNCTION
 
 const handleOpenModal = (productId, postId) => {
   setSelectedProductId(productId);
@@ -164,6 +171,48 @@ const handleDeactivate = async () => {
 
 
 console.log('pId',selectedPostId, 'productId', selectedProductId);
+
+//STK MODAL OPEN
+const handleOpenStkModal = (userId, product) => {
+  const productId = product === 'VIP' ? 1 : product === 'premimum' ? 2 : 3;
+  setStkUserId(userId);
+  setStkProductId(productId);
+  setStkModalOpen(true);
+};
+
+
+
+const handleSendStkPush = async () => {
+  try {
+    const res = await fetch('https://api.exoticnairobi.com/api/manual-stk-push', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        product_id: stkProductId,
+        platform_id: 1,
+        user_id: stkUserId,
+        phone: stkPhone,
+        duration: 'monthly',
+      }),
+    });
+
+    const result = await res.json();
+    if (res.ok) {
+      alert('STK push sent successfully!');
+    } else {
+      alert('STK push failed: ' + result.message);
+    }
+  } catch (error) {
+    alert('Network error: ' + error.message);
+  } finally {
+    setStkModalOpen(false);
+    setStkPhone('');
+  }
+};
+
+
 
 
 
@@ -435,6 +484,20 @@ console.log('pId',selectedPostId, 'productId', selectedProductId);
                       </Button>
 
                     </TableCell>
+                    <TableCell>
+                      <Button
+                        variant="outlined"
+                        color="primary"
+                        size="small"
+                        style={{ marginLeft: '8px' }}
+                        onClick={() =>
+                          handleOpenStkModal(parseInt(pay.userId.replace('U', '')), pay.product)
+                        }
+                      >
+                        STK Push
+                      </Button>
+
+                    </TableCell>
 
                   </TableRow>
                 ))}
@@ -483,43 +546,76 @@ console.log('pId',selectedPostId, 'productId', selectedProductId);
      </> 
     )}
 
-   <Dialog
-  open={openModal}
-  onClose={handleCloseModal}
+    <Dialog
+      open={openModal}
+      onClose={handleCloseModal}
+      PaperProps={{
+        sx: {
+          width: '250px',
+          padding: '16px',
+          borderRadius: '12px'
+        }
+      }}
+    >
+      <DialogTitle>Deactivate Profile</DialogTitle>
+      <DialogContent>
+        <Box display="flex" flexDirection="column" gap={2} mt={1}>
+          <TextField
+            label="Post ID"
+            type="number"
+            value={selectedPostId || ''}
+            onChange={(e) => setSelectedPostId(Number(e.target.value))}
+            fullWidth
+          />
+          <TextField
+            label="Product ID"
+            type="number"
+            value={selectedProductId || ''}
+            onChange={(e) => setSelectedProductId(Number(e.target.value))}
+            fullWidth
+          />
+        </Box>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={handleCloseModal}>Cancel</Button>
+        <Button onClick={handleDeactivate} color="error" variant="contained">
+          Deactivate
+        </Button>
+      </DialogActions>
+    </Dialog>
+
+
+
+    <Dialog
+  open={stkModalOpen}
+  onClose={() => setStkModalOpen(false)}
   PaperProps={{
     sx: {
-      width: '250px',
+      width: '300px',
       padding: '16px',
-      borderRadius: '12px'
-    }
+      borderRadius: '12px',
+    },
   }}
 >
-  <DialogTitle>Deactivate Profile</DialogTitle>
+  <DialogTitle>STK Push</DialogTitle>
   <DialogContent>
-    <Box display="flex" flexDirection="column" gap={2} mt={1}>
-      <TextField
-        label="Post ID"
-        type="number"
-        value={selectedPostId || ''}
-        onChange={(e) => setSelectedPostId(Number(e.target.value))}
-        fullWidth
-      />
-      <TextField
-        label="Product ID"
-        type="number"
-        value={selectedProductId || ''}
-        onChange={(e) => setSelectedProductId(Number(e.target.value))}
-        fullWidth
-      />
-    </Box>
+    <DialogContentText>Enter phone number to send STK push:</DialogContentText>
+    <TextField
+      label="Phone Number"
+      fullWidth
+      value={stkPhone}
+      onChange={(e) => setStkPhone(e.target.value)}
+      margin="normal"
+    />
   </DialogContent>
   <DialogActions>
-    <Button onClick={handleCloseModal}>Cancel</Button>
-    <Button onClick={handleDeactivate} color="error" variant="contained">
-      Deactivate
+    <Button onClick={() => setStkModalOpen(false)}>Cancel</Button>
+    <Button onClick={handleSendStkPush} variant="contained" color="primary">
+      Send STK
     </Button>
   </DialogActions>
 </Dialog>
+
 
 
 

@@ -32,7 +32,7 @@ export default function Advertisements() {
             borderRadius: '8px'
           }}>
             <CampaignIcon />
-            <span>Advertisements</span>
+            <span>Packages</span>
           </div>
         }
       >

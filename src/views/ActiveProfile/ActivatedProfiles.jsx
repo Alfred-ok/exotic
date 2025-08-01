@@ -52,7 +52,7 @@ const ActivatedProfiles = () => {
                 padding: '20px 16px',
                 borderRadius: '8px'
               }}>
-                <span>Activated Profiles</span>
+                <span>Free Trials</span>
               </div>
             }
           >
