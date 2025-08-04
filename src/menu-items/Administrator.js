@@ -1,5 +1,3 @@
-
-
 import {
   IconReportAnalytics,
   IconSpeakerphone,
@@ -9,6 +7,7 @@ import {
   IconHistory
 } from '@tabler/icons-react';
 import { useEffect } from 'react';
+
 
 const icons = {
   IconReportAnalytics,
@@ -53,10 +52,10 @@ const advertisementsMenu = {
 };
 
 const activatedProfileMenu = {
-  id: 'ActivatedProfile',
-  title: 'Activated Profile',
+  id: 'Profile',
+  title: 'Profile',
   type: 'item',
-  url: '/ActivatedProfile',
+  url: '/Profile',
   icon: icons.IconKey,
   breadcrumbs: false
 };

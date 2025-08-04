@@ -1,12 +1,12 @@
 import React from 'react'
-import ActivatedProfiles from './ActivatedProfiles'
 import FreeTrialActivation from './FreeTrialActivation'
+import Profiles from './Profiles'
 
 function ActiveProfile() {
   return (
     <div>
         {/*<FreeTrialActivation/>*/} 
-        <ActivatedProfiles/>
+        <Profiles/>
     </div>
   )
 }

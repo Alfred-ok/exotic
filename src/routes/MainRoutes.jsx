@@ -14,9 +14,9 @@ import EscortPostsTable from '../views/Reports/EscortPostsTable';
 import PlatformManager from '../views/Settings/PlatformManager';
 import PlatformUser from '../views/Settings/PlatformUser';
 import ProtectedRoute from './ProtectedRoute';
-import ActiveProfile from '../views/ActiveProfile';
 
 import GoogleAuthCallback from '../views/pages/auth-forms/GoogleAuthCallback';
+import Profiles from '../views/ActiveProfile/Profiles';
 
 // dashboard routingtt
 const DashboardDefault = Loadable(lazy(() => import('views/dashboard/Default')));
@@ -79,8 +79,8 @@ const MainRoutes = {
       element: <Advertisements/>
     },
     {
-      path: 'ActivatedProfile',
-      element: <ActiveProfile/>
+      path: 'Profile',
+      element: <Profiles/>
     },
     {
       path: 'FreeTrialActivation',

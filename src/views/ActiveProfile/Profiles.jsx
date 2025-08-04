@@ -7,7 +7,7 @@ import {
 } from '@mui/material';
 import MainCard from 'ui-component/cards/MainCard';
 
-const ActivatedProfiles = () => {
+const Profiles = () => {
   const [profiles, setProfiles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -93,4 +93,4 @@ const ActivatedProfiles = () => {
   );
 };
 
-export default ActivatedProfiles;
+export default Profiles;
