@@ -56,6 +56,9 @@ export default function PaymentsTable() {
   const [stkProductId, setStkProductId] = useState(null);
 
 
+    const platformId = localStorage.getItem('platformId');
+
+
 
 /*
   const exportToPDF = (data, headers, fileName) => {
@@ -79,7 +82,7 @@ const exportToExcel = (data, fileName) => {
 
   useEffect(() => {
     setLoading(true);
-    fetch('https://api.exoticnairobi.com/api/payments')
+    fetch(`https://api.exoticnairobi.com/api/payments?platform_id=${platformId}`)
       .then(res => res.json())
       .then(data => {
         const transformed = data.payments.map(p => ({

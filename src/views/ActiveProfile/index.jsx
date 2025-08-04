@@ -43,8 +43,8 @@ function ActiveProfile() {
         </Tabs>
       </Box>
 
-      {activeTab === 0 && <Deactive/>}
-      {activeTab === 1 && <Profiles />}
+      {activeTab === 0 && <Profiles />}
+      {activeTab === 1 && <Deactive/>}
     </MainCard>
   );
 }
