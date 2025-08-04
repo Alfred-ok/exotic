@@ -13,9 +13,9 @@ const ActivatedProfiles = () => {
   const [error, setError] = useState('');
 
   useEffect(() => {
-    axios.get('https://api.exoticnairobi.com/api/activated-profiles')
+    axios.get('https://api.exoticnairobi.com/api/activated-profiles?platform_id=1')
       .then(response => {
-        setProfiles(response.data.activated_profiles);
+        setProfiles(response.data.data);
         setLoading(false);
       })
       .catch(error => {
@@ -24,6 +24,8 @@ const ActivatedProfiles = () => {
         setLoading(false);
       });
   }, []);
+
+  console.log(profiles);
 
   if (loading) {
     return <Box display="flex" justifyContent="center"><CircularProgress /></Box>;
