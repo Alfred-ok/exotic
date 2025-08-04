@@ -75,7 +75,7 @@ const MainRoutes = {
     },
 
     {
-      path: 'advertisements',
+      path: '/package',
       element: <Advertisements/>
     },
     {

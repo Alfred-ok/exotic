@@ -42,11 +42,12 @@ const reportsMenu = {
   ]
 };
 
+
 const advertisementsMenu = {
-  id: 'advertisements',
-  title: 'Advertisements',
+  id: 'Package',
+  title: 'Packages',
   type: 'item',
-  url: '/advertisements',
+  url: '/package',
   icon: icons.IconSpeakerphone,
   breadcrumbs: false
 };
