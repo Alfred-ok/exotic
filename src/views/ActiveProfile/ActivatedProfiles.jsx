@@ -11,9 +11,10 @@ const ActivatedProfiles = () => {
   const [profiles, setProfiles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const platformId = localStorage.getItem('platformId');
 
   useEffect(() => {
-    axios.get('https://api.exoticnairobi.com/api/activated-profiles?platform_id=1')
+    axios.get(`https://api.exoticnairobi.com/api/activated-profiles?platform_id=${platformId}`)
       .then(response => {
         setProfiles(response.data.data);
         setLoading(false);
