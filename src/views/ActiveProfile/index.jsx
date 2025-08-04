@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Profiles from './Profiles';
-import MainCard from './MainCard'; // Assuming this is a custom wrapper
 import { Tabs, Tab, Box } from '@mui/material';
+import MainCard from 'ui-component/cards/MainCard';
 import Deactive from './Deactive'
 
 function ActiveProfile() {
