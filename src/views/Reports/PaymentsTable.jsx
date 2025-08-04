@@ -51,7 +51,7 @@ export default function PaymentsTable() {
 
   //STK push
   const [stkModalOpen, setStkModalOpen] = useState(false);
-  const [stkPhone, setStkPhone] = useState( stkPhone.startsWith('254') ? stkPhone.slice(3) : '');
+  const [stkPhone, setStkPhone] = useState('');
   const [stkUserId, setStkUserId] = useState(null);
   const [stkProductId, setStkProductId] = useState(null);
 
