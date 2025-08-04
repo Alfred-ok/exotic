@@ -16,7 +16,7 @@ import PlatformUser from '../views/Settings/PlatformUser';
 import ProtectedRoute from './ProtectedRoute';
 
 import GoogleAuthCallback from '../views/pages/auth-forms/GoogleAuthCallback';
-import Profiles from '../views/ActiveProfile/Profiles';
+import ActiveProfile from '../views/ActiveProfile';
 
 // dashboard routingtt
 const DashboardDefault = Loadable(lazy(() => import('views/dashboard/Default')));
@@ -80,7 +80,7 @@ const MainRoutes = {
     },
     {
       path: 'Profile',
-      element: <Profiles/>
+      element: <ActiveProfile/>
     },
     {
       path: 'FreeTrialActivation',
