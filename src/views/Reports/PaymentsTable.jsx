@@ -51,7 +51,7 @@ export default function PaymentsTable() {
 
   //STK push
   const [stkModalOpen, setStkModalOpen] = useState(false);
-  const [stkPhone, setStkPhone] = useState('');
+  const [stkPhone, setStkPhone] = useState( stkPhone.startsWith('254') ? stkPhone.slice(3) : '');
   const [stkUserId, setStkUserId] = useState(null);
   const [stkProductId, setStkProductId] = useState(null);
 
@@ -495,7 +495,7 @@ const handleSendStkPush = async () => {
                           handleOpenStkModal(parseInt(pay.userId.replace('U', '')), pay.product)
                         }
                       >
-                      STK Push
+                        STK Push
                       </Button>
 
                     </TableCell>
