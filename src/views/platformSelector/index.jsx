@@ -54,7 +54,7 @@ export default function PlatformSelector() {
     { name: 'Nigeria', code: 'ng' },
     { name: 'Tanzania', code: 'tz' },
     { name: 'South Africa', code: 'za' }
-  ];
+  ];  
 
 
   useEffect(() => {

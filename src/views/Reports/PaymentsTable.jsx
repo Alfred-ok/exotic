@@ -82,7 +82,8 @@ const exportToExcel = (data, fileName) => {
 
   useEffect(() => {
     setLoading(true);
-    fetch(`https://api.exoticnairobi.com/api/payments?platform_id=${platformId}`)
+    //fetch(`https://api.exoticnairobi.com/api/payments?platform_id=${platformId}`)
+    fetch(`https://api.exoticnairobi.com/api/payments?platform_id=2`)
       .then(res => res.json())
       .then(data => {
         const transformed = data.payments.map(p => ({
