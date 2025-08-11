@@ -49,6 +49,8 @@ export default function PaymentsTable() {
   const [selectedProductId, setSelectedProductId] = useState(null);
   const [selectedPostId, setSelectedPostId] = useState();
 
+  const [reason, setReason] = useState("");
+
   //STK push
   const [stkModalOpen, setStkModalOpen] = useState(false);
   const [stkPhone, setStkPhone] = useState('');
@@ -86,6 +88,7 @@ const exportToExcel = (data, fileName) => {
     fetch(`https://api.exoticnairobi.com/api/payments?platform_id=2`)
       .then(res => res.json())
       .then(data => {
+        if(data.status == "error"){setReason(data.reason)}
         const transformed = data.payments.map(p => ({
           id: `P${p.payment_id}`,
           userId: `U${p.user_id}`,
@@ -249,6 +252,7 @@ const handleSendStkPush = async () => {
             
           }
       >
+      {reason && <p>{reason}</p>}
       {loading ? (
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: "20px", margin: "0px auto", backgroundColor: 'rgb(240, 242, 246)' }}>
           <l-zoomies
