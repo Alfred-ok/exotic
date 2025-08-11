@@ -252,7 +252,7 @@ const handleSendStkPush = async () => {
             
           }
       >
-      {reason && <p style={{textAlign:"center", margin:"0 auto"}}>{reason}</p>}
+      {reason && <p style={{textAlign:"center", margin:"10px auto"}}>{reason}</p>}
       {loading ? (
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: "20px", margin: "0px auto", backgroundColor: 'rgb(240, 242, 246)' }}>
           <l-zoomies
