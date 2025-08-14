@@ -125,13 +125,14 @@ export default function ProfileSection() {
             sx={{
               bgcolor: 'primary.main',
               margin: '8px 0 8px 8px',
-              cursor: 'pointer'
+              cursor: 'pointer',
+              color:"#fff"
             }}
             ref={anchorRef}
             aria-controls={open ? 'menu-list-grow' : undefined}
             aria-haspopup="true"
           >
-            <AccountCircle fontSize="medium" />
+            <AccountCircle fontSize="medium" color='white' />
           </Avatar>
         }
         label={<IconSettings stroke={1.5} size="24px" />}
