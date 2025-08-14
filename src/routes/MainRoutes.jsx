@@ -17,6 +17,7 @@ import ProtectedRoute from './ProtectedRoute';
 
 import GoogleAuthCallback from '../views/pages/auth-forms/GoogleAuthCallback';
 import ActiveProfile from '../views/ActiveProfile';
+import OveralPayment from '../views/Reports/OveralPayment';
 
 // dashboard routingtt
 const DashboardDefault = Loadable(lazy(() => import('views/dashboard/Default')));
@@ -62,6 +63,10 @@ const MainRoutes = {
     {
       path: 'platform-selector',
       element: <PlatformSelector/>
+    },
+    {
+      path: '/overal-payment',
+      element: <OveralPayment/>
     },
 
     //Reports
