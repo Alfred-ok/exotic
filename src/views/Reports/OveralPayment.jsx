@@ -27,7 +27,7 @@ import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } 
 
 
 
-export default function PaymentsTable() {
+export default function OveralPayment() {
   const [payments, setPayments] = useState([]);
   const [filters, setFilters] = useState({
     id: '',
@@ -84,7 +84,8 @@ const exportToExcel = (data, fileName) => {
 
   useEffect(() => {
     setLoading(true);
-    fetch(`https://api.exoticnairobi.com/api/payments?platform_id=${platformId}`)
+    //fetch(`https://api.exoticnairobi.com/api/payments?platform_id=${platformId}`)
+    fetch("https://api.exoticnairobi.com/api/payments")
       .then(res => res.json())
       .then(data => {
         if(data.status == "error"){setReason(data.reason)}
