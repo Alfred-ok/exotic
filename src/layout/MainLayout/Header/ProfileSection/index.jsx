@@ -140,7 +140,6 @@ export default function ProfileSection() {
         aria-controls={open ? 'menu-list-grow' : undefined}
         aria-haspopup="true"
         onClick={handleToggle}
-        color="primary"
         aria-label="user-account"
       />
       <Popper
