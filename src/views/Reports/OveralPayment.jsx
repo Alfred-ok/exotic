@@ -88,6 +88,7 @@ const exportToExcel = (data, fileName) => {
     fetch("https://api.exoticnairobi.com/api/payments")
       .then(res => res.json())
       .then(data => {
+        console.log(data)
         if(data.status == "error"){setReason(data.reason)}
         const transformed = data.payments.map(p => ({
           id: `P${p.payment_id}`,
@@ -134,7 +135,7 @@ const exportToExcel = (data, fileName) => {
 
 
 
-
+/*
 
 //STK HANDLE FUNCTION
 
@@ -149,7 +150,7 @@ const handleCloseModal = () => {
   setSelectedProductId(null);
   setSelectedPostId('');
 };
-
+/*
 const handleDeactivate = async () => {
   try {
     const res = await fetch('https://api.exoticnairobi.com/api/deactivate-profile', {
@@ -175,8 +176,8 @@ const handleDeactivate = async () => {
     handleCloseModal();
   }
 };
-
-
+*/
+/*
 console.log('pId',selectedPostId, 'productId', selectedProductId);
 
 //STK MODAL OPEN
@@ -218,7 +219,7 @@ const handleSendStkPush = async () => {
     setStkPhone('');
   }
 };
-
+*/
 
 
 
@@ -394,8 +395,8 @@ const handleSendStkPush = async () => {
                   <TableCell style={{ color: '#fff' }}>Status</TableCell>
                   <TableCell style={{ color: '#fff' }}>Reference</TableCell>
                   <TableCell style={{ color: '#fff' }}>Date</TableCell>
-                  <TableCell style={{ color: '#fff' }}>Action</TableCell>
-                  <TableCell style={{ color: '#fff' }}></TableCell>
+                 {/* <TableCell style={{ color: '#fff' }}>Action</TableCell>
+                  <TableCell style={{ color: '#fff' }}></TableCell>*/}
                 </TableRow>
               </TableHead>
               <TableBody>-
@@ -477,6 +478,7 @@ const handleSendStkPush = async () => {
                     </TableCell>
                     <TableCell>{pay.ref}</TableCell>
                     <TableCell>{pay.date}</TableCell>
+                    {/*
                     <TableCell>
                       <Button
                         variant="outlined"
@@ -493,6 +495,7 @@ const handleSendStkPush = async () => {
                       </Button>
 
                     </TableCell>
+                    
                     <TableCell>
                       <Button
                         variant="outlined"
@@ -507,7 +510,7 @@ const handleSendStkPush = async () => {
                       </Button>
 
                     </TableCell>
-
+                    */}
                   </TableRow>
                 ))}
               </TableBody>
@@ -555,6 +558,7 @@ const handleSendStkPush = async () => {
      </> 
     )}
 
+    {/*
     <Dialog
       open={openModal}
       onClose={handleCloseModal}
@@ -592,9 +596,11 @@ const handleSendStkPush = async () => {
         </Button>
       </DialogActions>
     </Dialog>
+        */}
 
 
 
+{/*
     <Dialog
   open={stkModalOpen}
   onClose={() => setStkModalOpen(false)}
@@ -630,7 +636,7 @@ const handleSendStkPush = async () => {
     </Button>
   </DialogActions>
 </Dialog>
-
+*/}
 
 
 

@@ -17,6 +17,14 @@ const platformSelector = {
       url: '/platform-selector',
       icon: icons.IconDashboard,
       breadcrumbs: false
+    },
+    {
+      id: 'Overal Payment',
+      title: 'Overal Payment',
+      type: 'item',
+      url: '/overal-payment',
+      icon: icons.IconDashboard,
+      breadcrumbs: false
     }
   ]
 };
