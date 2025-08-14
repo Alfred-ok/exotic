@@ -35,6 +35,7 @@ import { IconLogout, IconSearch, IconSettings, IconUser } from '@tabler/icons-re
 import axios from 'axios';
 
 import { useNavigate } from 'react-router';
+import { AccountCircle } from '@mui/icons-material';
 
 // ==============================|| PROFILE MENU ||============================== //
 
@@ -121,18 +122,17 @@ export default function ProfileSection() {
         }}
         icon={
           <Avatar
-            src={User1}
-            alt="user-images"
             sx={{
-              ...theme.typography.mediumAvatar,
-              margin: '8px 0 8px 8px !important',
+              bgcolor: 'primary.main',
+              margin: '8px 0 8px 8px',
               cursor: 'pointer'
             }}
             ref={anchorRef}
             aria-controls={open ? 'menu-list-grow' : undefined}
             aria-haspopup="true"
-            color="inherit"
-          />
+          >
+            <AccountCircle fontSize="medium" />
+          </Avatar>
         }
         label={<IconSettings stroke={1.5} size="24px" />}
         ref={anchorRef}
@@ -261,12 +261,14 @@ export default function ProfileSection() {
                           '& .MuiListItemButton-root': { mt: 0.5 }
                         }}
                       >
+                      {/*
                         <ListItemButton sx={{ borderRadius: `${borderRadius}px` }} selected={selectedIndex === 0} >
                           <ListItemIcon>
                             <IconSettings stroke={1.5} size="20px" />
                           </ListItemIcon>
                           <ListItemText primary={<Typography variant="body2">Settings</Typography>} />
                         </ListItemButton>
+
                         <ListItemButton sx={{ borderRadius: `${borderRadius}px` }} selected={selectedIndex === 1}>
                           <ListItemIcon>
                             <IconUser stroke={1.5} size="20px" />
@@ -281,6 +283,7 @@ export default function ProfileSection() {
                             }
                           />
                         </ListItemButton>
+                        */}
                         <ListItemButton sx={{ borderRadius: `${borderRadius}px` }} selected={selectedIndex === 4} onClick={ handleLogout}>
                           <ListItemIcon>
                             <IconLogout stroke={1.5} size="20px" />

@@ -248,7 +248,7 @@ const handleSendStkPush = async () => {
             }}
             >
               <AssessmentIcon />
-              <span>Payment Reports</span>
+              <span>Overal Payment Reports</span>
             </div>
             
           }
