@@ -22,13 +22,15 @@ const LineChartArea = () => {
   const [periodFilter, setPeriodFilter] = useState('month');
   const [loading, setLoading] = useState(true);
 
+  const platformId = localStorage.getItem('platformId');
+
   zoomies.register();
 
   useEffect(() => {
     const fetchPayments = async () => {
       setLoading(true);
       try {
-        const response = await axios.get('https://api.exoticnairobi.com/api/payments');
+        const response = await axios.get(`https://api.exoticnairobi.com/api/payments?platform_id=${platformId}`);
         setPayments(response.data.payments);
         setLoading(false);
       } catch (error) {

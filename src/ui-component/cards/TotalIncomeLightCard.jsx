@@ -44,9 +44,10 @@ const CardWrapper = styled(MainCard)(({ theme }) => ({
 export default function TotalIncomeLightCard({ isLoading, icon, label }) {
   const theme = useTheme();
   const [pendingTotal, setPendingTotal] = useState(0);
+  const platformId = localStorage.getItem('platformId');
 
   useEffect(() => {
-    fetch('https://api.exoticnairobi.com/api/payments')
+    fetch(`https://api.exoticnairobi.com/api/payments?platform_id=${platformId}`)
       .then(res => res.json())
       .then(data => {
         const pendingPayments = data.payments.filter(p => p.status === 'pending');
