@@ -174,6 +174,7 @@ const handleDeactivate = async () => {
       },
       body: JSON.stringify({
         post_id: selectedPostId,
+        platform_id: platformId,
         product_id: selectedProductId
       })
     });
@@ -306,7 +307,7 @@ const handleSendStkPush = async () => {
               startIcon={<CheckCircleIcon />}
             >
               <strong>Success : </strong> KES {filteredPayments
-                .filter(p => p.status.toLowerCase() === 'success')
+                .filter(p => p.status.toLowerCase() === 'completed')
                 .reduce((sum, p) => sum + p.amount, 0)
                 .toFixed(2)}
             </Button>
