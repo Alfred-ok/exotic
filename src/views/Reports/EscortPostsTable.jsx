@@ -148,6 +148,20 @@ const EscortPostsTable = () => {
       count: posts.filter(p => p.status === option.value).length
     }));
 
+
+
+    // ✅ build chart data grouped by registered date
+    const chartDataByDate = Object.values(
+      posts.reduce((acc, post) => {
+        const date = post.registered; // already in yyyy-mm-dd format
+        if (!acc[date]) {
+          acc[date] = { date, count: 0 };
+        }
+        acc[date].count += 1;
+        return acc;
+      }, {})
+    ).sort((a, b) => new Date(a.date) - new Date(b.date));
+
   return (
     <>
     <MainCard 
@@ -401,16 +415,26 @@ const EscortPostsTable = () => {
           </Box>
         </>
       ) : (
-        <ResponsiveContainer width="100%" height={400}>
-          <AreaChart data={chartData} margin={{ top: 20, right: 30, left: 0, bottom: 0 }}>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="status" />
-            <YAxis allowDecimals={false} />
-            <Tooltip />
-            <Legend />
-            <Area type="monotone" dataKey="count" stroke="#1976d2" fill="#90caf9" strokeWidth={3} />
-          </AreaChart>
-        </ResponsiveContainer>
+         <ResponsiveContainer width="100%" height={400}>
+            <AreaChart
+              data={chartDataByDate}
+              margin={{ top: 20, right: 30, left: 0, bottom: 0 }}
+            >
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="date" />
+              <YAxis allowDecimals={false} />
+              <Tooltip />
+              <Legend />
+              <Area
+                type="monotone"
+                dataKey="count"
+                name="Profiles Registered"
+                stroke="#1976d2"
+                fill="#90caf9"
+                strokeWidth={3}
+              />
+            </AreaChart>
+          </ResponsiveContainer>
       )}
       </> 
     )}
