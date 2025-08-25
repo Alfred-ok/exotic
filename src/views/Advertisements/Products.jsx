@@ -207,7 +207,7 @@ const handleSubmit = (e) => {
       </Paper>
 
       {/* Product Form Dialog */}
-      <Dialog open={openDialog} onClose={() => setOpenDialog(false)} maxWidth="sm" fullWidth>
+      <Dialog open={openDialog} onClose={onClose={handleCloseDialog}} maxWidth="sm" fullWidth>
         <DialogTitle>{selectedProduct ? 'Edit Product' : 'Create Product'}</DialogTitle>
         <DialogContent>
           <form id="product-form" onSubmit={handleSubmit}>
@@ -245,7 +245,7 @@ const handleSubmit = (e) => {
           </form>
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setOpenDialog(false)} disabled={loading}>Cancel</Button>
+          <Button onClick={onClose={handleCloseDialog}} disabled={loading}>Cancel</Button>
           <Button type="submit" form="product-form" variant="contained" disabled={loading}>
             {loading ? 'Saving...' : selectedProduct ? 'Update' : 'Create'}
           </Button>
