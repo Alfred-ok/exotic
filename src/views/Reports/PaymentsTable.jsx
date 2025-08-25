@@ -127,7 +127,7 @@ useEffect(() => {
   const filteredPayments = payments.filter(payment =>
     (!filters.id || payment.id.toLowerCase().includes(filters.id.toLowerCase())) &&
     (!filters.userId || payment.userId.toLowerCase().includes(filters.userId.toLowerCase())) &&
-    (!filters.phone || payment.phone.includes(filters.phone)) &&
+    (!filters.phone || ((payment.phone || "").toString().toLowerCase().includes(filters.phone.toLowerCase()))) &&
     (!filters.status || payment.status.toLowerCase().includes(filters.status.toLowerCase())) &&
     (!filters.dateFrom || new Date(payment.date) >= new Date(filters.dateFrom)) &&
      (!filters.ref || payment.ref.toLowerCase().includes(filters.ref.toLowerCase())) &&
@@ -464,7 +464,7 @@ const handleSendStkPush = async () => {
                       <Box
                         sx={{
                           backgroundColor:
-                            pay.status === 'success'
+                            pay.status === 'completed'
                               ? '#d4edda'
                               : pay.status === 'pending'
                               ? '#fff3cd'
@@ -472,7 +472,7 @@ const handleSendStkPush = async () => {
                               ? '#f8d7da'
                               : '#e0e0e0',
                           color:
-                            pay.status === 'success'
+                            pay.status === 'completed'
                               ? '#155724'
                               : pay.status === 'pending'
                               ? '#856404'
