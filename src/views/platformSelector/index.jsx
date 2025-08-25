@@ -671,7 +671,8 @@ export default function PlatformSelector() {
                       position: 'relative',
                       border: '1px solid #ddd',
                       borderRadius: '8px',
-                      padding: '10px'
+                      padding: '10px',
+                      backgroundColor:"#5d3ac7ff"
                     }}
                   >
                     {role === 'admin' && (
@@ -680,11 +681,11 @@ export default function PlatformSelector() {
                           size="small"
                           onClick={(e) => setAnchorEl({ id: platform.id, anchor: e.currentTarget })}
                         >
-                          <MoreVertIcon fontSize="small" />
+                          <MoreVertIcon fontSize="small" style={{color:"#fff"}}/>
                         </IconButton>
                       </Box>
                     )}
-                    
+
                     <div onClick={() => !isLoading && handleCountryClick(platform.id)}>
                       <Country isLoading={false} dat={platform} />
                     </div>
