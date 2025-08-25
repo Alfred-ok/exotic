@@ -63,6 +63,7 @@ const EscortPostsTable = () => {
   const navigate = useNavigate();
 
   const platformId = localStorage.getItem('platformId');
+  const role = localStorage.getItem('userRole');
 
   useEffect(() => {
     setLoading(true);
@@ -140,6 +141,7 @@ const EscortPostsTable = () => {
     XLSX.utils.book_append_sheet(workbook, worksheet, 'EscortPosts');
     XLSX.writeFile(workbook, 'escort-posts.xlsx');
   };
+
 
   const chartData = escortStatusOptions
     .filter(option => option.value)
@@ -389,6 +391,8 @@ const EscortPostsTable = () => {
                             cursor: 'pointer'
                           }}>{post.guid.slice(0, 21)}</a>
                       </TableCell>
+
+                      { role === "sub-admin"|| role === "admin" ?
                        <TableCell>
                         <Button variant="contained" color="primary" style={{color:"#fff"}} 
                         onClick={() =>
@@ -397,6 +401,9 @@ const EscortPostsTable = () => {
                           Free Trial
                         </Button>
                        </TableCell>
+                       : null
+                       }
+
                   </TableRow>
                 ))}
                 
