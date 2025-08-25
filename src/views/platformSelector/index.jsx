@@ -672,7 +672,7 @@ export default function PlatformSelector() {
                       border: '1px solid #ddd',
                       borderRadius: '8px',
                       padding: '10px',
-                      backgroundColor:"#5d3ac7ff"
+                      backgroundColor:"#4527a0"
                     }}
                   >
                     {role === 'admin' && (
