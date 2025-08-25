@@ -78,6 +78,8 @@ const EscortPostsTable = () => {
         }));
 
         setPosts(escortData);
+
+        console.log(escortData);
         setLoading(false);
       })
       .catch(err => console.error('Failed to fetch escort posts:', err));
