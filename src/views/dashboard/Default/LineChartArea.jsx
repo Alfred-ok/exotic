@@ -18,7 +18,7 @@ import { zoomies } from 'ldrs'
 const LineChartArea = () => {
   const [payments, setPayments] = useState([]);
   const [filteredPayments, setFilteredPayments] = useState([]);
-  const [statusFilter, setStatusFilter] = useState('success');
+  const [statusFilter, setStatusFilter] = useState('completed');
   const [periodFilter, setPeriodFilter] = useState('month');
   const [loading, setLoading] = useState(true);
 
@@ -151,12 +151,12 @@ const LineChartArea = () => {
         <FormControlLabel
           control={
             <Switch
-              checked={statusFilter === 'success'}
+              checked={statusFilter === 'completed'}
               onChange={(e) => setStatusFilter(e.target.checked ? 'success' : 'pending')}
               color="primary"
             />
           }
-          label={statusFilter === 'success' ? 'Processed payments' : 'Pending payments'}
+          label={statusFilter === 'completed' ? 'Processed payments' : 'Pending payments'}
         />
       </div>
       </>
