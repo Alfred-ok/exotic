@@ -668,11 +668,11 @@ export default function PlatformSelector() {
                     </div>
                     {role === 'admin' && (
                       <Box display="flex" justifyContent="flex-end" mt={1}>
-                        <IconButton size="small" onClick={() => handleEdit(platform)}>
-                          <EditIcon fontSize="small" />
+                        <IconButton size="small" onClick={() => handleEdit(platform)} style={{padding:"5px", backgroundColor:"rgba(203, 203, 203, 1)"}}>
+                          <h4 style={{marginLeft:"5px"}}>Update</h4><EditIcon fontSize="small" />
                         </IconButton>
-                        <IconButton size="small" onClick={() => handleDelete(platform.id, platform.name)}>
-                          <DeleteIcon fontSize="small" color="error" />
+                        <IconButton size="small" onClick={() => handleDelete(platform.id, platform.name)} style={{padding:"5px", backgroundColor:"rgba(203, 203, 203, 1)"}}>
+                          <h4 style={{marginLeft:"5px"}}>Delete</h4><DeleteIcon fontSize="small" color="error" />
                         </IconButton>
                       </Box>
                     )}
