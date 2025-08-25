@@ -372,6 +372,10 @@ import { useTheme } from '@mui/material/styles';
 import PublicIcon from '@mui/icons-material/Public';
 import Swal from 'sweetalert2';
 
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+
 import { gridSpacing } from 'store/constant';
 import Country from './Country';
 import MainCard from 'ui-component/cards/MainCard';
@@ -404,6 +408,9 @@ export default function PlatformSelector() {
   const role = localStorage.getItem('userRole');
   const navigate = useNavigate();
   const theme = useTheme();
+
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
 
   const countries = [
     { name: 'Kenya', code: 'ke' },
@@ -583,6 +590,10 @@ export default function PlatformSelector() {
     setSelectedTab(newValue);
   };
 
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
+
   return (
     <MainCard
       title={
@@ -668,14 +679,15 @@ export default function PlatformSelector() {
                     </div>
                     {role === 'admin' && (
                       <Box display="flex" justifyContent="flex-end" mt={1}>
-                        <IconButton size="small" onClick={() => handleEdit(platform)} style={{padding:"5px", backgroundColor:"rgba(203, 203, 203, 1)"}}>
-                          <h4 style={{marginLeft:"5px"}}>Update</h4><EditIcon fontSize="small" />
-                        </IconButton>
-                        <IconButton size="small" onClick={() => handleDelete(platform.id, platform.name)} style={{padding:"5px", backgroundColor:"rgba(203, 203, 203, 1)"}}>
-                          <h4 style={{marginLeft:"5px"}}>Delete</h4><DeleteIcon fontSize="small" color="error" />
+                        <IconButton
+                          size="small"
+                          onClick={(e) => setAnchorEl({ id: platform.id, anchor: e.currentTarget })}
+                        >
+                          <MoreVertIcon fontSize="small" />
                         </IconButton>
                       </Box>
                     )}
+
                   </div>
                 </Grid>
               ))}
@@ -722,6 +734,31 @@ export default function PlatformSelector() {
           </Button>
         </DialogActions>
       </Dialog>
+
+      <Menu
+        anchorEl={anchorEl?.anchor}
+        open={Boolean(anchorEl)}
+        onClose={handleMenuClose}
+      >
+        <MenuItem
+          onClick={() => {
+            const platform = platforms.find(p => p.id === anchorEl.id);
+            if (platform) handleEdit(platform);
+            handleMenuClose();
+          }}
+        >
+          <EditIcon fontSize="small" style={{ marginRight: 8 }} /> Update
+        </MenuItem>
+        <MenuItem
+          onClick={() => {
+            handleDelete(anchorEl.id, platforms.find(p => p.id === anchorEl.id)?.name);
+            handleMenuClose();
+          }}
+        >
+          <DeleteIcon fontSize="small" color="error" style={{ marginRight: 8 }} /> Delete
+        </MenuItem>
+      </Menu>
+
     </MainCard>
   );
 }
