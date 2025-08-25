@@ -50,7 +50,7 @@ export default function TotalIncomeLightCard({ isLoading, icon, label }) {
     fetch(`https://api.exoticnairobi.com/api/payments?platform_id=${platformId}`)
       .then(res => res.json())
       .then(data => {
-        const pendingPayments = data.payments.filter(p => p.status === 'pending');
+        const pendingPayments = data.payments.filter(p => p.status === 'failed');
         const totalAmount = pendingPayments.reduce((sum, p) => sum + parseFloat(p.amount), 0);
         setPendingTotal(totalAmount);
       })
@@ -88,7 +88,7 @@ export default function TotalIncomeLightCard({ isLoading, icon, label }) {
                   }
                   secondary={
                     <Typography variant="subtitle2" sx={{ color: 'grey.500', mt: 0.5 }}>
-                      Pending payment
+                      Failed payment
                     </Typography>
                   }
                 />
