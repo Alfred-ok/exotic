@@ -152,7 +152,7 @@ const LineChartArea = () => {
           control={
             <Switch
               checked={statusFilter === 'completed'}
-              onChange={(e) => setStatusFilter(e.target.checked ? 'success' : 'pending')}
+              onChange={(e) => setStatusFilter(e.target.checked ? 'completed' : 'pending')}
               color="primary"
             />
           }

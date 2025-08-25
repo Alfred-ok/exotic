@@ -59,7 +59,7 @@ export default function TotalIncomeDarkCard({ isLoading }) {
 
         console.log(payments);
         const total = payments
-          .filter((payment) => payment.status === 'success')
+          .filter((payment) => payment.status === 'completed')
           .reduce((sum, payment) => sum + parseFloat(payment.amount || 0), 0);
 
         setTotalSuccess(total);
