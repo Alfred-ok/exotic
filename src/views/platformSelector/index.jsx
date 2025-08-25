@@ -674,9 +674,6 @@ export default function PlatformSelector() {
                       padding: '10px'
                     }}
                   >
-                    <div onClick={() => !isLoading && handleCountryClick(platform.id)}>
-                      <Country isLoading={false} dat={platform} />
-                    </div>
                     {role === 'admin' && (
                       <Box display="flex" justifyContent="flex-end" mt={1}>
                         <IconButton
@@ -687,6 +684,11 @@ export default function PlatformSelector() {
                         </IconButton>
                       </Box>
                     )}
+                    
+                    <div onClick={() => !isLoading && handleCountryClick(platform.id)}>
+                      <Country isLoading={false} dat={platform} />
+                    </div>
+                    
 
                   </div>
                 </Grid>
