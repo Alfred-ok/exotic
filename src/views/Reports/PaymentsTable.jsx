@@ -82,13 +82,25 @@ const exportToExcel = (data, fileName) => {
   XLSX.writeFile(workbook, `${fileName}.xlsx`);
 };
 
-  useEffect(() => {
-    setLoading(true);
-    fetch(`https://api.exoticnairobi.com/api/payments?platform_id=${platformId}`)
-      .then(res => res.json())
-      .then(data => {
-        if(data.status == "error"){setReason(data.reason)}
-        const transformed = data.payments.map(p => ({
+useEffect(() => {
+  setLoading(true);
+  fetch(`https://api.exoticnairobi.com/api/payments?platform_id=${platformId}`)
+    .then(res => res.json())
+    .then(data => {
+      if (data.status === "error") {
+        setReason(data.reason);
+        setLoading(false);
+        return;
+      }
+
+      const today = new Date();
+
+      const transformed = data.payments.map(p => {
+        const endDate = new Date(p.end_date);
+        const diffTime = endDate - today; // ms
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); // convert to days
+
+        return {
           id: `P${p.payment_id}`,
           userId: `U${p.user_id}`,
           phone: p.phone,
@@ -96,13 +108,17 @@ const exportToExcel = (data, fileName) => {
           product: p.product,
           status: p.status,
           ref: p.transaction_reference || 'N/A',
-          date: p.created_at.split(' ')[0]
-        }));
-        setPayments(transformed);
-        setLoading(false);
-      })
-      .catch(err => console.error('Error fetching payments:', err));
-  }, []);
+          date: p.created_at.split(' ')[0],
+          expirationDays: diffDays < 0 ? 0 : diffDays // if expired, show 0
+        };
+      });
+
+      setPayments(transformed);
+      setLoading(false);
+    })
+    .catch(err => console.error('Error fetching payments:', err));
+}, []);
+
 
   const handleFilterChange = (field, value) => {
     setFilters(prev => ({ ...prev, [field]: value }));
@@ -393,6 +409,7 @@ const handleSendStkPush = async () => {
                   <TableCell style={{ color: '#fff' }}>Status</TableCell>
                   <TableCell style={{ color: '#fff' }}>Reference</TableCell>
                   <TableCell style={{ color: '#fff' }}>Date</TableCell>
+                  <TableCell style={{ color: '#fff' }}>Expires In</TableCell>
                   <TableCell style={{ color: '#fff' }}>Action</TableCell>
                   <TableCell style={{ color: '#fff' }}></TableCell>
                 </TableRow>
@@ -476,6 +493,10 @@ const handleSendStkPush = async () => {
                     </TableCell>
                     <TableCell>{pay.ref}</TableCell>
                     <TableCell>{pay.date}</TableCell>
+                    <TableCell>
+                      {pay.expirationDays} days
+                    </TableCell>
+
                     <TableCell>
                       <Button
                         variant="outlined"
