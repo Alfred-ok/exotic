@@ -237,15 +237,15 @@ export default function AuthLogin() {
       if (event.origin !== window.location.origin) return;
 
       if (event.data.type === 'GOOGLE_LOGIN_SUCCESS') {
-        const { token, user } = event.data;
+        const { message, user } = event.data;
 
         console.log(event.data);
         console.log(user)
-        console.log(token);
+        console.log(message);
 
-        // Save unified structure
-        localStorage.setItem('token', token);
-        localStorage.setItem('user', JSON.stringify(user));
+        localStorage.setItem('userName', user.name);
+        localStorage.setItem('userEmail', user.email);
+        localStorage.setItem('userRole', user.role);
 
         //Swal.fire('Success', `Welcome ${user.name}`, 'success');
         alert('Success', `Welcome ${user.name}`)
