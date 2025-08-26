@@ -231,6 +231,8 @@ export default function AuthLogin() {
   const [loading, setLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
   const [error, setError] = useState('');
+  const [user, setUser] = useState(null);
+
 
   // Handle popup message for Google auth
   useEffect(() => {
