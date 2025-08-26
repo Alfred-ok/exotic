@@ -235,38 +235,11 @@ export default function AuthLogin() {
 
 
   // Handle popup message for Google auth
-  useEffect(() => {
-    const handleMessage = (event) => {
-      if (event.origin !== window.location.origin) return;
-
-      console.log(event);
-
-      if (event.data.type === 'GOOGLE_LOGIN_SUCCESS') {
-        const { message, user } = event.data;
-
-        console.log(event.data);
-        console.log(user)
-        console.log(message);
-
-        localStorage.setItem('userName', user.name);
-        localStorage.setItem('userEmail', user.email);
-        localStorage.setItem('userRole', user.role);
-
-        //Swal.fire('Success', `Welcome ${user.name}`, 'success');
-        alert('Success', `Welcome ${user.name}`)
-        navigate('/platform-selector');
-      } else if (event.data.type === 'GOOGLE_LOGIN_ERROR') {
-        Swal.fire('Error', event.data.error || 'Authentication failed', 'error');
-        setGoogleLoading(false);
-      }
-    };
-
-    window.addEventListener('message', handleMessage);
-    return () => window.removeEventListener('message', handleMessage);
-  }, [navigate]);
-
   const handleClickShowPassword = () => setShowPassword(!showPassword);
   const handleMouseDownPassword = (event) => event.preventDefault();
+
+
+  
 
   // Email/password login
   const handleLogin = async () => {
@@ -294,79 +267,73 @@ export default function AuthLogin() {
   };
 
 
+
+
     const handleGoogleLogin = () => {
-    setGoogleLoading(true);
-    setError('');
-    
-    // Open Google auth in a popup
-    const width = 600;
-    const height = 600;
-    const left = (window.innerWidth - width) / 2;
-    const top = (window.innerHeight - height) / 2;
-    
-    const authWindow = window.open(
-      `${API_BASE_URL}/auth/google`,
-      'Google Auth',
-      `width=${width},height=${height},top=${top},left=${left}`
-    );
-    
+  setGoogleLoading(true);
+  setError('');
 
-       // Check if the popup was blocked
-    if (!authWindow || authWindow.closed || typeof authWindow.closed === 'undefined') {
-      setError('Popup was blocked by your browser. Please allow popups for this site.');
-      setGoogleLoading(false);
-      return;
-    }
-    
-    // Check for popup closure and authentication status
-    const checkAuthStatus = setInterval(async () => {
-      if (authWindow.closed) {
-        clearInterval(checkAuthStatus);
-        
-        // After popup closes, check if we're authenticated
-        try {
-          const response = await fetch(`${API_BASE_URL}/auth/status`, {
-            method: 'GET',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            credentials: 'include', // Important for sessions
-          });
+  const width = 600;
+  const height = 600;
+  const left = (window.innerWidth - width) / 2;
+  const top = (window.innerHeight - height) / 2;
 
-          console.log(response);
-          
-          if (response.ok) {
-            const data = await response.json();
+  const authWindow = window.open(
+    `${API_BASE_URL}/auth/google`,
+    'Google Auth',
+    `width=${width},height=${height},top=${top},left=${left}`
+  );
 
-              // 👇 This will log exactly what you pasted
-              console.log("Auth response from Google popup:", data);
-              console.log("User object:", data.user);
-              console.log("Token:", data.token);
-            
-            if (data.authenticated && data.user) {
-              // Store user data
-              localStorage.setItem('user', JSON.stringify(data.user));
-              localStorage.setItem('token', data.token);
+  if (!authWindow || authWindow.closed || typeof authWindow.closed === 'undefined') {
+    setError('Popup was blocked by your browser. Please allow popups for this site.');
+    setGoogleLoading(false);
+    return;
+  }
 
-              console.log(data);
-              
-              // Update state
-              setUser(data.user);
-              setError('');
-            } else {
-              setError('Authentication failed. Please try again.');
-            }
+  const checkAuthStatus = setInterval(async () => {
+    if (authWindow.closed) {
+      clearInterval(checkAuthStatus);
+
+      try {
+        const response = await fetch(`${API_BASE_URL}/auth/status`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          credentials: 'include',
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          console.log("Auth response from Google popup:", data);
+
+          if (data.authenticated && data.user) {
+            // ✅ Store just like email login
+            localStorage.setItem('userName', data.user.name);
+            localStorage.setItem('userEmail', data.user.email);
+            localStorage.setItem('userRole', data.user.role);
+            localStorage.setItem('token', data.token);
+
+            // Optional: full user object
+            localStorage.setItem('user', JSON.stringify(data.user));
+
+            alert(`Welcome ${data.user.name}`);
+            navigate('/platform-selector');
           } else {
-            setError('Unable to verify authentication status.');
+            setError('Authentication failed. Please try again.');
           }
-        } catch (error) {
-          setError('Network error while checking authentication status.');
+        } else {
+          setError('Unable to verify authentication status.');
         }
-        
-        setLoading(false);
+      } catch (error) {
+        setError('Network error while checking authentication status.');
       }
-    }, 500);
-  };
+
+      setGoogleLoading(false);
+    }
+  }, 500);
+};
+
 
   return (
     <>
