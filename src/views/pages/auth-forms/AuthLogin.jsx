@@ -247,7 +247,8 @@ export default function AuthLogin() {
         localStorage.setItem('token', token);
         localStorage.setItem('user', JSON.stringify(user));
 
-        Swal.fire('Success', `Welcome ${user.name}`, 'success');
+        //Swal.fire('Success', `Welcome ${user.name}`, 'success');
+        alert('Success', `Welcome ${user.name}`)
         navigate('/platform-selector');
       } else if (event.data.type === 'GOOGLE_LOGIN_ERROR') {
         Swal.fire('Error', event.data.error || 'Authentication failed', 'error');
