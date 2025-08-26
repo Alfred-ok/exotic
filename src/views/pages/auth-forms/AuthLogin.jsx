@@ -230,6 +230,7 @@ export default function AuthLogin() {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
+  const [error, setError] = useState('');
 
   // Handle popup message for Google auth
   useEffect(() => {
@@ -290,19 +291,71 @@ export default function AuthLogin() {
     }
   };
 
-  // Google login popup
-  const handleGoogleLogin = () => {
+    const handleGoogleLogin = () => {
     setGoogleLoading(true);
+    setError('');
+    
+    // Open Google auth in a popup
     const width = 600;
     const height = 600;
     const left = (window.innerWidth - width) / 2;
     const top = (window.innerHeight - height) / 2;
-
-    window.open(
+    
+    const authWindow = window.open(
       `${API_BASE_URL}/auth/google`,
       'Google Auth',
       `width=${width},height=${height},top=${top},left=${left}`
     );
+    
+
+       // Check if the popup was blocked
+    if (!authWindow || authWindow.closed || typeof authWindow.closed === 'undefined') {
+      setError('Popup was blocked by your browser. Please allow popups for this site.');
+      setGoogleLoading(false);
+      return;
+    }
+    
+    // Check for popup closure and authentication status
+    const checkAuthStatus = setInterval(async () => {
+      if (authWindow.closed) {
+        clearInterval(checkAuthStatus);
+        
+        // After popup closes, check if we're authenticated
+        try {
+          const response = await fetch(`${API_BASE_URL}/auth/status`, {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            credentials: 'include', // Important for sessions
+          });
+          
+          if (response.ok) {
+            const data = await response.json();
+            
+            if (data.authenticated && data.user) {
+              // Store user data
+              localStorage.setItem('user', JSON.stringify(data.user));
+              localStorage.setItem('token', data.token);
+
+              console.log(data);
+              
+              // Update state
+              setUser(data.user);
+              setError('');
+            } else {
+              setError('Authentication failed. Please try again.');
+            }
+          } else {
+            setError('Unable to verify authentication status.');
+          }
+        } catch (error) {
+          setError('Network error while checking authentication status.');
+        }
+        
+        setLoading(false);
+      }
+    }, 500);
   };
 
   return (
