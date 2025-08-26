@@ -266,14 +266,17 @@ export default function AuthLogin() {
       await axios.get('https://api.exoticnairobi.com/sanctum/csrf-cookie');
 
       const response = await axios.post(`${API_BASE_URL}/login`, { email, password });
-      const { token, user } = response.data;
+      
+      const { message, user } = response.data;
 
-      // Save unified structure
-      localStorage.setItem('token', token);
-      localStorage.setItem('user', JSON.stringify(user));
+    
+   // Save to localStorage
+     localStorage.setItem('userName', user.name);
+     localStorage.setItem('userEmail', user.email);
+     localStorage.setItem('userRole', user.role);
 
-      Swal.fire('Success', `Welcome ${user.name}`, 'success');
-      navigate(PLATFORM_SELECTOR_URL);
+     alert(message);
+     navigate('/platform-selector');
     } catch (error) {
       Swal.fire('Error', error.response?.data?.message || 'Something went wrong.', 'error');
     } finally {
