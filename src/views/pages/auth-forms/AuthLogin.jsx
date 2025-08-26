@@ -223,7 +223,7 @@ export default function AuthLogin() {
   const theme = useTheme();
   const navigate = useNavigate();
 
-  const API_BASE_URL = 'https://api.exoticnairobi.com/api';
+
 
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState('');
@@ -231,7 +231,10 @@ export default function AuthLogin() {
   const [loading, setLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
   const [error, setError] = useState('');
+
   const [user, setUser] = useState(null);
+  const [token, setToken] = useState(null);
+  const API_BASE_URL = "https://api.exoticnairobi.com/api";
 
 
   // Handle popup message for Google auth
@@ -239,7 +242,7 @@ export default function AuthLogin() {
   const handleMouseDownPassword = (event) => event.preventDefault();
 
 
-  
+
 
   // Email/password login
   const handleLogin = async () => {
@@ -267,73 +270,51 @@ export default function AuthLogin() {
   };
 
 
+   // STEP 1: Handle redirect back from Google (callback with ?code=...)
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const code = urlParams.get("code");
 
+    if (code) {
+      console.log("🔑 Google returned code:", code);
 
-    const handleGoogleLogin = () => {
-  setGoogleLoading(true);
-  setError('');
+      // STEP 2: Call backend callback endpoint with code
+      fetch(`${API_BASE_URL}/auth/google/callback?code=${code}`)
+        .then((res) => res.json())
+        .then((data) => {
+          console.log("📦 Response from backend:", data);
 
-  const width = 600;
-  const height = 600;
-  const left = (window.innerWidth - width) / 2;
-  const top = (window.innerHeight - height) / 2;
+          if (data.authenticated) {
+            setUser(data.user);
+            setToken(data.token);
 
-  const authWindow = window.open(
-    `${API_BASE_URL}/auth/google`,
-    'Google Auth',
-    `width=${width},height=${height},top=${top},left=${left}`
-  );
+            // Save in localStorage for persistence
+            localStorage.setItem("user", JSON.stringify(data.user));
+            localStorage.setItem("token", data.token);
 
-  if (!authWindow || authWindow.closed || typeof authWindow.closed === 'undefined') {
-    setError('Popup was blocked by your browser. Please allow popups for this site.');
-    setGoogleLoading(false);
-    return;
-  }
-
-  const checkAuthStatus = setInterval(async () => {
-    if (authWindow.closed) {
-      clearInterval(checkAuthStatus);
-
-      try {
-        const response = await fetch(`${API_BASE_URL}/auth/status`, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          credentials: 'include',
-        });
-
-        if (response.ok) {
-          const data = await response.json();
-          console.log("Auth response from Google popup:", data);
-
-          if (data.authenticated && data.user) {
-            // ✅ Store just like email login
-            localStorage.setItem('userName', data.user.name);
-            localStorage.setItem('userEmail', data.user.email);
-            localStorage.setItem('userRole', data.user.role);
-            localStorage.setItem('token', data.token);
-
-            // Optional: full user object
-            localStorage.setItem('user', JSON.stringify(data.user));
-
-            alert(`Welcome ${data.user.name}`);
-            navigate('/platform-selector');
+            console.log("✅ User authenticated:", data.user);
+            console.log("🔒 Token stored:", data.token);
           } else {
-            setError('Authentication failed. Please try again.');
+            console.error("❌ Authentication failed:", data);
           }
-        } else {
-          setError('Unable to verify authentication status.');
-        }
-      } catch (error) {
-        setError('Network error while checking authentication status.');
-      }
-
-      setGoogleLoading(false);
+        })
+        .catch((err) => {
+          console.error("🚨 Error calling backend callback:", err);
+        });
     }
-  }, 500);
-};
+  }, []);
 
+
+  // STEP 3: Redirect user to Google Login
+  const handleGoogleLogin = () => {
+    const googleAuthUrl = `${API_BASE_URL}/auth/google`;
+    console.log("➡️ Redirecting to Google login:", googleAuthUrl);
+    window.location.href = googleAuthUrl;
+  };
+
+
+
+  
 
   return (
     <>
