@@ -269,47 +269,63 @@ export default function AuthLogin() {
     }
   };
 
-  // ---------- Handle Google redirect callback ----------
-  useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const code = urlParams.get("code");
+ useEffect(() => {
+  const urlParams = new URLSearchParams(window.location.search);
+  const code = urlParams.get("code");
 
-    if (code) {
-      console.log("🔑 Google returned code:", code);
+  if (code) {
+    console.log("🔑 Google returned code:", code);
 
-      // Call backend to exchange code for token
-      fetch(`${API_BASE_URL}/auth/google/callback?code=${code}`)
-        .then((res) => {
-          console.log("🌐 Backend responded with status:", res.status);
-          return res.json();
-        })
-        .then((data) => {
-          console.log("📦 Response from backend:", data);
+    const callbackUrl = `${API_BASE_URL}/auth/google/callback?code=${code}`;
+    console.log("📡 Calling backend callback:", callbackUrl);
 
-          if (data.authenticated) {
-            setUser(data.user);
-            setToken(data.token);
+    fetch(callbackUrl)
+      .then(async (res) => {
+        console.log("🌐 Backend responded with status:", res.status);
+        let data;
+        try {
+          data = await res.json();
+        } catch (e) {
+          console.error("⚠️ Could not parse JSON:", e);
+          throw e;
+        }
+        console.log("📦 Response from backend:", data);
+        return data;
+      })
+      .then((data) => {
+        if (data?.authenticated) {
+          setUser(data.user);
+          setToken(data.token);
 
-            // Save in localStorage
+          try {
             localStorage.setItem("user", JSON.stringify(data.user));
             localStorage.setItem("token", data.token);
-
-            console.log("✅ User authenticated:", data.user);
-            console.log("🔒 Token stored:", data.token);
-
-            // Navigate to your platform selector
-            navigate('/platform-selector');
-          } else {
-            console.error("❌ Authentication failed:", data);
-            Swal.fire('Error', 'Google authentication failed.', 'error');
+            console.log("💾 Saved to localStorage:", {
+              user: localStorage.getItem("user"),
+              token: localStorage.getItem("token"),
+            });
+          } catch (err) {
+            console.error("🚨 localStorage error:", err);
           }
-        })
-        .catch((err) => {
-          console.error("🚨 Error calling backend callback:", err);
-          Swal.fire('Error', 'Could not complete Google login.', 'error');
-        });
-    }
-  }, [navigate]);
+
+          console.log("✅ User authenticated:", data.user);
+          console.log("🔒 Token stored:", data.token);
+
+          navigate("/platform-selector");
+        } else {
+          console.error("❌ Authentication failed:", data);
+          Swal.fire("Error", "Google authentication failed.", "error");
+        }
+      })
+      .catch((err) => {
+        console.error("🚨 Error calling backend callback:", err);
+        Swal.fire("Error", "Could not complete Google login.", "error");
+      });
+  } else {
+    console.log("ℹ️ No Google `code` found in URL.");
+  }
+}, [navigate]);
+
 
   // ---------- Start Google login ----------
   const handleGoogleLogin = () => {
