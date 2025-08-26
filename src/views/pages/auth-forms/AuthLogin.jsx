@@ -193,7 +193,6 @@
 
 
 
-
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -231,7 +230,8 @@ export default function AuthLogin() {
 
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(null);
-  const API_BASE_URL = "https://api.exoticnairobi.com/api";
+
+  const API_BASE_URL = 'https://api.exoticnairobi.com/api';
 
   const handleClickShowPassword = () => setShowPassword(!showPassword);
   const handleMouseDownPassword = (event) => event.preventDefault();
@@ -240,97 +240,93 @@ export default function AuthLogin() {
   const handleLogin = async () => {
     setLoading(true);
     try {
-      console.log("📩 Attempting email/password login...");
+      console.log('📩 Attempting email/password login...');
       await axios.get('https://api.exoticnairobi.com/sanctum/csrf-cookie');
 
       const response = await axios.post(`${API_BASE_URL}/login`, { email, password });
-      console.log("✅ Login response:", response.data);
-      
+      console.log('✅ Login response:', response.data);
+
       const { message, user } = response.data;
 
       // Save to localStorage
-      localStorage.setItem('userName', user.name);
-      localStorage.setItem('userEmail', user.email);
-      localStorage.setItem('userRole', user.role);
+      localStorage.setItem('user', JSON.stringify(user));
+      localStorage.setItem('token', response.data.token || '');
 
-      console.log("💾 Stored in localStorage:", {
-        userName: user.name,
-        userEmail: user.email,
-        userRole: user.role,
+      console.log('💾 Stored in localStorage:', {
+        user: JSON.stringify(user),
+        token: response.data.token
       });
 
-      alert(message);
+      Swal.fire('Success', message, 'success');
       navigate('/platform-selector');
     } catch (error) {
-      console.error("❌ Login failed:", error.response?.data);
+      console.error('❌ Login failed:', error.response?.data);
       Swal.fire('Error', error.response?.data?.message || 'Something went wrong.', 'error');
     } finally {
       setLoading(false);
     }
   };
 
- useEffect(() => {
-  const urlParams = new URLSearchParams(window.location.search);
-  const code = urlParams.get("code");
+  // ---------- Handle Google redirect callback ----------
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const code = urlParams.get('code');
 
-  if (code) {
-    console.log("🔑 Google returned code:", code);
+    if (code) {
+      console.log('🔑 Google returned code:', code);
 
-    const callbackUrl = `${API_BASE_URL}/auth/google/callback?code=${code}`;
-    console.log("📡 Calling backend callback:", callbackUrl);
+      const callbackUrl = `${API_BASE_URL}/auth/google/callback?code=${code}`;
+      console.log('📡 Calling backend callback:', callbackUrl);
 
-    fetch(callbackUrl)
-      .then(async (res) => {
-        console.log("🌐 Backend responded with status:", res.status);
-        let data;
-        try {
-          data = await res.json();
-        } catch (e) {
-          console.error("⚠️ Could not parse JSON:", e);
-          throw e;
-        }
-        console.log("📦 Response from backend:", data);
-        return data;
-      })
-      .then((data) => {
-        if (data?.authenticated) {
-          setUser(data.user);
-          setToken(data.token);
+      setGoogleLoading(true);
 
-          try {
-            localStorage.setItem("user", JSON.stringify(data.user));
-            localStorage.setItem("token", data.token);
-            console.log("💾 Saved to localStorage:", {
-              user: localStorage.getItem("user"),
-              token: localStorage.getItem("token"),
-            });
-          } catch (err) {
-            console.error("🚨 localStorage error:", err);
+      fetch(callbackUrl)
+        .then(async (res) => {
+          console.log('🌐 Backend responded with status:', res.status);
+          if (!res.ok) throw new Error(`Callback failed: ${res.status}`);
+          return res.json();
+        })
+        .then((data) => {
+          console.log('📦 Response from backend:', data);
+
+          if (data?.authenticated) {
+            setUser(data.user);
+            setToken(data.token);
+
+            try {
+              localStorage.setItem('user', JSON.stringify(data.user));
+              localStorage.setItem('token', data.token);
+              console.log('💾 Saved to localStorage:', {
+                user: localStorage.getItem('user'),
+                token: localStorage.getItem('token')
+              });
+            } catch (err) {
+              console.error('🚨 localStorage error:', err);
+            }
+
+            console.log('✅ User authenticated:', data.user);
+            console.log('🔒 Token stored:', data.token);
+
+            navigate('/platform-selector');
+          } else {
+            console.error('❌ Authentication failed:', data);
+            Swal.fire('Error', 'Google authentication failed.', 'error');
           }
-
-          console.log("✅ User authenticated:", data.user);
-          console.log("🔒 Token stored:", data.token);
-
-          navigate("/platform-selector");
-        } else {
-          console.error("❌ Authentication failed:", data);
-          Swal.fire("Error", "Google authentication failed.", "error");
-        }
-      })
-      .catch((err) => {
-        console.error("🚨 Error calling backend callback:", err);
-        Swal.fire("Error", "Could not complete Google login.", "error");
-      });
-  } else {
-    console.log("ℹ️ No Google `code` found in URL.");
-  }
-}, [navigate]);
-
+        })
+        .catch((err) => {
+          console.error('🚨 Error calling backend callback:', err);
+          Swal.fire('Error', 'Could not complete Google login.', 'error');
+        })
+        .finally(() => setGoogleLoading(false));
+    } else {
+      console.log('ℹ️ No Google `code` found in URL.');
+    }
+  }, [navigate]);
 
   // ---------- Start Google login ----------
   const handleGoogleLogin = () => {
     const googleAuthUrl = `${API_BASE_URL}/auth/google`;
-    console.log("➡️ Redirecting to Google login:", googleAuthUrl);
+    console.log('➡️ Redirecting to Google login:', googleAuthUrl);
     window.location.href = googleAuthUrl;
   };
 
