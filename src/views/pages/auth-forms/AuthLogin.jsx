@@ -194,9 +194,8 @@
 
 
 
-
 import { useState, useEffect } from 'react';
-import { data, Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 
@@ -223,8 +222,6 @@ export default function AuthLogin() {
   const theme = useTheme();
   const navigate = useNavigate();
 
-
-
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -236,41 +233,43 @@ export default function AuthLogin() {
   const [token, setToken] = useState(null);
   const API_BASE_URL = "https://api.exoticnairobi.com/api";
 
-
-  // Handle popup message for Google auth
   const handleClickShowPassword = () => setShowPassword(!showPassword);
   const handleMouseDownPassword = (event) => event.preventDefault();
 
-
-
-
-  // Email/password login
+  // ---------- Email/password login ----------
   const handleLogin = async () => {
     setLoading(true);
     try {
+      console.log("📩 Attempting email/password login...");
       await axios.get('https://api.exoticnairobi.com/sanctum/csrf-cookie');
 
       const response = await axios.post(`${API_BASE_URL}/login`, { email, password });
+      console.log("✅ Login response:", response.data);
       
       const { message, user } = response.data;
 
-    
-   // Save to localStorage
-     localStorage.setItem('userName', user.name);
-     localStorage.setItem('userEmail', user.email);
-     localStorage.setItem('userRole', user.role);
+      // Save to localStorage
+      localStorage.setItem('userName', user.name);
+      localStorage.setItem('userEmail', user.email);
+      localStorage.setItem('userRole', user.role);
 
-     alert(message);
-     navigate('/platform-selector');
+      console.log("💾 Stored in localStorage:", {
+        userName: user.name,
+        userEmail: user.email,
+        userRole: user.role,
+      });
+
+      alert(message);
+      navigate('/platform-selector');
     } catch (error) {
+      console.error("❌ Login failed:", error.response?.data);
       Swal.fire('Error', error.response?.data?.message || 'Something went wrong.', 'error');
     } finally {
       setLoading(false);
     }
   };
 
-
-   // STEP 1: Handle redirect back from Google (callback with ?code=...)
+  // ---------- Handle Google redirect callback ----------
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const code = urlParams.get("code");
@@ -278,9 +277,12 @@ export default function AuthLogin() {
     if (code) {
       console.log("🔑 Google returned code:", code);
 
-      // STEP 2: Call backend callback endpoint with code
+      // Call backend to exchange code for token
       fetch(`${API_BASE_URL}/auth/google/callback?code=${code}`)
-        .then((res) => res.json())
+        .then((res) => {
+          console.log("🌐 Backend responded with status:", res.status);
+          return res.json();
+        })
         .then((data) => {
           console.log("📦 Response from backend:", data);
 
@@ -288,33 +290,33 @@ export default function AuthLogin() {
             setUser(data.user);
             setToken(data.token);
 
-            // Save in localStorage for persistence
+            // Save in localStorage
             localStorage.setItem("user", JSON.stringify(data.user));
             localStorage.setItem("token", data.token);
 
             console.log("✅ User authenticated:", data.user);
             console.log("🔒 Token stored:", data.token);
+
+            // Navigate to your platform selector
+            navigate('/platform-selector');
           } else {
             console.error("❌ Authentication failed:", data);
+            Swal.fire('Error', 'Google authentication failed.', 'error');
           }
         })
         .catch((err) => {
           console.error("🚨 Error calling backend callback:", err);
+          Swal.fire('Error', 'Could not complete Google login.', 'error');
         });
     }
-  }, []);
+  }, [navigate]);
 
-
-  // STEP 3: Redirect user to Google Login
+  // ---------- Start Google login ----------
   const handleGoogleLogin = () => {
     const googleAuthUrl = `${API_BASE_URL}/auth/google`;
     console.log("➡️ Redirecting to Google login:", googleAuthUrl);
     window.location.href = googleAuthUrl;
   };
-
-
-
-  
 
   return (
     <>
