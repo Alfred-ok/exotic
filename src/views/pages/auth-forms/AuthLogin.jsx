@@ -197,7 +197,6 @@ import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Swal from 'sweetalert2';
-
 // material-ui
 import { useTheme } from '@mui/material/styles';
 import {
@@ -211,125 +210,132 @@ import {
   FormControl,
   Grid
 } from '@mui/material';
-
 import AnimateButton from 'ui-component/extended/AnimateButton';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import CircularProgress from '@mui/material/CircularProgress';
-
 export default function AuthLogin() {
   const theme = useTheme();
   const navigate = useNavigate();
-
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
   const [error, setError] = useState('');
-
-  const [user, setUser] = useState(null);
-  const [token, setToken] = useState(null);
-
   const API_BASE_URL = 'https://api.exoticnairobi.com/api';
-
   const handleClickShowPassword = () => setShowPassword(!showPassword);
   const handleMouseDownPassword = (event) => event.preventDefault();
-
   // ---------- Email/password login ----------
   const handleLogin = async () => {
     setLoading(true);
     try {
-      console.log('📩 Attempting email/password login...');
+      console.log('Attempting email/password login...');
       await axios.get('https://api.exoticnairobi.com/sanctum/csrf-cookie');
-
       const response = await axios.post(`${API_BASE_URL}/login`, { email, password });
-      console.log('✅ Login response:', response.data);
-
+      console.log('Login response:', response.data);
       const { message, user } = response.data;
-
       // Save to localStorage
       localStorage.setItem('user', JSON.stringify(user));
       localStorage.setItem('token', response.data.token || '');
-
-      console.log('💾 Stored in localStorage:', {
-        user: JSON.stringify(user),
-        token: response.data.token
-      });
-
+      console.log('Stored in localStorage');
       Swal.fire('Success', message, 'success');
       navigate('/platform-selector');
     } catch (error) {
-      console.error('❌ Login failed:', error.response?.data);
+      console.error('Login failed:', error.response?.data);
       Swal.fire('Error', error.response?.data?.message || 'Something went wrong.', 'error');
     } finally {
       setLoading(false);
     }
   };
-
   // ---------- Handle Google redirect callback ----------
   useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const code = urlParams.get('code');
-
-    if (code) {
-      console.log('🔑 Google returned code:', code);
-
-      const callbackUrl = `${API_BASE_URL}/auth/google/callback?code=${code}`;
-      console.log('📡 Calling backend callback:', callbackUrl);
-
-      setGoogleLoading(true);
-
-      fetch(callbackUrl)
-        .then(async (res) => {
-          console.log('🌐 Backend responded with status:', res.status);
-          if (!res.ok) throw new Error(`Callback failed: ${res.status}`);
-          return res.json();
-        })
-        .then((data) => {
-          console.log('📦 Response from backend:', data);
-
-          if (data?.authenticated) {
-            setUser(data.user);
-            setToken(data.token);
-
-            try {
-              localStorage.setItem('user', JSON.stringify(data.user));
-              localStorage.setItem('token', data.token);
-              console.log('💾 Saved to localStorage:', {
-                user: localStorage.getItem('user'),
-                token: localStorage.getItem('token')
-              });
-            } catch (err) {
-              console.error('🚨 localStorage error:', err);
-            }
-
-            console.log('✅ User authenticated:', data.user);
-            console.log('🔒 Token stored:', data.token);
-
+    const checkGoogleAuthStatus = async () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const googleAuthSuccess = urlParams.get('google_auth');
+      if (googleAuthSuccess === 'success') {
+        try {
+          setGoogleLoading(true);
+          // Check authentication status with backend
+          const response = await axios.get(`${API_BASE_URL}/auth/status`, {
+            withCredentials: true // Important for sessions
+          });
+          if (response.data.authenticated) {
+            const { user, token } = response.data;
+            // Save to localStorage
+            localStorage.setItem('user', JSON.stringify(user));
+            localStorage.setItem('token', token);
+            console.log('Google authentication successful:', user);
+            // Remove the success parameter from URL
+            window.history.replaceState({}, document.title, window.location.pathname);
             navigate('/platform-selector');
           } else {
-            console.error('❌ Authentication failed:', data);
             Swal.fire('Error', 'Google authentication failed.', 'error');
           }
-        })
-        .catch((err) => {
-          console.error('🚨 Error calling backend callback:', err);
+        } catch (error) {
+          console.error('Error checking auth status:', error);
           Swal.fire('Error', 'Could not complete Google login.', 'error');
-        })
-        .finally(() => setGoogleLoading(false));
-    } else {
-      console.log('ℹ️ No Google `code` found in URL.');
-    }
+        } finally {
+          setGoogleLoading(false);
+        }
+      } else if (urlParams.get('error')) {
+        // Handle errors from Google auth
+        const error = urlParams.get('error');
+        Swal.fire('Error', error, 'error');
+        // Clean up URL
+        window.history.replaceState({}, document.title, window.location.pathname);
+      }
+    };
+    checkGoogleAuthStatus();
   }, [navigate]);
-
   // ---------- Start Google login ----------
   const handleGoogleLogin = () => {
-    const googleAuthUrl = `${API_BASE_URL}/auth/google`;
-    console.log('➡️ Redirecting to Google login:', googleAuthUrl);
-    window.location.href = googleAuthUrl;
+    console.log('Redirecting to Google login');
+    setGoogleLoading(true);
+    // Open Google auth in a popup or redirect
+    const width = 600;
+    const height = 600;
+    const left = (window.innerWidth - width) / 2;
+    const top = (window.innerHeight - height) / 2;
+    const authWindow = window.open(
+      `${API_BASE_URL}/auth/google`,
+      'Google Auth',
+      `width=${width},height=${height},top=${top},left=${left}`
+    );
+    // Check if popup was blocked
+    if (!authWindow || authWindow.closed || typeof authWindow.closed === 'undefined') {
+      // If popup blocked, redirect in same window
+      window.location.href = `${API_BASE_URL}/auth/google`;
+      return;
+    }
+    // Check for popup closure
+    const checkPopup = setInterval(() => {
+      if (authWindow.closed) {
+        clearInterval(checkPopup);
+        // When popup closes, check if we're authenticated
+        axios.get(`${API_BASE_URL}/auth/status`, { withCredentials: true })
+          .then(response => {
+            if (response.data.authenticated) {
+              const { user, token } = response.data;
+              // Save to localStorage
+              localStorage.setItem('user', JSON.stringify(user));
+              localStorage.setItem('token', token);
+              console.log('Google authentication successful:', user);
+              navigate('/platform-selector');
+            } else {
+              Swal.fire('Error', 'Google authentication failed or was cancelled.', 'error');
+            }
+          })
+          .catch(error => {
+            console.error('Error checking auth status:', error);
+            Swal.fire('Error', 'Could not complete Google login.', 'error');
+          })
+          .finally(() => {
+            setGoogleLoading(false);
+          });
+      }
+    }, 500);
   };
-
   return (
     <>
       {/* Email field */}
@@ -344,7 +350,6 @@ export default function AuthLogin() {
           label="Email Address / Username"
         />
       </FormControl>
-
       {/* Password field */}
       <FormControl fullWidth sx={{ ...theme.typography.customInput }}>
         <InputLabel htmlFor="outlined-adornment-password-login">Password</InputLabel>
@@ -369,7 +374,6 @@ export default function AuthLogin() {
           label="Password"
         />
       </FormControl>
-
       {/* Forgot password */}
       <Grid container sx={{ alignItems: 'center', justifyContent: 'flex-end' }}>
         <Grid>
@@ -384,7 +388,6 @@ export default function AuthLogin() {
           </Typography>
         </Grid>
       </Grid>
-
       {/* Login button */}
       <Box sx={{ mt: 2 }}>
         <AnimateButton>
@@ -401,7 +404,6 @@ export default function AuthLogin() {
           </Button>
         </AnimateButton>
       </Box>
-
       {/* Google Sign-in */}
       <Box sx={{ mt: 2 }}>
         <button
@@ -413,21 +415,26 @@ export default function AuthLogin() {
             justifyContent: 'center',
             gap: '10px',
             padding: '10px 20px',
-            backgroundColor: '#4285f4',
+            backgroundColor: '#4285F4',
             border: 'none',
             borderRadius: '5px',
             fontSize: '16px',
-            cursor: 'pointer',
+            cursor: googleLoading ? 'not-allowed' : 'pointer',
             width: '100%',
             color: 'white',
-            fontWeight: 500
+            fontWeight: 500,
+            opacity: googleLoading ? 0.7 : 1
           }}
         >
-          <img
-            src="https://developers.google.com/identity/images/g-logo.png"
-            alt="Google logo"
-            style={{ width: '20px', height: '20px', backgroundColor: 'white', borderRadius: '2px' }}
-          />
+          {googleLoading ? (
+            <CircularProgress size={20} color="inherit" />
+          ) : (
+            <img
+              src="https://developers.google.com/identity/images/g-logo.png"
+              alt="Google logo"
+              style={{ width: '20px', height: '20px', backgroundColor: 'white', borderRadius: '2px' }}
+            />
+          )}
           {googleLoading ? 'Connecting...' : 'Sign in with Google'}
         </button>
       </Box>
