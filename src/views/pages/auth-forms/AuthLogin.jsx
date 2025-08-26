@@ -192,9 +192,8 @@
 
 
 
-
 import { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 // material-ui
@@ -217,6 +216,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 export default function AuthLogin() {
   const theme = useTheme();
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -226,6 +226,51 @@ export default function AuthLogin() {
   const API_BASE_URL = 'https://api.exoticnairobi.com/api';
   const handleClickShowPassword = () => setShowPassword(!showPassword);
   const handleMouseDownPassword = (event) => event.preventDefault();
+  // ---------- Handle Google authentication callback ----------
+  useEffect(() => {
+    const handleGoogleCallback = async () => {
+      const googleAuthSuccess = searchParams.get('google_auth');
+      const error = searchParams.get('error');
+      if (googleAuthSuccess === 'success') {
+        try {
+          setGoogleLoading(true);
+          console.log('Google authentication successful, checking status...');
+          // Check authentication status with backend
+          const response = await axios.get(`${API_BASE_URL}/auth/status`, {
+            withCredentials: true
+          });
+          if (response.data.authenticated) {
+            const { user, token } = response.data;
+            // Save to localStorage
+            localStorage.setItem('user', JSON.stringify(user));
+            localStorage.setItem('token', token);
+            console.log('Google authentication completed successfully:', user);
+            // Clear URL parameters
+            setSearchParams({});
+            // Redirect to platform selector
+            navigate('/platform-selector');
+          } else {
+            setError('Google authentication failed. Please try again.');
+            Swal.fire('Error', 'Google authentication failed.', 'error');
+          }
+        } catch (error) {
+          console.error('Error checking auth status:', error);
+          setError('Could not complete Google login. Please try again.');
+          Swal.fire('Error', 'Could not complete Google login.', 'error');
+        } finally {
+          setGoogleLoading(false);
+        }
+      } else if (error) {
+        // Handle errors from Google auth
+        console.error('Google authentication error:', error);
+        setError(error);
+        Swal.fire('Error', error, 'error');
+        // Clear error from URL
+        setSearchParams({});
+      }
+    };
+    handleGoogleCallback();
+  }, [navigate, searchParams, setSearchParams]);
   // ---------- Email/password login ----------
   const handleLogin = async () => {
     setLoading(true);
@@ -248,96 +293,27 @@ export default function AuthLogin() {
       setLoading(false);
     }
   };
-  // ---------- Handle Google redirect callback ----------
-  useEffect(() => {
-    const checkGoogleAuthStatus = async () => {
-      const urlParams = new URLSearchParams(window.location.search);
-      const googleAuthSuccess = urlParams.get('google_auth');
-      if (googleAuthSuccess === 'success') {
-        try {
-          setGoogleLoading(true);
-          // Check authentication status with backend
-          const response = await axios.get(`${API_BASE_URL}/auth/status`, {
-            withCredentials: true // Important for sessions
-          });
-          if (response.data.authenticated) {
-            const { user, token } = response.data;
-            // Save to localStorage
-            localStorage.setItem('user', JSON.stringify(user));
-            localStorage.setItem('token', token);
-            console.log('Google authentication successful:', user);
-            // Remove the success parameter from URL
-            window.history.replaceState({}, document.title, window.location.pathname);
-            navigate('/platform-selector');
-          } else {
-            Swal.fire('Error', 'Google authentication failed.', 'error');
-          }
-        } catch (error) {
-          console.error('Error checking auth status:', error);
-          Swal.fire('Error', 'Could not complete Google login.', 'error');
-        } finally {
-          setGoogleLoading(false);
-        }
-      } else if (urlParams.get('error')) {
-        // Handle errors from Google auth
-        const error = urlParams.get('error');
-        Swal.fire('Error', error, 'error');
-        // Clean up URL
-        window.history.replaceState({}, document.title, window.location.pathname);
-      }
-    };
-    checkGoogleAuthStatus();
-  }, [navigate]);
   // ---------- Start Google login ----------
   const handleGoogleLogin = () => {
     console.log('Redirecting to Google login');
     setGoogleLoading(true);
-    // Open Google auth in a popup or redirect
-    const width = 600;
-    const height = 600;
-    const left = (window.innerWidth - width) / 2;
-    const top = (window.innerHeight - height) / 2;
-    const authWindow = window.open(
-      `${API_BASE_URL}/auth/google`,
-      'Google Auth',
-      `width=${width},height=${height},top=${top},left=${left}`
-    );
-    // Check if popup was blocked
-    if (!authWindow || authWindow.closed || typeof authWindow.closed === 'undefined') {
-      // If popup blocked, redirect in same window
-      window.location.href = `${API_BASE_URL}/auth/google`;
-      return;
-    }
-    // Check for popup closure
-    const checkPopup = setInterval(() => {
-      if (authWindow.closed) {
-        clearInterval(checkPopup);
-        // When popup closes, check if we're authenticated
-        axios.get(`${API_BASE_URL}/auth/status`, { withCredentials: true })
-          .then(response => {
-            if (response.data.authenticated) {
-              const { user, token } = response.data;
-              // Save to localStorage
-              localStorage.setItem('user', JSON.stringify(user));
-              localStorage.setItem('token', token);
-              console.log('Google authentication successful:', user);
-              navigate('/platform-selector');
-            } else {
-              Swal.fire('Error', 'Google authentication failed or was cancelled.', 'error');
-            }
-          })
-          .catch(error => {
-            console.error('Error checking auth status:', error);
-            Swal.fire('Error', 'Could not complete Google login.', 'error');
-          })
-          .finally(() => {
-            setGoogleLoading(false);
-          });
-      }
-    }, 500);
+    // Redirect to backend Google auth endpoint
+    window.location.href = `${API_BASE_URL}/auth/google`;
   };
   return (
     <>
+      {/* Error display */}
+      {error && (
+        <Box sx={{
+          mb: 2,
+          p: 2,
+          backgroundColor: '#FFEBEE',
+          borderRadius: 1,
+          border: '1px solid #F44336'
+        }}>
+          <Typography color="error">{error}</Typography>
+        </Box>
+      )}
       {/* Email field */}
       <FormControl fullWidth sx={{ ...theme.typography.customInput }}>
         <InputLabel htmlFor="outlined-adornment-email-login">Email Address / Username</InputLabel>
@@ -397,7 +373,7 @@ export default function AuthLogin() {
             size="large"
             variant="contained"
             onClick={handleLogin}
-            disabled={loading}
+            disabled={loading || googleLoading}
             startIcon={loading && <CircularProgress size={20} color="inherit" />}
           >
             {loading ? 'Signing In...' : 'Sign In'}
