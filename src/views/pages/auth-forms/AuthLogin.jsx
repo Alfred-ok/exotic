@@ -335,6 +335,11 @@ export default function AuthLogin() {
           
           if (response.ok) {
             const data = await response.json();
+
+              // 👇 This will log exactly what you pasted
+              console.log("Auth response from Google popup:", data);
+              console.log("User object:", data.user);
+              console.log("Token:", data.token);
             
             if (data.authenticated && data.user) {
               // Store user data
