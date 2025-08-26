@@ -196,7 +196,7 @@
 
 
 import { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { data, Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 
@@ -224,7 +224,6 @@ export default function AuthLogin() {
   const navigate = useNavigate();
 
   const API_BASE_URL = 'https://api.exoticnairobi.com/api';
-  const PLATFORM_SELECTOR_URL = '/platform-selector';
 
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState('');
@@ -240,12 +239,16 @@ export default function AuthLogin() {
       if (event.data.type === 'GOOGLE_LOGIN_SUCCESS') {
         const { token, user } = event.data;
 
+        console.log(event.data);
+        console.log(user)
+        console.log(token);
+
         // Save unified structure
         localStorage.setItem('token', token);
         localStorage.setItem('user', JSON.stringify(user));
 
         Swal.fire('Success', `Welcome ${user.name}`, 'success');
-        navigate(PLATFORM_SELECTOR_URL);
+        navigate('/platform-selector');
       } else if (event.data.type === 'GOOGLE_LOGIN_ERROR') {
         Swal.fire('Error', event.data.error || 'Authentication failed', 'error');
         setGoogleLoading(false);
