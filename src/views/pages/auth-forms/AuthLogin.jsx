@@ -291,6 +291,7 @@ export default function AuthLogin() {
     }
   };
 
+
     const handleGoogleLogin = () => {
     setGoogleLoading(true);
     setError('');
@@ -329,6 +330,8 @@ export default function AuthLogin() {
             },
             credentials: 'include', // Important for sessions
           });
+
+          console.log(response);
           
           if (response.ok) {
             const data = await response.json();
