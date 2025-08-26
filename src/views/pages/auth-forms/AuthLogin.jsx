@@ -236,6 +236,8 @@ export default function AuthLogin() {
     const handleMessage = (event) => {
       if (event.origin !== window.location.origin) return;
 
+      console.log(event);
+
       if (event.data.type === 'GOOGLE_LOGIN_SUCCESS') {
         const { message, user } = event.data;
 
