@@ -17,7 +17,6 @@ const kenyanNames = [
   'Agnes Chebet', 'George Nyambura', 'Cynthia Kilonzo', 'Paul Mwende', 'Lucy Wanjiku'
 ];
 
-const baseURL = import.meta.env.VITE_APP_BASE_URL;
 
 const generatePackages = () => {
   return kenyanNames.map((name, index) => ({
@@ -40,6 +39,8 @@ const exportToPDF = (data, headers, fileName) => {
   });
   doc.save(`${fileName}.pdf`);
 };
+
+
 
 const exportToExcel = (data, fileName) => {
   const worksheet = XLSX.utils.json_to_sheet(data);

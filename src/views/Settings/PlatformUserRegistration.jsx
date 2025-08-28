@@ -185,6 +185,8 @@ export default function PlatformUserModal({ open, setOpen, onSuccess }) {
   const [loading, setLoading] = useState(false);
   const [snackbar, setSnackbar] = useState({ open: false, message: '', severity: 'success' });
 
+  const baseURL = import.meta.env.VITE_APP_BASE_URL;
+
   const showAlert = (message, type = 'success') => {
     Swal.fire({
       icon: type,
@@ -217,7 +219,7 @@ export default function PlatformUserModal({ open, setOpen, onSuccess }) {
 
     setLoading(true);
     try {
-      const res = await axios.post('https://api.exoticnairobi.com/api/register', form, {
+      const res = await axios.post(`${baseURL}/api/register`, form, {
         headers: {
           'Content-Type': 'application/json'
         }

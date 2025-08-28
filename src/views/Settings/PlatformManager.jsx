@@ -30,10 +30,12 @@ export default function PlatformManager() {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
 
+  const baseURL = import.meta.env.VITE_APP_BASE_URL;
+
   // Fetch platforms using Axios
   const fetchPlatforms = async () => {
     try {
-      const res = await axios.get('https://api.exoticnairobi.com/api/platforms');
+      const res = await axios.get(`${baseURL}/api/platforms`);
       setPlatforms(res.data.platforms);
       console.log(res.data)
     } catch (err) {
@@ -51,7 +53,7 @@ export default function PlatformManager() {
     e.preventDefault();
     setLoading(true);
     try {
-      await axios.post('https://api.exoticnairobi.com/api/platforms', form, {
+      await axios.post(`${baseURL}/api/platforms`, form, {
         headers: { 'Content-Type': 'application/json' }
       });
       setSuccess('Platform created successfully!');

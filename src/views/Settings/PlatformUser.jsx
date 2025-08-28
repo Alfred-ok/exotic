@@ -194,6 +194,8 @@ export default function PlatformUser() {
   const [editOpen, setEditOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
 
+  const baseURL = import.meta.env.VITE_APP_BASE_URL;
+
   const handleEdit = (user) => {
     setSelectedUser(user);
     setEditOpen(true);
@@ -203,7 +205,7 @@ export default function PlatformUser() {
   const fetchUsers = async () => {
     setLoading(true);
     try {
-      const res = await axios.get('https://api.exoticnairobi.com/api/users');
+      const res = await axios.get(`${baseURL}https://api.exoticnairobi.com/api/users`);
       setUsers(res.data.users);
       setError(null);
     } catch (err) {

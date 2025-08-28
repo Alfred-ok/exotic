@@ -413,6 +413,7 @@ export default function PlatformSelector() {
   const open = Boolean(anchorEl);
   const baseURL = import.meta.env.VITE_APP_BASE_URL;
 
+  
   const countries = [
     { name: 'Kenya', code: 'ke' },
     { name: 'Nigeria', code: 'ng' },

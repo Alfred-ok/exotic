@@ -22,6 +22,8 @@ export default function EditPlatformUserModal({ open, onClose, userData, onUpdat
     role: 'sub_admin'
   });
 
+  const baseURL = import.meta.env.VITE_APP_BASE_URL;
+
   useEffect(() => {
     if (userData) {
       setForm({
@@ -48,7 +50,7 @@ export default function EditPlatformUserModal({ open, onClose, userData, onUpdat
     if (!confirm.isConfirmed) return;
 
     try {
-      await axios.put(`https://api.exoticnairobi.com/api/users/${userData.id}`, form);
+      await axios.put(`${baseURL}/api/users/${userData.id}`, form);
       Swal.fire({
         icon: 'success',
         title: 'User updated successfully',
