@@ -17,6 +17,8 @@ const kenyanNames = [
   'Agnes Chebet', 'George Nyambura', 'Cynthia Kilonzo', 'Paul Mwende', 'Lucy Wanjiku'
 ];
 
+const baseURL = import.meta.env.VITE_APP_BASE_URL;
+
 const generatePackages = () => {
   return kenyanNames.map((name, index) => ({
     packageId: `PKG${3000 + index}`,

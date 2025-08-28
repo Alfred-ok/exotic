@@ -411,6 +411,7 @@ export default function PlatformSelector() {
 
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
+  const baseURL = import.meta.env.VITE_APP_BASE_URL;
 
   const countries = [
     { name: 'Kenya', code: 'ke' },
@@ -421,7 +422,7 @@ export default function PlatformSelector() {
 
   const fetchPlatforms = async () => {
     try {
-      const response = await fetch('https://api.exoticnairobi.com/api/platforms');
+      const response = await fetch(`${baseURL}/api/platforms`);
       if (!response.ok) throw new Error('Failed to fetch platforms');
 
       const result = await response.json();
@@ -476,7 +477,7 @@ export default function PlatformSelector() {
     try {
       if (isEdit && editId) {
         // Update platform
-        await axios.put(`https://api.exoticnairobi.com/api/platforms/${editId}`, form, {
+        await axios.put(`${baseURL}/api/platforms/${editId}`, form, {
           headers: { 'Content-Type': 'application/json' }
         });
 
@@ -489,7 +490,7 @@ export default function PlatformSelector() {
         });
       } else {
         // Add new platform
-        await axios.post('https://api.exoticnairobi.com/api/platforms', form, {
+        await axios.post(`${baseURL}/api/platforms`, form, {
           headers: { 'Content-Type': 'application/json' }
         });
 
@@ -540,7 +541,7 @@ export default function PlatformSelector() {
 
     if (confirm.isConfirmed) {
       try {
-        await axios.delete(`https://api.exoticnairobi.com/api/platforms/${id}`);
+        await axios.delete(`${baseURL}/api/platforms/${id}`);
         Swal.fire('Deleted!', `${name} has been deleted.`, 'success');
         fetchPlatforms();
       } catch (err) {
@@ -553,7 +554,7 @@ export default function PlatformSelector() {
   const handleCountryClick = async (id) => {
     setLoading(true);
     try {
-      const response = await fetch('https://api.exoticnairobi.com/api/dashboard-summary', {
+      const response = await fetch(`${baseURL}/api/dashboard-summary`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ platform_id: id }),

@@ -58,7 +58,8 @@ export default function PaymentsTable() {
   const [stkProductId, setStkProductId] = useState(null);
 
 
-    const platformId = localStorage.getItem('platformId');
+  const platformId = localStorage.getItem('platformId');
+  const baseURL = import.meta.env.VITE_APP_BASE_URL;
 
 
 
@@ -84,7 +85,7 @@ const exportToExcel = (data, fileName) => {
 
 useEffect(() => {
   setLoading(true);
-  fetch(`https://api.exoticnairobi.com/api/payments?platform_id=${platformId}`)
+  fetch(`${baseURL}/api/payments?platform_id=${platformId}`)
     .then(res => res.json())
     .then(data => {
       if (data.status === "error") {
@@ -167,7 +168,7 @@ const handleCloseModal = () => {
 
 const handleDeactivate = async () => {
   try {
-    const res = await fetch('https://api.exoticnairobi.com/api/deactivate-profile', {
+    const res = await fetch(`${baseURL}/api/deactivate-profile`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -207,7 +208,7 @@ const handleOpenStkModal = (userId, product) => {
 
 const handleSendStkPush = async () => {
   try {
-    const res = await fetch('https://api.exoticnairobi.com/api/manual-stk-push', {
+    const res = await fetch(`${baseURL}/api/manual-stk-push`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

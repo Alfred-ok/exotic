@@ -45,9 +45,10 @@ export default function TotalIncomeLightCard({ isLoading, icon, label }) {
   const theme = useTheme();
   const [pendingTotal, setPendingTotal] = useState(0);
   const platformId = localStorage.getItem('platformId');
+  const baseURL = import.meta.env.VITE_APP_BASE_URL;
 
   useEffect(() => {
-    fetch(`https://api.exoticnairobi.com/api/payments?platform_id=${platformId}`)
+    fetch(`${baseURL}/api/payments?platform_id=${platformId}`)
       .then(res => res.json())
       .then(data => {
         const pendingPayments = data.payments.filter(p => p.status === 'failed');

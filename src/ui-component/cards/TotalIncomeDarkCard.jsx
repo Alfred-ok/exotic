@@ -51,11 +51,12 @@ export default function TotalIncomeDarkCard({ isLoading }) {
   const theme = useTheme();
   const [totalSuccess, setTotalSuccess] = useState(0);
   const platformId = localStorage.getItem('platformId');
+  const baseURL = import.meta.env.VITE_APP_BASE_URL;
 
   useEffect(() => {
     const fetchPayments = async () => {
       try {
-        const response = await axios.get(`https://api.exoticnairobi.com/api/payments?platform_id=${platformId}`);
+        const response = await axios.get(`${baseURL}/api/payments?platform_id=${platformId}`);
         const payments = response.data.payments || [];
 
         console.log(payments);

@@ -58,7 +58,8 @@ export default function OveralPayment() {
   const [stkProductId, setStkProductId] = useState(null);
 
 
-    const platformId = localStorage.getItem('platformId');
+  const platformId = localStorage.getItem('platformId');
+  const baseURL = import.meta.env.VITE_APP_BASE_URL;
 
 
 
@@ -85,7 +86,7 @@ const exportToExcel = (data, fileName) => {
   useEffect(() => {
     setLoading(true);
     //fetch(`https://api.exoticnairobi.com/api/payments?platform_id=${platformId}`)
-    fetch("https://api.exoticnairobi.com/api/payments")
+    fetch(`${baseURL}/api/payments`)
       .then(res => res.json())
       .then(data => {
         console.log(data)

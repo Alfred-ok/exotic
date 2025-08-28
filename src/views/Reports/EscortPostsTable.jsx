@@ -64,10 +64,11 @@ const EscortPostsTable = () => {
 
   const platformId = localStorage.getItem('platformId');
   const role = localStorage.getItem('userRole');
+  const baseURL = import.meta.env.VITE_APP_BASE_URL;
 
   useEffect(() => {
     setLoading(true);
-    axios.post('https://api.exoticnairobi.com/api/escort-posts', { platform_id: platformId  })
+    axios.post(`${baseURL}/api/escort-posts`, { platform_id: platformId  })
       .then(res => {
         const escortData = res.data.escort_posts.map(post => ({
           id: `P${post.ID}`,
