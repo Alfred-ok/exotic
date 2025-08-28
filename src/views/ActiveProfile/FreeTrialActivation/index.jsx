@@ -200,11 +200,12 @@ export default function FreeTrialActivation() {
   const location = useLocation();
   const { id } = location.state || {};
   const platformId = localStorage.getItem('platformId');
+  const baseURL = import.meta.env.VITE_APP_BASE_URL;
 
   // Fetch products dynamically
   useEffect(() => {
     axios
-      .get('https://api.exoticnairobi.com/api/products')
+      .get(`${baseURL}/api/products`)
       .then((res) => {
         setProducts(res.data.products || []);
       })
@@ -246,7 +247,7 @@ export default function FreeTrialActivation() {
 
     try {
       const response = await axios.post(
-        'https://api.exoticnairobi.com/api/activate-profile',
+        `${baseURL}/api/activate-profile`,
         activeProfile
       );
 

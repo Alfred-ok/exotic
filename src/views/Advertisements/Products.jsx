@@ -25,6 +25,7 @@ export default function Products() {
   const [loading, setLoading] = useState(false);
   const [loadingProducts, setLoadingProducts] = useState(true);
   const [refreshTrigger, setRefreshTrigger] = useState(false);
+  const baseURL = import.meta.env.VITE_APP_BASE_URL;
 
   const showAlert = (text, type = 'success') => {
     Swal.fire({
@@ -39,7 +40,7 @@ export default function Products() {
   const fetchProducts = async () => {
     setLoadingProducts(true);
     try {
-      const { data } = await axios.get('https://api.exoticnairobi.com/api/products', { withCredentials: true });
+      const { data } = await axios.get(`${baseURL}/api/products`, { withCredentials: true });
       setProducts(data.products || []);
     } catch {
       showAlert('Failed to fetch products', 'error');
@@ -67,7 +68,7 @@ export default function Products() {
 const createProduct = async () => {
   setLoading(true);
   try {
-    await axios.post('https://api.exoticnairobi.com/api/products', form, {
+    await axios.post(`${baseURL}/api/products`, form, {
       headers: { 'Content-Type': 'application/json' },
       withCredentials: true
     });
@@ -87,7 +88,7 @@ const updateProduct = async () => {
   if (!selectedProduct) return;
   setLoading(true);
   try {
-    await axios.put(`https://api.exoticnairobi.com/api/products/${selectedProduct.id}`, form, {
+    await axios.put(`${baseURL}/api/products/${selectedProduct.id}`, form, {
       headers: { 'Content-Type': 'application/json' },
       withCredentials: true
     });
@@ -116,7 +117,7 @@ const handleSubmit = (e) => {
     if (!selectedProduct) return;
     setLoading(true);
     try {
-      await axios.delete(`https://api.exoticnairobi.com/api/products/${selectedProduct.id}`, {
+      await axios.delete(`${baseURL}/api/products/${selectedProduct.id}`, {
         withCredentials: true
       });
       showAlert('Product deleted successfully');

@@ -31,6 +31,7 @@ const ActiveLog = () => {
   // Date filters
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
+  const baseURL = import.meta.env.VITE_APP_BASE_URL;
 
   // API call
   const fetchLogs = async (page = 1) => {
@@ -42,7 +43,7 @@ const ActiveLog = () => {
       ...(endDate && { end_date: dayjs(endDate).format('YYYY-MM-DD') })
     };
 
-    const res = await axios.get('https://api.exoticnairobi.com/api/activity-logs', { params });
+    const res = await axios.get(`${baseURL}/api/activity-logs`, { params });
     const data = res.data;
 
     setLogs(data.data);

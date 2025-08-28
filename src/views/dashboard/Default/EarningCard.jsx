@@ -40,6 +40,7 @@ export default function EarningCard({ isLoading }) {
 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [dashboardData, setDashboardData] = useState({});
+  const baseURL = import.meta.env.VITE_APP_BASE_URL;
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -53,7 +54,7 @@ export default function EarningCard({ isLoading }) {
     const fetchDashboardData = async () => {
       try {
         const response = await axios.post(
-          'https://api.exoticnairobi.com/api/summary',
+          `${baseURL}/api/summary`,
           { platform_id: platformId }
         );
         console.log('Dashboard Response:', response.data); // Check structure

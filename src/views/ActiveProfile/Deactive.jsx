@@ -16,9 +16,10 @@ const Deactive = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const platformId = localStorage.getItem('platformId');
+  const baseURL = import.meta.env.VITE_APP_BASE_URL;
 
   useEffect(() => {
-    axios.get(`https://api.exoticnairobi.com/api/deactivated-profiles?platform_id=${platformId}`)
+    axios.get(`${baseURL}/api/deactivated-profiles?platform_id=${platformId}`)
       .then(response => {
         setProfiles(response.data.data);
         setLoading(false);

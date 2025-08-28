@@ -33,11 +33,12 @@ export default function PopularCard() {
   const [totalUsers, setTotalUsers] = useState(0);
   const [selectedDays, setSelectedDays] = useState(7);
 
-    const platformId = localStorage.getItem('platformId');
+  const platformId = localStorage.getItem('platformId');
+  const baseURL = import.meta.env.VITE_APP_BASE_URL;
 
   const fetchUsers = async (days) => {
     try {
-      const response = await axios.get(`https://api.exoticnairobi.com/api/recent-users?platform_id=${platformId}&days=${days}`);
+      const response = await axios.get(`${baseURL}/api/recent-users?platform_id=${platformId}&days=${days}`);
       const users = response.data.new_users || [];
       setTotalUsers(users.length);
       const top5 = users

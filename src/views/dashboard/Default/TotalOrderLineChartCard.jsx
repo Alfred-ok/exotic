@@ -43,13 +43,15 @@ export default function TotalOrderLineChartCard({ isLoading }) {
     setTimeValue(newValue);
   };
 
+  const baseURL = import.meta.env.VITE_APP_BASE_URL;
+
 
   
     useEffect(() => {
       const fetchDashboardData = async () => {
         try {
           const response = await axios.post(
-            'https://api.exoticnairobi.com/api/summary',
+            `${baseURL}/api/summary`,
             { platform_id: platformId }
           );
           console.log('Dashboard Response:', response.data); // Check structure

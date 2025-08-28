@@ -23,6 +23,7 @@ const LineChartArea = () => {
   const [loading, setLoading] = useState(true);
 
   const platformId = localStorage.getItem('platformId');
+  const baseURL = import.meta.env.VITE_APP_BASE_URL;
 
   zoomies.register();
 
@@ -30,7 +31,7 @@ const LineChartArea = () => {
     const fetchPayments = async () => {
       setLoading(true);
       try {
-        const response = await axios.get(`https://api.exoticnairobi.com/api/payments?platform_id=${platformId}`);
+        const response = await axios.get(`${baseURL}/api/payments?platform_id=${platformId}`);
         setPayments(response.data.payments);
         setLoading(false);
       } catch (error) {
