@@ -26,6 +26,7 @@ const Messages = () => {
 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
+  const baseURL = import.meta.env.VITE_APP_BASE_URL;
 
   useEffect(() => {
     fetchSmsLogs();
@@ -33,7 +34,7 @@ const Messages = () => {
 
   const fetchSmsLogs = async () => {
     try {
-      const response = await axios.get('https://api.exoticnairobi.com/api/sms-logs');
+      const response = await axios.get(`${baseURL}/api/sms-logs`);
       const logs = response.data.sms_logs || [];
       setSmsLogs(logs);
       setFilteredMessages(logs);
