@@ -261,7 +261,7 @@ export default function FreeTrialActivation() {
         `
       });
 
-      navigate('/ActivatedProfile');
+      navigate('/Profile');
       setPostId('');
       setDays('');
       setSelectedProduct('');
