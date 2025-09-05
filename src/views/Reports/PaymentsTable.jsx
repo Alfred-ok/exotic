@@ -106,6 +106,7 @@ useEffect(() => {
         return {
           id: `P${p.payment_id}`,
           userId: `U${p.user_id}`,
+
           phone: p.phone,
           amount: parseFloat(p.amount),
           product: p.product,
@@ -525,7 +526,7 @@ const handleSendStkPush = async () => {
                         size="small"
                         style={{ marginLeft: '8px' }}
                         onClick={() =>
-                          handleOpenStkModal(parseInt(pay.userId.replace('U', '')), pay.product)
+                          handleOpenStkModal(parseInt(pay.userId.replace('U', '')), pay.product_id)
                         }
                       >
                         STK Push
