@@ -20,6 +20,8 @@ import PaidIcon from '@mui/icons-material/Paid'; // Optional: for total amount
 
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
+import { LoadingButton } from '@mui/lab';
+
 
 
 import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
@@ -56,6 +58,10 @@ export default function PaymentsTable() {
   const [stkPhone, setStkPhone] = useState('');
   const [stkUserId, setStkUserId] = useState(null);
   const [stkProductId, setStkProductId] = useState(null);
+
+
+  //loading
+  const [deactivatingloading, setDeactivatingloading] = useState(false);
 
 
   const platformId = localStorage.getItem('platformId');
@@ -168,6 +174,7 @@ const handleCloseModal = () => {
 };
 
 const handleDeactivate = async () => {
+  setDeactivatingloading(true)
   try {
     const res = await fetch(`${baseURL}/api/deactivate-profile`, {
       method: 'POST',
@@ -190,6 +197,7 @@ const handleDeactivate = async () => {
   } catch (error) {
     alert("Network Error: " + error.message);
   } finally {
+    setDeactivatingloading(false)
     handleCloseModal();
   }
 };
@@ -610,9 +618,20 @@ const handleSendStkPush = async () => {
       </DialogContent>
       <DialogActions>
         <Button onClick={handleCloseModal}>Cancel</Button>
+        {/*
         <Button onClick={handleDeactivate} color="error" variant="contained">
           Deactivate
         </Button>
+          */}
+        <LoadingButton
+          onClick={handleDeactivate}
+          color="error"
+          variant="contained"
+          loading={deactivating}
+        >
+          Deactivate
+        </LoadingButton>
+
       </DialogActions>
     </Dialog>
 
