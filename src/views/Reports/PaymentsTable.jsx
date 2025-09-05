@@ -20,7 +20,6 @@ import PaidIcon from '@mui/icons-material/Paid'; // Optional: for total amount
 
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
-import { LoadingButton } from '@mui/lab';
 
 
 
@@ -623,14 +622,13 @@ const handleSendStkPush = async () => {
           Deactivate
         </Button>
           */}
-        <LoadingButton
+        <Button
           onClick={handleDeactivate}
           color="error"
           variant="contained"
-          loading={deactivating}
         >
-          Deactivate
-        </LoadingButton>
+          { deactivating? "loading...":"Deactivating"}
+        </Button>
 
       </DialogActions>
     </Dialog>
