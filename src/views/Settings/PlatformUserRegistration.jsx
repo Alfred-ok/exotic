@@ -394,17 +394,6 @@ export default function PlatformUserModal({ open, setOpen, onSuccess }) {
       return;
     }
 
-    const result = await Swal.fire({
-      title: 'Are you sure?',
-      text: 'Do you want to register this user?',
-      icon: 'question',
-      showCancelButton: true,
-      confirmButtonText: 'Yes, register',
-      cancelButtonText: 'Cancel',
-    });
-
-    if (!result.isConfirmed) return;
-
     setLoading(true);
     try {
       await axios.post(`${baseURL}/api/register`, form, {
