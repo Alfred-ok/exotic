@@ -219,7 +219,7 @@ const handleSendStkPush = async () => {
       },
       body: JSON.stringify({
         product_id: stkProductId,
-        platform_id: 1,
+        platform_id: platformId,
         user_id: stkUserId,
         phone: stkPhone,
         duration: 'monthly',
