@@ -107,6 +107,7 @@ useEffect(() => {
           phone: p.phone,
           amount: parseFloat(p.amount),
           product: p.product,
+          product_id: p.product_id, //new
           status: p.status,
           ref: p.transaction_reference || 'N/A',
           date: p.created_at.split(' ')[0],
@@ -506,7 +507,7 @@ const handleSendStkPush = async () => {
                         size="small"
                         onClick={() =>
                           handleOpenModal(
-                            pay.product === 'VIP' ? 1 : pay.product === 'premimum' ? 2 : 3,
+                            pay.product_id,
                             parseInt(pay.id.replace('P', ''))
                           )
                         }
