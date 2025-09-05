@@ -80,8 +80,8 @@ const Profiles = () => {
                 <TableCell>{profile.post_id}</TableCell>
                 <TableCell>{profile.post_title}</TableCell>
                 <TableCell>{profile.post_status}</TableCell>
-                <TableCell>{profile.post_author}</TableCell>
-                <TableCell>{profile.post_date}</TableCell>
+                {/*<TableCell>{profile.post_author}</TableCell>
+                <TableCell>{profile.post_date}</TableCell>*/}
                 <TableCell>{profile.activated_at}</TableCell>
                 <TableCell>{profile.expires_at}</TableCell>
               </TableRow>
