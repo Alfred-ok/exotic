@@ -626,6 +626,7 @@ const handleSendStkPush = async () => {
           onClick={handleDeactivate}
           color="error"
           variant="contained"
+          disabled={deactivating}
         >
           { deactivating? "loading...":"Deactivating"}
         </Button>
