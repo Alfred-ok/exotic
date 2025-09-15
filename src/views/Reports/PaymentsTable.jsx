@@ -4,6 +4,8 @@ import {
   TableRow, TextField, Pagination, Tabs, Tab,
   MenuItem
 } from '@mui/material';
+import { FormControl, InputLabel, Select } from "@mui/material";
+
 //import { jsPDF } from 'jspdf';
 //import 'jspdf-autotable';
 import * as XLSX from 'xlsx';
@@ -59,6 +61,7 @@ export default function PaymentsTable() {
   const [stkPhone, setStkPhone] = useState('');
   const [stkUserId, setStkUserId] = useState(null);
   const [stkProductId, setStkProductId] = useState(null);
+  const [products, setProducts] = useState([]);
   
 
 
@@ -239,11 +242,27 @@ const handleSendStkPush = async () => {
   } finally {
     setStkModalOpen(false);
     setStkPhone('');
+    setStkProductId("");
   }
 };
 
 
 
+
+
+// fetch products when stkModalOpen
+useEffect(() => {
+  if (stkModalOpen) {
+    fetch(`${baseURL}/api/products`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.products) {
+          setProducts(data.products);
+        }
+      })
+      .catch((err) => console.error("Error fetching products:", err));
+  }
+}, [stkModalOpen]);
 
 
 
@@ -636,42 +655,63 @@ const handleSendStkPush = async () => {
 
 
 
-    <Dialog
+
+<Dialog
   open={stkModalOpen}
   onClose={() => setStkModalOpen(false)}
   PaperProps={{
-    sx: {
-      width: '300px',
-      padding: '16px',
-      borderRadius: '12px',
-    },
+    sx: { width: "300px", padding: "16px", borderRadius: "12px" },
   }}
 >
   <DialogTitle>STK Push</DialogTitle>
   <DialogContent>
-    <DialogContentText>Enter phone number to send STK push:</DialogContentText>
-   <TextField
+    <DialogContentText>
+      Select a product and enter phone number to send STK push:
+    </DialogContentText>
+
+    {/* Product selection */}
+    <FormControl fullWidth margin="normal">
+      <InputLabel id="product-label">Product</InputLabel>
+      <Select
+        labelId="product-label"
+        value={stkProductId || ""}
+        onChange={(e) => setStkProductId(e.target.value)}
+      >
+        {products.map((p) => (
+          <MenuItem key={p.id} value={p.id}>
+            {p.name}
+          </MenuItem>
+        ))}
+      </Select>
+    </FormControl>
+
+    {/* Phone input */}
+    <TextField
       label="Phone Number"
       fullWidth
-      value={stkPhone.startsWith('254') ? stkPhone.slice(3) : ''}
+      value={stkPhone.startsWith("254") ? stkPhone.slice(3) : ""}
       onChange={(e) => {
-        const input = e.target.value.replace(/\D/g, ''); // only digits
-        const trimmed = input.replace(/^0+/, '');
+        const input = e.target.value.replace(/\D/g, ""); // only digits
+        const trimmed = input.replace(/^0+/, "");
         setStkPhone(`254${trimmed}`);
       }}
       margin="normal"
       helperText="Enter number without 0 (e.g. 712345678)"
     />
-
   </DialogContent>
+
   <DialogActions>
     <Button onClick={() => setStkModalOpen(false)}>Cancel</Button>
-    <Button onClick={handleSendStkPush} variant="contained" color="primary">
+    <Button
+      onClick={handleSendStkPush}
+      variant="contained"
+      color="primary"
+      disabled={!stkProductId || !stkPhone}
+    >
       Send STK
     </Button>
   </DialogActions>
 </Dialog>
-
 
 
 
