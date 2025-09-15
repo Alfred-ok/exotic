@@ -44,7 +44,7 @@ export default function PaymentsTable() {
   const [currentPage, setCurrentPage] = useState(1);
   const [tabIndex, setTabIndex] = useState(0);
   //const rowsPerPage = 5;
-  const [rowsPerPage, setRowsPerPage] = useState(100);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
   zoomies.register();
   const [loading, setLoading] = useState(false);
 
