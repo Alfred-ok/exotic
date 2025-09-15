@@ -213,7 +213,15 @@ const handleOpenStkModal = (userId, product) => {
   setStkModalOpen(true);
 };
 
+const stkpayload ={
+  product_id: stkProductId,
+  platform_id: platformId,
+  user_id: stkUserId,
+  phone: stkPhone,
+  duration: 'monthly',
+}
 
+console.log(stkpayload);
 
 const handleSendStkPush = async () => {
   try {
@@ -222,13 +230,7 @@ const handleSendStkPush = async () => {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({
-        product_id: stkProductId,
-        platform_id: platformId,
-        user_id: stkUserId,
-        phone: stkPhone,
-        duration: 'monthly',
-      }),
+      body: JSON.stringify(stkpayload),
     });
 
     const result = await res.json();
