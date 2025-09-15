@@ -42,7 +42,8 @@ export default function PaymentsTable() {
 
   const [currentPage, setCurrentPage] = useState(1);
   const [tabIndex, setTabIndex] = useState(0);
-  const rowsPerPage = 5;
+  //const rowsPerPage = 5;
+  const [rowsPerPage, setRowsPerPage] = useState(100);
   zoomies.register();
   const [loading, setLoading] = useState(false);
 
@@ -402,6 +403,27 @@ const handleSendStkPush = async () => {
             */}
           </Box>
           </div>
+
+          <Box display="flex" justifyContent="flex-end" alignItems="center" mb={2} gap={2}>
+            <span>Rows per page:</span>
+            <TextField
+              select
+              size="small"
+              value={rowsPerPage}
+              onChange={(e) => {
+                setRowsPerPage(Number(e.target.value));
+                setCurrentPage(1); // reset to first page
+              }}
+              sx={{ width: "100px" }}
+            >
+              {[10, 25, 50, 100].map((option) => (
+                <MenuItem key={option} value={option}>
+                  {option}
+                </MenuItem>
+              ))}
+            </TextField>
+          </Box>
+
 
           <TableContainer component={Paper} elevation={2}>
             <Table>
