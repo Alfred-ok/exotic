@@ -341,6 +341,18 @@ const handleSendStkPush = async () => {
                 .toFixed(2)}
             </Button>
           </Box>
+
+          <div style={{display:"flex", justifyContent:"flex-end", alignItems:"center"}}>
+            <Box display="flex" gap={2} mb={2}>
+              <Button
+                variant="contained"
+                onClick={handleExportExcel}
+                startIcon={<FileDownloadIcon />}
+              >
+                Export Excel
+              </Button>
+            </Box>
+          </div>
           
         </div>
           <Grid container spacing={2} mb={2}>
@@ -383,27 +395,7 @@ const handleSendStkPush = async () => {
             </Grid>
 
           </Grid>
-          <div style={{display:"flex", justifyContent:"flex-end", alignItems:"center"}}>
-          <Box display="flex" gap={2} mb={2}>
-            <Button
-              variant="contained"
-              onClick={handleExportExcel}
-              startIcon={<FileDownloadIcon />}
-            >
-              Export Excel
-            </Button>
-          {/*      
-           <Button
-              variant="contained"
-              color="secondary"
-              onClick={handleExportPDF}
-              startIcon={<PictureAsPdfIcon />}
-            >
-              Export PDF
-            </Button>
-            */}
-          </Box>
-          </div>
+          
 
           <Box display="flex" justifyContent="flex-end" alignItems="center" mb={2} gap={2}>
             <span>Rows per page:</span>
