@@ -5,7 +5,7 @@
 
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import {
+import { 
   Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
   Paper, Typography, CircularProgress, Box
 } from '@mui/material';

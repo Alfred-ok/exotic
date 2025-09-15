@@ -56,7 +56,8 @@ const EscortPostsTable = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [sortConfig, setSortConfig] = useState({ key: '', direction: 'asc' });
   const [viewTab, setViewTab] = useState(0);
-  const rowsPerPage = 5;
+  //const rowsPerPage = 5;
+  const [rowsPerPage, setRowsPerPage] = useState(100);
   zoomies.register();
   const [loading, setLoading] = useState(false);
   const totalPosts = posts.length;
@@ -262,6 +263,28 @@ const EscortPostsTable = () => {
         </Box>
         </div>
       </Box>
+
+      {/* Rows per page selector */}
+      <Box display="flex" justifyContent="flex-end" alignItems="center" mt={2} mb={2} gap={2}>
+        <Typography variant="body2">Rows per page:</Typography>
+        <TextField
+          select
+          size="small"
+          value={rowsPerPage}
+          onChange={(e) => {
+            setRowsPerPage(Number(e.target.value));
+            setCurrentPage(1); // reset to first page
+          }}
+          sx={{ width: "100px" }}
+        >
+          {[10, 25, 50, 100].map((option) => (
+            <MenuItem key={option} value={option}>
+              {option}
+            </MenuItem>
+          ))}
+        </TextField>
+      </Box>
+
 
       {viewTab === 0 ? (    
         <>
