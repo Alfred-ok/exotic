@@ -57,7 +57,7 @@ const EscortPostsTable = () => {
   const [sortConfig, setSortConfig] = useState({ key: '', direction: 'asc' });
   const [viewTab, setViewTab] = useState(0);
   //const rowsPerPage = 5;
-  const [rowsPerPage, setRowsPerPage] = useState(100);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
   zoomies.register();
   const [loading, setLoading] = useState(false);
   const totalPosts = posts.length;
