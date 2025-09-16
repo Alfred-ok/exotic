@@ -157,7 +157,7 @@ export default function AuthLogin() {
           </Button>
         </AnimateButton>
       </Box>
-      <Box sx={{ mt: 2 }}>   
+      {/*<Box sx={{ mt: 2 }}>   
        <button
           onClick={handleGoogleLogin}
           style={{
@@ -184,7 +184,7 @@ export default function AuthLogin() {
           Sign in with Google
         </button>
 
-      </Box>
+      </Box>*/}
       
 
     </>
