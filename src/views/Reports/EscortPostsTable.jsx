@@ -203,14 +203,14 @@ const EscortPostsTable = () => {
         </div>
       ) : (
       <>
-      <Box mb={2}>
+      <Box>
       
         <Tabs value={viewTab} onChange={(e, val) => setViewTab(val)}>
           <Tab label="Table View" />
           <Tab label="Chart View" />
         </Tabs>
         
-        <div style={{display:"flex", justifyContent:"center", backgroundColor:"rgba(236, 236, 236, 0.5)", maxWidth:"100%", padding:"10px", borderTopLeftRadius:"10px", borderTopRightRadius:"10px"}}>
+        <div style={{display:"flex", justifyContent:"center", backgroundColor:"rgba(236, 236, 236, 0.5)", maxWidth:"100%", padding:"10px"}}>
         <Grid container spacing={2} mt={2} mb={2} style={{backgroundColor:"rgba(220, 220, 220, 0.5)", borderRadius:"15px", maxWidth:"95%",}}>
         {/* Total Profiles Card */}
         <Grid item xs={12} sm={6} md={3} style={{padding:"10px"}}>
@@ -307,7 +307,7 @@ const EscortPostsTable = () => {
         </div>
       </Box>
 
-      <div style={{display:"flex", justifyContent:"space-between", alignItems:"center", backgroundColor:"rgba(236, 236, 236, 0.5)", maxWidth:"100%", padding:"10px", borderRadius:"10px"}}> 
+      <div style={{display:"flex", justifyContent:"space-between", alignItems:"center", backgroundColor:"rgba(236, 236, 236, 0.5)", maxWidth:"100%", padding:"10px",}}> 
       <Box display="flex" justifyContent="flex" gap={2} mb={2} style={{marginTop:"20px"}}>
            {/* <Button variant="contained" color="secondary" startIcon={<PictureAsPdfIcon />} onClick={exportToPDF}>Export PDF</Button>*/}
             <Button variant="contained" color="primary" startIcon={<FileDownloadIcon />}  onClick={exportToExcel}>Export Excel</Button>
