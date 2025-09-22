@@ -66,6 +66,8 @@ export default function PaymentsTable() {
   const [stkUserId, setStkUserId] = useState(null);
   const [stkProductId, setStkProductId] = useState(null);
   const [products, setProducts] = useState([]);
+  const [stkDuration, setStkDuration] = useState("");
+
   
 
 
@@ -222,7 +224,7 @@ const stkpayload ={
   platform_id: platformId,
   user_id: stkUserId,
   phone: stkPhone,
-  duration: 'monthly',
+  duration: stkDuration,
 }
 
 console.log(stkpayload);
@@ -794,6 +796,7 @@ useEffect(() => {
         labelId="product-label"
         value={stkProductId || ""}
         onChange={(e) => setStkProductId(e.target.value)}
+        required
       >
         {products.map((p) => (
           <MenuItem key={p.id} value={p.id}>
@@ -802,6 +805,21 @@ useEffect(() => {
         ))}
       </Select>
     </FormControl>
+
+    {/* Duration selection */}
+    <FormControl fullWidth margin="normal">
+      <InputLabel id="duration-label">Duration</InputLabel>
+      <Select
+        labelId="duration-label"
+        value={stkDuration}
+        onChange={(e) => setStkDuration(e.target.value)}
+        required
+      >
+        <MenuItem value="biweekly_price">Biweekly</MenuItem>
+        <MenuItem value="monthly_price">Monthly</MenuItem>
+      </Select>
+    </FormControl>
+
 
     {/* Phone input */}
     <TextField
@@ -815,6 +833,7 @@ useEffect(() => {
       }}
       margin="normal"
       helperText="Enter number without 0 (e.g. 712345678)"
+      required
     />
   </DialogContent>
 
