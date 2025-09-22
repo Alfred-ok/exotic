@@ -273,6 +273,7 @@ const EscortPostsTable = () => {
             <CardContent sx={{ display: "flex", alignItems: "center"}}>
               <Box
                 sx={{
+                  bgcolor: bgColor,
                   borderRadius: "10%",
                   p: 1.5,
                   display: "flex",
