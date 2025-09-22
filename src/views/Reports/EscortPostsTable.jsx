@@ -209,8 +209,8 @@ const EscortPostsTable = () => {
           <Tab label="Table View" />
           <Tab label="Chart View" />
         </Tabs>
-        <div style={{display:"flex", justifyContent:"space-between"}}>
-        <Grid container spacing={2} mt={2} mb={2} style={{backgroundColor:"rgba(220, 220, 220, 0.5)", borderRadius:"15px"}}>
+        <div style={{display:"flex", justifyContent:"center", backgroundColor:"rgba(236, 236, 236, 0.5)", maxWidth:"100%", padding:"10px", borderRadius:"10px"}}>
+        <Grid container spacing={2} mt={2} mb={2} style={{backgroundColor:"rgba(220, 220, 220, 0.5)", borderRadius:"15px", maxWidth:"95%",}}>
         {/* Total Profiles Card */}
         <Grid item xs={12} sm={6} md={3} style={{padding:"10px"}}>
           <Card

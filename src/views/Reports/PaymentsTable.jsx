@@ -333,7 +333,7 @@ useEffect(() => {
                   borderRadius: 3,
                   boxShadow: 2,
                   cursor: "pointer",
-                  "&:hover": { boxShadow: 3 },
+                  "&:hover": { boxShadow: 2 },
                 }}
               >
                 <CardContent sx={{ display: "flex", alignItems: "center"}} style={{padding:"10px"}}>
@@ -369,7 +369,7 @@ useEffect(() => {
                   borderRadius: 3,
                   boxShadow: 2,
                   cursor: "pointer",
-                  "&:hover": { boxShadow: 3 },
+                  "&:hover": { boxShadow: 2 },
                 }}
               >
                 <CardContent sx={{ display: "flex", alignItems: "center"}} style={{padding:"10px"}}>
