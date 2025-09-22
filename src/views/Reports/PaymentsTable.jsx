@@ -320,54 +320,6 @@ useEffect(() => {
       {tabIndex === 0 && (
         <>
         <div style={{ display:"flex", justifyContent:"space-between", marginTop:"25px", marginBottom:"20px" }}>
-          {/* <Box mb={2}>
-            <Button variant="contained" color="primary" style={{marginRight:"8px"}}><strong>Total Records : </strong> {filteredPayments.length} </Button>
-            <Button
-              variant="contained"
-              color="primary"
-              style={{ marginRight: "8px" }}
-              startIcon={<PaidIcon />}
-            >
-              <strong>Total : </strong> KES {filteredPayments
-                .reduce((sum, p) => sum + p.amount, 0)
-                .toFixed(2)}
-            </Button>
-           <Button
-              variant="contained"
-              style={{ marginRight: "8px", backgroundColor: '#2e7d32' }}
-              startIcon={<CheckCircleIcon />}
-            >
-              <strong>Success : </strong> KES {filteredPayments
-                .filter(p => p.status.toLowerCase() === 'completed')
-                .reduce((sum, p) => sum + p.amount, 0)
-                .toFixed(2)}
-            </Button>
-
-            <Button
-              variant="contained"
-              style={{ marginRight: "8px", backgroundColor: '#f9a825' }}
-              startIcon={<HourglassTopIcon />}
-            >
-              <strong>Pending : </strong> KES {filteredPayments
-                .filter(p => p.status.toLowerCase() === 'pending')
-                .reduce((sum, p) => sum + p.amount, 0)
-                .toFixed(2)}
-            </Button>
-
-            <Button
-              variant="contained"
-              style={{ marginRight: "8px", backgroundColor: '#c62828' }}
-              startIcon={<CancelIcon />}
-            >
-              <strong>Failed : </strong> KES {filteredPayments
-                .filter(p => p.status.toLowerCase() === 'failed')
-                .reduce((sum, p) => sum + p.amount, 0)
-                .toFixed(2)}
-            </Button>
-          </Box> */}
-
-
-
           {/* ===== Payment Summary Cards ===== */}
           <Grid container spacing={2} mt={2} mb={2} style={{backgroundColor:"rgba(220, 220, 220, 0.5)", borderRadius:"15px"}}>
 
@@ -525,19 +477,6 @@ useEffect(() => {
             </Grid>
           </Grid>
 
-
-          <div style={{display:"flex", justifyContent:"flex-end", alignItems:"center"}}>
-            <Box display="flex" gap={2} mb={2}>
-              <Button
-                variant="contained"
-                onClick={handleExportExcel}
-                startIcon={<FileDownloadIcon />}
-              >
-                Export Excel
-              </Button>
-            </Box>
-          </div>
-          
         </div>
           <Grid container spacing={2} mb={2}>
             <Grid item xs={2}><TextField label="Payment ID" size="small" fullWidth value={filters.id || ''} onChange={(e) => handleFilterChange('id', e.target.value)} /></Grid>
@@ -579,7 +518,19 @@ useEffect(() => {
             </Grid>
 
           </Grid>
-          
+
+
+
+          <div style={{display:"flex", justifyContent:"space-between", alignItems:"center"}}>
+          <Box display="flex" gap={2} mb={2}>
+            <Button
+              variant="contained"
+              onClick={handleExportExcel}
+              startIcon={<FileDownloadIcon />}
+            >
+              Export Excel
+            </Button>
+          </Box>
 
           <Box display="flex" justifyContent="flex-end" alignItems="center" mb={2} gap={2}>
             <span>Rows per page:</span>
@@ -600,6 +551,7 @@ useEffect(() => {
               ))}
             </TextField>
           </Box>
+          </div>
 
 
           <TableContainer component={Paper} elevation={2}>
