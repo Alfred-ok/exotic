@@ -321,7 +321,7 @@ useEffect(() => {
       
 
       {tabIndex === 0 && (
-        <div style={{backgroundColor:"rgba(236, 236, 236, 0.5)"}}>
+        <div style={{backgroundColor:"rgba(236, 236, 236, 0.5)", maxWidth:"100%", padding:"2px"}}>
         <div style={{ display:"flex", justifyContent:"space-between", marginTop:"25px", marginBottom:"20px" }}>
           {/* ===== Payment Summary Cards ===== */}
           <Grid container spacing={2} mt={2} mb={2} style={{backgroundColor:"rgba(220, 220, 220, 0.5)", borderRadius:"15px"}}>
