@@ -270,7 +270,7 @@ const EscortPostsTable = () => {
               "&:hover": { boxShadow: 3 },
             }}
           >
-            <CardContent sx={{ display: "flex", alignItems: "center"}}>
+            <CardContent sx={{ display: "flex", alignItems: "center",bgcolor:"red"}}>
               <Box
                 sx={{
                   bgcolor: bgColor,
