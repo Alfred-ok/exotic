@@ -259,7 +259,7 @@ const EscortPostsTable = () => {
           })}
         </div> */}
 
-        <Grid container spacing={2} mt={2} mb={2}>
+        <Grid container spacing={2} mt={2} mb={2} style={{backgroundColor:"rgba(173, 173, 173, 0.5)"}}>
         {/* Total Profiles Card */}
         <Grid item xs={12} sm={6} md={3}>
           <Card
