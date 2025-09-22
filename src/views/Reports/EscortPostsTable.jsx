@@ -282,7 +282,7 @@ const EscortPostsTable = () => {
                   mr: 2,
                 }}
               >
-                <PersonIcon color="primary" />
+                <PersonIcon color="ligtht" />
               </Box>
               <Box>
                 <Typography variant="subtitle1" fontWeight="bold">
