@@ -269,8 +269,9 @@ const EscortPostsTable = () => {
               cursor: "pointer",
               "&:hover": { boxShadow: 3 },
             }}
+            style={{backgroundColor:"red"}}
           >
-            <CardContent sx={{ display: "flex", alignItems: "center",bgcolor:"red"}}>
+            <CardContent sx={{ display: "flex", alignItems: "center"}} style={{backgroundColor:"green"}}>
               <Box
                 sx={{
                   bgcolor: bgColor,
