@@ -26,6 +26,7 @@ import PaidIcon from '@mui/icons-material/Paid'; // Optional: for total amount
 
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
+import AutoAwesomeMotionIcon from '@mui/icons-material/AutoAwesomeMotion';
 
 
 
@@ -345,11 +346,11 @@ useEffect(() => {
                       mr: 2,
                     }}
                   >
-                    <PaidIcon style={{color:"white"}} />
+                    <AutoAwesomeMotionIcon style={{color:"white"}} />
                   </Box>
                   <Box>
                     <Typography variant="subtitle1" fontWeight="bold">
-                      Total Payments
+                      Total Records
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
                       {filteredPayments.length}

@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import {
   Box, Button, Grid, Paper, Table, TableBody, TableCell, TableContainer, TableHead,
   TableRow, TextField, Pagination, Tabs, Tab,
-  MenuItem
+  MenuItem,
+  Typography
 } from '@mui/material';
 //import { jsPDF } from 'jspdf';
 //import 'jspdf-autotable';
@@ -277,7 +278,7 @@ const handleSendStkPush = async () => {
       {tabIndex === 0 && (
         <>
         <div style={{ display:"flex", justifyContent:"space-between", marginTop:"25px", marginBottom:"20px" }}>
-          <Box mb={2}>
+          {/* <Box mb={2}>
             <Button variant="contained" color="primary" style={{marginRight:"8px"}}><strong>Total Records : </strong> {filteredPayments.length} </Button>
             <Button
               variant="contained"
@@ -321,7 +322,209 @@ const handleSendStkPush = async () => {
                 .reduce((sum, p) => sum + p.amount, 0)
                 .toFixed(2)}
             </Button>
-          </Box>
+          </Box> */}
+
+
+          {/* ===== Payment Summary Cards ===== */}
+          <Grid container spacing={2} mt={2} mb={2} style={{backgroundColor:"rgba(220, 220, 220, 0.5)", borderRadius:"15px"}}>
+
+            {/* Total Payments */}
+            <Grid item xs={12} sm={6} md={3} style={{padding:"10px"}}>
+              <Paper
+                elevation={3}
+                sx={{
+                  borderRadius: 3,
+                  cursor: "pointer",
+                  p: 2,
+                  display: "flex",
+                  alignItems: "center",
+                  "&:hover": { boxShadow: 6 },
+                }}
+              >
+                <Box
+                  sx={{
+                    bgcolor:'#1976d2',
+                    borderRadius: "12px",
+                    p: 1.5,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    mr: 2,
+                  }}
+                >
+                  <PaidIcon style={{color:"white"}} />
+                </Box>
+                <Box>
+                  <Typography variant="subtitle1" fontWeight="bold">
+                    Total Records
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    {filteredPayments.length}
+                  </Typography>
+                </Box>
+              </Paper>
+            </Grid>
+
+            {/* Total Amount */}
+            <Grid item xs={12} sm={6} md={3} style={{padding:"10px"}}>
+              <Paper
+                elevation={3}
+                sx={{
+                  borderRadius: 3,
+                  cursor: "pointer",
+                  p: 2,
+                  display: "flex",
+                  alignItems: "center",
+                  "&:hover": { boxShadow: 6 },
+                }}
+              >
+                <Box
+                  sx={{
+                    bgcolor:'#e3f2fd',
+                    borderRadius: "12px",
+                    p: 1.5,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    mr: 2,
+                  }}
+                >
+                  <AssessmentIcon color="primary" />
+                </Box>
+                <Box>
+                  <Typography variant="subtitle1" fontWeight="bold">
+                    Total Amount
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    KES {filteredPayments
+                      .reduce((sum, p) => sum + p.amount, 0)
+                      .toFixed(2)}
+                  </Typography>
+                </Box>
+              </Paper>
+            </Grid>
+
+            {/* Success Payments */}
+            <Grid item xs={12} sm={6} md={3} style={{padding:"10px"}}>
+              <Paper
+                elevation={3}
+                sx={{
+                  borderRadius: 3,
+                  cursor: "pointer",
+                  p: 2,
+                  display: "flex",
+                  alignItems: "center",
+                  "&:hover": { boxShadow: 6 },
+                }}
+              >
+                <Box
+                  sx={{
+                    bgcolor:'#e8f5e9',
+                    borderRadius: "12px",
+                    p: 1.5,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    mr: 2,
+                  }}
+                >
+                  <CheckCircleIcon color="success" />
+                </Box>
+                <Box>
+                  <Typography variant="subtitle1" fontWeight="bold">
+                    Success
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    KES {filteredPayments
+                      .filter(p => p.status.toLowerCase() === 'success')
+                      .reduce((sum, p) => sum + p.amount, 0)
+                      .toFixed(2)}
+                  </Typography>
+                </Box>
+              </Paper>
+            </Grid>
+
+            {/* Pending Payments */}
+            <Grid item xs={12} sm={6} md={3} style={{padding:"10px"}}>
+              <Paper
+                elevation={3}
+                sx={{
+                  borderRadius: 3,
+                  cursor: "pointer",
+                  p: 2,
+                  display: "flex",
+                  alignItems: "center",
+                  "&:hover": { boxShadow: 6 },
+                }}
+              >
+                <Box
+                  sx={{
+                    bgcolor:'#fff8e1',
+                    borderRadius: "12px",
+                    p: 1.5,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    mr: 2,
+                  }}
+                >
+                  <HourglassTopIcon color="warning" />
+                </Box>
+                <Box>
+                  <Typography variant="subtitle1" fontWeight="bold">
+                    Pending
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    KES {filteredPayments
+                      .filter(p => p.status.toLowerCase() === 'pending')
+                      .reduce((sum, p) => sum + p.amount, 0)
+                      .toFixed(2)}
+                  </Typography>
+                </Box>
+              </Paper>
+            </Grid>
+
+            {/* Failed Payments */}
+            <Grid item xs={12} sm={6} md={3} style={{padding:"10px"}}>
+              <Paper
+                elevation={3}
+                sx={{
+                  borderRadius: 3,
+                  cursor: "pointer",
+                  p: 2,
+                  display: "flex",
+                  alignItems: "center",
+                  "&:hover": { boxShadow: 6 },
+                }}
+              >
+                <Box
+                  sx={{
+                    bgcolor:'#ffebee',
+                    borderRadius: "12px",
+                    p: 1.5,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    mr: 2,
+                  }}
+                >
+                  <CancelIcon color="error" />
+                </Box>
+                <Box>
+                  <Typography variant="subtitle1" fontWeight="bold">
+                    Failed
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    KES {filteredPayments
+                      .filter(p => p.status.toLowerCase() === 'failed')
+                      .reduce((sum, p) => sum + p.amount, 0)
+                      .toFixed(2)}
+                  </Typography>
+                </Box>
+              </Paper>
+            </Grid>
+          </Grid>
+
           
         </div>
           <Grid container spacing={2} mb={2}>
@@ -373,16 +576,6 @@ const handleSendStkPush = async () => {
             >
               Export Excel
             </Button>
-          {/*      
-           <Button
-              variant="contained"
-              color="secondary"
-              onClick={handleExportPDF}
-              startIcon={<PictureAsPdfIcon />}
-            >
-              Export PDF
-            </Button>
-            */}
           </Box>
           </div>
 
