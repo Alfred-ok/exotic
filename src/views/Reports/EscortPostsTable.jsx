@@ -270,7 +270,7 @@ const EscortPostsTable = () => {
               "&:hover": { boxShadow: 3 },
             }}
           >
-            <CardContent sx={{ display: "flex", alignItems: "center"}} style={{backgroundColor:"#338fecff", padding:"10px"}}>
+            <CardContent sx={{ display: "flex", alignItems: "center"}} style={{backgroundColor:"#aed5fbff", padding:"10px"}}>
               <Box
                 sx={{
                   bgcolor:'#1976d2',
@@ -316,7 +316,7 @@ const EscortPostsTable = () => {
           }
 
           return (
-            <Grid item xs={12} sm={6} md={2} key={item.status}>
+            <Grid item xs={12} sm={6} md={3} key={item.status}>
               <Card
                 sx={{
                   borderRadius: 3,
@@ -325,7 +325,7 @@ const EscortPostsTable = () => {
                   "&:hover": { boxShadow: 3 },
                 }}
               >
-                <CardContent sx={{ display: "flex", alignItems: "center" }}>
+                <CardContent sx={{ display: "flex", alignItems: "center", bgcolor: bgColor, }} style={{padding:"10px"}}>
                   <Box
                     sx={{
                       bgcolor: bgColor,
