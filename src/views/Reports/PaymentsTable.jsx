@@ -317,7 +317,7 @@ useEffect(() => {
       {tabIndex === 0 && (
         <>
         <div style={{ display:"flex", justifyContent:"space-between", marginTop:"25px", marginBottom:"20px" }}>
-          <Box mb={2}>
+          {/* <Box mb={2}>
             <Button variant="contained" color="primary" style={{marginRight:"8px"}}><strong>Total Records : </strong> {filteredPayments.length} </Button>
             <Button
               variant="contained"
@@ -361,7 +361,166 @@ useEffect(() => {
                 .reduce((sum, p) => sum + p.amount, 0)
                 .toFixed(2)}
             </Button>
-          </Box>
+          </Box> */}
+
+
+          {/* ===== Payment Summary Cards ===== */}
+<Grid container spacing={2} mt={2} mb={2} style={{backgroundColor:"rgba(220, 220, 220, 0.5)", borderRadius:"15px"}}>
+
+  {/* Total Payments */}
+  <Grid item xs={12} sm={6} md={3} style={{padding:"10px"}}>
+    <Card
+      sx={{
+        borderRadius: 3,
+        boxShadow: 2,
+        cursor: "pointer",
+        "&:hover": { boxShadow: 3 },
+      }}
+    >
+      <CardContent sx={{ display: "flex", alignItems: "center"}} style={{padding:"10px"}}>
+        <Box
+          sx={{
+            bgcolor:'#1976d2',
+            borderRadius: "8%",
+            p: 1.5,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            mr: 2,
+          }}
+        >
+          <PaidIcon style={{color:"white"}} />
+        </Box>
+        <Box>
+          <Typography variant="subtitle1" fontWeight="bold">
+            Total Payments
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            {filteredPayments.length}
+          </Typography>
+        </Box>
+      </CardContent>
+    </Card>
+  </Grid>
+
+  {/* Success Payments */}
+  <Grid item xs={12} sm={6} md={3} style={{padding:"10px"}}>
+    <Card
+      sx={{
+        borderRadius: 3,
+        boxShadow: 2,
+        cursor: "pointer",
+        "&:hover": { boxShadow: 3 },
+      }}
+    >
+      <CardContent sx={{ display: "flex", alignItems: "center"}} style={{padding:"10px"}}>
+        <Box
+          sx={{
+            bgcolor:'#e8f5e9',
+            borderRadius: "8%",
+            p: 1.5,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            mr: 2,
+          }}
+        >
+          <CheckCircleIcon color="success" />
+        </Box>
+        <Box>
+          <Typography variant="subtitle1" fontWeight="bold">
+            Completed
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            KES {filteredPayments
+              .filter(p => p.status.toLowerCase() === 'completed')
+              .reduce((sum, p) => sum + p.amount, 0)
+              .toFixed(2)}
+          </Typography>
+        </Box>
+      </CardContent>
+    </Card>
+  </Grid>
+
+  {/* Pending Payments */}
+  <Grid item xs={12} sm={6} md={3} style={{padding:"10px"}}>
+    <Card
+      sx={{
+        borderRadius: 3,
+        boxShadow: 2,
+        cursor: "pointer",
+        "&:hover": { boxShadow: 3 },
+      }}
+    >
+      <CardContent sx={{ display: "flex", alignItems: "center"}} style={{padding:"10px"}}>
+        <Box
+          sx={{
+            bgcolor:'#fff8e1',
+            borderRadius: "8%",
+            p: 1.5,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            mr: 2,
+          }}
+        >
+          <HourglassTopIcon color="warning" />
+        </Box>
+        <Box>
+          <Typography variant="subtitle1" fontWeight="bold">
+            Pending
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            KES {filteredPayments
+              .filter(p => p.status.toLowerCase() === 'pending')
+              .reduce((sum, p) => sum + p.amount, 0)
+              .toFixed(2)}
+          </Typography>
+        </Box>
+      </CardContent>
+    </Card>
+  </Grid>
+
+  {/* Failed Payments */}
+  <Grid item xs={12} sm={6} md={3} style={{padding:"10px"}}>
+    <Card
+      sx={{
+        borderRadius: 3,
+        boxShadow: 2,
+        cursor: "pointer",
+        "&:hover": { boxShadow: 3 },
+      }}
+    >
+      <CardContent sx={{ display: "flex", alignItems: "center"}} style={{padding:"10px"}}>
+        <Box
+          sx={{
+            bgcolor:'#ffebee',
+            borderRadius: "8%",
+            p: 1.5,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            mr: 2,
+          }}
+        >
+          <CancelIcon color="error" />
+        </Box>
+        <Box>
+          <Typography variant="subtitle1" fontWeight="bold">
+            Failed
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            KES {filteredPayments
+              .filter(p => p.status.toLowerCase() === 'failed')
+              .reduce((sum, p) => sum + p.amount, 0)
+              .toFixed(2)}
+          </Typography>
+        </Box>
+      </CardContent>
+    </Card>
+  </Grid>
+</Grid>
+
 
           <div style={{display:"flex", justifyContent:"flex-end", alignItems:"center"}}>
             <Box display="flex" gap={2} mb={2}>

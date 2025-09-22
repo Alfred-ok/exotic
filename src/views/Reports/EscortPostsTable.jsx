@@ -210,55 +210,6 @@ const EscortPostsTable = () => {
           <Tab label="Chart View" />
         </Tabs>
         <div style={{display:"flex", justifyContent:"space-between"}}>
-        {/* <div style={{ display:"flex", marginTop:"25px", marginBottom:"20px" }}>
-          <Typography variant="h6" color="primary">;
-            <Button
-              variant="contained"
-              color="primary"
-              style={{ marginRight: "8px" }}
-              startIcon={<PersonIcon />}
-            >
-              Total Escort Profiles: {totalPosts}
-            </Button>
-          </Typography> 
-          
-          {chartData.map((item) => {
-              let icon;
-
-                // Assign icon based on item.status
-                switch (item.status.toLowerCase()) {
-                  case 'success':
-                    icon = <CheckCircleIcon />;
-                    break;
-                  case 'pending':
-                    icon = <HourglassEmptyIcon />;
-                    break;
-                  case 'failed':
-                    icon = <ErrorIcon />;
-                    break;
-                  default:
-                    icon = <PersonIcon />;
-                }
-                return (
-                  <Typography
-                    color="primary"
-                    style={{ display: "flex" }}
-                    key={item.status}
-                    variant="body2"
-                  >
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      style={{ marginRight: "8px" }}
-                      startIcon={icon}
-                    >
-                      {item.status}: {item.count}
-                    </Button>
-                  </Typography>
-                );
-          })}
-        </div> */}
-
         <Grid container spacing={2} mt={2} mb={2} style={{backgroundColor:"rgba(220, 220, 220, 0.5)", borderRadius:"15px"}}>
         {/* Total Profiles Card */}
         <Grid item xs={12} sm={6} md={3} style={{padding:"10px"}}>
