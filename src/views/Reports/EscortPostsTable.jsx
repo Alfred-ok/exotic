@@ -10,6 +10,7 @@ import {
 import * as XLSX from 'xlsx';
 import { AreaChart, Area, XAxis, YAxis, Tooltip, CartesianGrid, ResponsiveContainer, Legend } from 'recharts';
 
+import { Card, CardContent } from '@mui/material';
 import MainCard from 'ui-component/cards/MainCard';
 import AssessmentIcon from '@mui/icons-material/Assessment';
 import { zoomies } from 'ldrs'
@@ -209,7 +210,7 @@ const EscortPostsTable = () => {
           <Tab label="Chart View" />
         </Tabs>
         <div style={{display:"flex", justifyContent:"space-between"}}>
-        <div style={{ display:"flex", marginTop:"25px", marginBottom:"20px" }}>
+        {/* <div style={{ display:"flex", marginTop:"25px", marginBottom:"20px" }}>
           <Typography variant="h6" color="primary">;
             <Button
               variant="contained"
@@ -256,7 +257,102 @@ const EscortPostsTable = () => {
                   </Typography>
                 );
           })}
-        </div>
+        </div> */}
+
+        <Grid container spacing={2} mt={2} mb={2}>
+        {/* Total Profiles Card */}
+        <Grid item xs={12} sm={6} md={3}>
+          <Card
+            sx={{
+              borderRadius: 3,
+              boxShadow: 2,
+              cursor: "pointer",
+              "&:hover": { boxShadow: 6 },
+            }}
+          >
+            <CardContent sx={{ display: "flex", alignItems: "center" }}>
+              <Box
+                sx={{
+                  bgcolor: "#e3f2fd",
+                  borderRadius: "50%",
+                  p: 1.5,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  mr: 2,
+                }}
+              >
+                <PersonIcon color="primary" />
+              </Box>
+              <Box>
+                <Typography variant="subtitle1" fontWeight="bold">
+                  Total Escort Profiles
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  {totalPosts}
+                </Typography>
+              </Box>
+            </CardContent>
+          </Card>
+        </Grid>
+
+        {/* Dynamic Status Cards */}
+        {chartData.map((item) => {
+          let icon;
+          let bgColor;
+
+          switch (item.status.toLowerCase()) {
+            case "published":
+              icon = <CheckCircleIcon color="success" />;
+              bgColor = "#e8f5e9";
+              break;
+            case "private":
+              icon = <HourglassEmptyIcon color="warning" />;
+              bgColor = "#fff8e1";
+              break;
+            default:
+              icon = <ErrorIcon color="error" />;
+              bgColor = "#ffebee";
+          }
+
+          return (
+            <Grid item xs={12} sm={6} md={3} key={item.status}>
+              <Card
+                sx={{
+                  borderRadius: 3,
+                  boxShadow: 2,
+                  cursor: "pointer",
+                  "&:hover": { boxShadow: 6 },
+                }}
+              >
+                <CardContent sx={{ display: "flex", alignItems: "center" }}>
+                  <Box
+                    sx={{
+                      bgcolor: bgColor,
+                      borderRadius: "50%",
+                      p: 1.5,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      mr: 2,
+                    }}
+                  >
+                    {icon}
+                  </Box>
+                  <Box>
+                    <Typography variant="subtitle1" fontWeight="bold">
+                      {item.status}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      {item.count}
+                    </Typography>
+                  </Box>
+                </CardContent>
+              </Card>
+            </Grid>
+          );
+        })}
+      </Grid>
         <Box display="flex" justifyContent="flex" gap={2} mb={2} style={{marginTop:"20px"}}>
            {/* <Button variant="contained" color="secondary" startIcon={<PictureAsPdfIcon />} onClick={exportToPDF}>Export PDF</Button>*/}
             <Button variant="contained" color="primary" startIcon={<FileDownloadIcon />}  onClick={exportToExcel}>Export Excel</Button>
