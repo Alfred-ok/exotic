@@ -273,7 +273,7 @@ const EscortPostsTable = () => {
             <CardContent sx={{ display: "flex", alignItems: "center" }}>
               <Box
                 sx={{
-                  bgcolor: "#e3f2fd",
+                  bgcolor: "#1976d2",
                   borderRadius: "50%",
                   p: 1.5,
                   display: "flex",
@@ -322,10 +322,10 @@ const EscortPostsTable = () => {
                   borderRadius: 3,
                   boxShadow: 2,
                   cursor: "pointer",
-                  "&:hover": { boxShadow: 6 },
+                  "&:hover": { boxShadow: 2 },
                 }}
               >
-                <CardContent sx={{ display: "flex", alignItems: "center" }}>
+                <CardContent sx={{ display: "flex", alignItems: "center",bgcolor: bgColor, }}>
                   <Box
                     sx={{
                       bgcolor: bgColor,
@@ -353,13 +353,15 @@ const EscortPostsTable = () => {
           );
         })}
       </Grid>
-        <Box display="flex" justifyContent="flex" gap={2} mb={2} style={{marginTop:"20px"}}>
-           {/* <Button variant="contained" color="secondary" startIcon={<PictureAsPdfIcon />} onClick={exportToPDF}>Export PDF</Button>*/}
-            <Button variant="contained" color="primary" startIcon={<FileDownloadIcon />}  onClick={exportToExcel}>Export Excel</Button>
-        </Box>
+        
         </div>
       </Box>
 
+      <div style={{display:"flex", justifyContent:"space-between", alignItems:"center"}}> 
+      <Box display="flex" justifyContent="flex" gap={2} mb={2} style={{marginTop:"20px"}}>
+           {/* <Button variant="contained" color="secondary" startIcon={<PictureAsPdfIcon />} onClick={exportToPDF}>Export PDF</Button>*/}
+            <Button variant="contained" color="primary" startIcon={<FileDownloadIcon />}  onClick={exportToExcel}>Export Excel</Button>
+        </Box>
       {/* Rows per page selector */}
       <Box display="flex" justifyContent="flex-end" alignItems="center" mt={2} mb={2} gap={2}>
         <Typography variant="body2">Rows per page:</Typography>
@@ -380,7 +382,7 @@ const EscortPostsTable = () => {
           ))}
         </TextField>
       </Box>
-
+      </div> 
 
       {viewTab === 0 ? (    
         <>
