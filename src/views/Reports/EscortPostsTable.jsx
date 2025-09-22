@@ -269,12 +269,13 @@ const EscortPostsTable = () => {
               cursor: "pointer",
               "&:hover": { boxShadow: 3 },
             }}
+            style={{padding:"2px"}}
           >
             <CardContent sx={{ display: "flex", alignItems: "center"}} style={{padding:"10px"}}>
               <Box
                 sx={{
                   bgcolor:'#1976d2',
-                  borderRadius: "50%",
+                  borderRadius: "8%",
                   p: 1.5,
                   display: "flex",
                   alignItems: "center",
@@ -282,7 +283,7 @@ const EscortPostsTable = () => {
                   mr: 2,
                 }}
               >
-                <PersonIcon color="ligtht" />
+                <PersonIcon style={{color:"white"}} />
               </Box>
               <Box>
                 <Typography variant="subtitle1" fontWeight="bold">
