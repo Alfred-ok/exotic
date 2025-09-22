@@ -259,7 +259,7 @@ const EscortPostsTable = () => {
           })}
         </div> */}
 
-        <Grid container spacing={2} mt={2} mb={2} style={{backgroundColor:"rgba(173, 173, 173, 0.5)"}}>
+        <Grid container spacing={2} mt={2} mb={2} style={{backgroundColor:"rgba(220, 220, 220, 0.5)",padding:"6px", borderRadius:"15px"}}>
         {/* Total Profiles Card */}
         <Grid item xs={12} sm={6} md={3}>
           <Card
@@ -325,7 +325,7 @@ const EscortPostsTable = () => {
                   "&:hover": { boxShadow: 2 },
                 }}
               >
-                <CardContent sx={{ display: "flex", alignItems: "center",bgcolor: bgColor, }}>
+                <CardContent sx={{ display: "flex", alignItems: "center" }}>
                   <Box
                     sx={{
                       bgcolor: bgColor,
