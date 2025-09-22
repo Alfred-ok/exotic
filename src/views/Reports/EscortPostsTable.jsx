@@ -270,7 +270,7 @@ const EscortPostsTable = () => {
               "&:hover": { boxShadow: 3 },
             }}
           >
-            <CardContent sx={{ display: "flex", alignItems: "center"}} style={{backgroundColor:"#aed5fbff", padding:"10px"}}>
+            <CardContent sx={{ display: "flex", alignItems: "center"}} style={{padding:"10px"}}>
               <Box
                 sx={{
                   bgcolor:'#1976d2',
@@ -325,7 +325,7 @@ const EscortPostsTable = () => {
                   "&:hover": { boxShadow: 3 },
                 }}
               >
-                <CardContent sx={{ display: "flex", alignItems: "center", bgcolor: bgColor, }} style={{padding:"10px"}}>
+                <CardContent sx={{ display: "flex", alignItems: "center" }} style={{padding:"10px"}}>
                   <Box
                     sx={{
                       bgcolor: bgColor,
