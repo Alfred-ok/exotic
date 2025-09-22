@@ -261,7 +261,7 @@ const EscortPostsTable = () => {
 
         <Grid container spacing={2} mt={2} mb={2} style={{backgroundColor:"rgba(220, 220, 220, 0.5)", borderRadius:"15px"}}>
         {/* Total Profiles Card */}
-        <Grid item xs={12} sm={6} md={3} style={{padding:"8px"}}>
+        <Grid item xs={12} sm={6} md={3} style={{padding:"10px"}}>
           <Card
             sx={{
               borderRadius: 3,
@@ -316,7 +316,7 @@ const EscortPostsTable = () => {
           }
 
           return (
-            <Grid item xs={12} sm={6} md={3} key={item.status} style={{padding:"8px"}}>
+            <Grid item xs={12} sm={6} md={3} key={item.status} style={{padding:"10px"}}>
               <Card
                 sx={{
                   borderRadius: 3,
