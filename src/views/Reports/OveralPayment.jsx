@@ -22,6 +22,7 @@ import PaidIcon from '@mui/icons-material/Paid'; // Optional: for total amount
 
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
+import AutoAwesomeMotionIcon from '@mui/icons-material/AutoAwesomeMotion';
 
 
 import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
@@ -352,7 +353,7 @@ const handleSendStkPush = async () => {
                     mr: 2,
                   }}
                 >
-                  <PaidIcon style={{color:"white"}} />
+                  <AutoAwesomeMotionIcon style={{color:"white"}} />
                 </Box>
                 <Box>
                   <Typography variant="subtitle1" fontWeight="bold">
@@ -366,7 +367,7 @@ const handleSendStkPush = async () => {
             </Grid>
 
             {/* Total Amount */}
-            <Grid item xs={12} sm={6} md={3} style={{padding:"10px"}}>
+            {/* <Grid item xs={12} sm={6} md={3} style={{padding:"10px"}}>
               <Paper
                 elevation={3}
                 sx={{
@@ -402,7 +403,7 @@ const handleSendStkPush = async () => {
                   </Typography>
                 </Box>
               </Paper>
-            </Grid>
+            </Grid> */}
 
             {/* Success Payments */}
             <Grid item xs={12} sm={6} md={3} style={{padding:"10px"}}>
@@ -432,11 +433,11 @@ const handleSendStkPush = async () => {
                 </Box>
                 <Box>
                   <Typography variant="subtitle1" fontWeight="bold">
-                    Success
+                    Completed
                   </Typography>
                   <Typography variant="body2" color="text.secondary">
                     KES {filteredPayments
-                      .filter(p => p.status.toLowerCase() === 'success')
+                      .filter(p => p.status.toLowerCase() === 'completed')
                       .reduce((sum, p) => sum + p.amount, 0)
                       .toFixed(2)}
                   </Typography>
