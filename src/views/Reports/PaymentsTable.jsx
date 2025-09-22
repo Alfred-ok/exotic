@@ -324,10 +324,10 @@ useEffect(() => {
         <div style={{backgroundColor:"rgba(236, 236, 236, 0.5)", maxWidth:"100%", padding:"10px", borderRadius:"10px"}}>
         <div style={{ display:"flex", justifyContent:"center", marginTop:"15px", marginBottom:"20px" }}>
           {/* ===== Payment Summary Cards ===== */}
-          <Grid container spacing={2} mt={2} mb={2} style={{backgroundColor:"rgba(220, 220, 220, 0.5)", borderRadius:"15px",  maxWidth:"90%",}}>
+          <Grid container spacing={2} mt={2} mb={2} style={{backgroundColor:"rgba(220, 220, 220, 0.5)", borderRadius:"15px",  maxWidth:"95%",}}>
 
             {/* Total Payments */}
-            <Grid item xs={12} sm={6} md={3} style={{paddingInline:"5px"}}>
+            <Grid item xs={12} sm={6} md={3} style={{padding:"10px"}}>
               <Card
                 sx={{
                   borderRadius: 3,
