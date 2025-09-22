@@ -219,7 +219,6 @@ const EscortPostsTable = () => {
               borderRadius: 3,
               boxShadow: 2,
               cursor: "pointer",
-              "&:hover": { boxShadow: 3 },
             }}
           >
             <CardContent sx={{ display: "flex", alignItems: "center"}} style={{padding:"10px"}}>
@@ -274,7 +273,6 @@ const EscortPostsTable = () => {
                   borderRadius: 3,
                   boxShadow: 2,
                   cursor: "pointer",
-                  "&:hover": { boxShadow: 3 },
                 }}
               >
                 <CardContent sx={{ display: "flex", alignItems: "center" }} style={{padding:"10px"}}>
@@ -309,7 +307,7 @@ const EscortPostsTable = () => {
         </div>
       </Box>
 
-      <div style={{display:"flex", justifyContent:"space-between", alignItems:"center"}}> 
+      <div style={{display:"flex", justifyContent:"space-between", alignItems:"center", backgroundColor:"rgba(236, 236, 236, 0.5)", maxWidth:"100%", padding:"10px", borderRadius:"10px"}}> 
       <Box display="flex" justifyContent="flex" gap={2} mb={2} style={{marginTop:"20px"}}>
            {/* <Button variant="contained" color="secondary" startIcon={<PictureAsPdfIcon />} onClick={exportToPDF}>Export PDF</Button>*/}
             <Button variant="contained" color="primary" startIcon={<FileDownloadIcon />}  onClick={exportToExcel}>Export Excel</Button>
