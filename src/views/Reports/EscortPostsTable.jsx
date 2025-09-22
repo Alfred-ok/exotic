@@ -261,16 +261,16 @@ const EscortPostsTable = () => {
 
         <Grid container spacing={2} mt={2} mb={2} style={{backgroundColor:"rgba(220, 220, 220, 0.5)",padding:"10px", borderRadius:"15px"}}>
         {/* Total Profiles Card */}
-        <Grid item xs={12} sm={6} md={3}>
+        <Grid item xs={12} sm={6} md={2}>
           <Card
             sx={{
               borderRadius: 3,
               boxShadow: 2,
               cursor: "pointer",
-              "&:hover": { boxShadow: 6 },
+              "&:hover": { boxShadow: 3 },
             }}
           >
-            <CardContent sx={{ display: "flex", alignItems: "center", bgcolor: "#1976d2", }}>
+            <CardContent sx={{ display: "flex", alignItems: "center"}}>
               <Box
                 sx={{
                   borderRadius: "10%",
@@ -315,13 +315,13 @@ const EscortPostsTable = () => {
           }
 
           return (
-            <Grid item xs={12} sm={6} md={3} key={item.status}>
+            <Grid item xs={12} sm={6} md={2} key={item.status}>
               <Card
                 sx={{
                   borderRadius: 3,
                   boxShadow: 2,
                   cursor: "pointer",
-                  "&:hover": { boxShadow: 2 },
+                  "&:hover": { boxShadow: 3 },
                 }}
               >
                 <CardContent sx={{ display: "flex", alignItems: "center" }}>
