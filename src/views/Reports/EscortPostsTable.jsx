@@ -209,7 +209,8 @@ const EscortPostsTable = () => {
           <Tab label="Table View" />
           <Tab label="Chart View" />
         </Tabs>
-        <div style={{display:"flex", justifyContent:"center", backgroundColor:"rgba(236, 236, 236, 0.5)", maxWidth:"100%", padding:"10px", borderRadius:"10px"}}>
+        
+        <div style={{display:"flex", justifyContent:"center", backgroundColor:"rgba(236, 236, 236, 0.5)", maxWidth:"100%", padding:"10px", borderTopLeftRadius:"10px", borderTopRightRadius:"10px"}}>
         <Grid container spacing={2} mt={2} mb={2} style={{backgroundColor:"rgba(220, 220, 220, 0.5)", borderRadius:"15px", maxWidth:"95%",}}>
         {/* Total Profiles Card */}
         <Grid item xs={12} sm={6} md={3} style={{padding:"10px"}}>
@@ -336,7 +337,7 @@ const EscortPostsTable = () => {
       </div> 
 
       {viewTab === 0 ? (    
-        <>
+        <div style={{ backgroundColor:"rgba(236, 236, 236, 0.5)", maxWidth:"100%", padding:"10px", borderBottomLeftRadius:"10px", borderBottomLeftRadius:"10px"}}>
           <Grid container spacing={2} mb={2}>
             <Grid item xs={6} sm={2}><TextField label="Post ID" size="small" fullWidth value={filters.id} onChange={e => handleFilterChange('id', e.target.value)} /></Grid>
             <Grid item xs={6} sm={2}><TextField label="Escort Name" size="small" fullWidth value={filters.name} onChange={e => handleFilterChange('name', e.target.value)} /></Grid>
@@ -493,7 +494,7 @@ const EscortPostsTable = () => {
               color="primary"
             />
           </Box>
-        </>
+        </div>
       ) : (
          <ResponsiveContainer width="100%" height={400}>
             <AreaChart
