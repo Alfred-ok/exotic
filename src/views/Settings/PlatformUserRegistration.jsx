@@ -366,6 +366,7 @@ export default function PlatformUserModal({ open, setOpen, onSuccess }) {
     password: '',
     confirmPassword: '',
     role: 'sub_admin',
+    platform_ids : [1]
   });
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -375,7 +376,7 @@ export default function PlatformUserModal({ open, setOpen, onSuccess }) {
 
   const handleClose = () => {
     setOpen(false);
-    setForm({ name: '', email: '', password: '', confirmPassword: '', role: 'sub_admin' });
+    setForm({ name: '', email: '', password: '', confirmPassword: '', role: 'sub_admin', platform_ids : [1] });
     setShowPassword(false);
     setShowConfirmPassword(false);
   };
