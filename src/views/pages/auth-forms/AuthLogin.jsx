@@ -68,11 +68,11 @@ export default function AuthLogin() {
 
     const { message, user } = response.data;
 
-    console.log(user);
     // Save to localStorage
     localStorage.setItem('userName', user.name);
     localStorage.setItem('userEmail', user.email);
     localStorage.setItem('userRole', user.role);
+    localStorage.setItem('platform',user.platforms);
 
     //alert(message);
     navigate('/platform-selector');
