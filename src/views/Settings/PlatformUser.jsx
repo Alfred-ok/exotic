@@ -447,7 +447,7 @@ export default function PlatformUser() {
                                 </TableHead>
                                 <TableBody>
                                   {user.platforms.map((platform) => (
-                                    <TableRow key={platform.id} style={{backgroundColor:"rgba(239, 238, 238, 0.3)",borderRadius:"8px"}}>
+                                    <TableRow key={platform.id} style={{backgroundColor:"rgba(255, 255, 255, 0.8)",borderRadius:"8px"}}>
                                       <TableCell>{platform.id}</TableCell>
                                       <TableCell>{platform.name}</TableCell>
                                       <TableCell>{platform.domain}</TableCell>
