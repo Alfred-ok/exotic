@@ -16,7 +16,7 @@ import {
   Chip,
   Box,
 } from '@mui/material';
-import { Visibility, VisibilityOff } from '@mui/icons-material';
+import { Label, Visibility, VisibilityOff } from '@mui/icons-material';
 import Swal from 'sweetalert2';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
@@ -208,10 +208,10 @@ export default function PlatformUserModal({ open, setOpen, onSuccess }) {
             {/* Platforms with Chips */}
             {form.role === 'sales' && (
             <Grid item xs={12}>
+              <Label>Assign Platform</Label>
               <Select
                 multiple
                 fullWidth
-                label="Assign Platform"
                 value={form.platform_ids}
                 onChange={(e) =>
                   setForm({ ...form, platform_ids: e.target.value })
