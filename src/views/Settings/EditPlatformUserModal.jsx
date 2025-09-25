@@ -210,6 +210,9 @@ export default function EditPlatformUserModal({ open, onClose, userData, onUpdat
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+     // close dialog first
+      onClose();
+
     const confirm = await Swal.fire({
       title: 'Update User?',
       text: 'Are you sure you want to save changes?',
@@ -219,7 +222,10 @@ export default function EditPlatformUserModal({ open, onClose, userData, onUpdat
       cancelButtonText: 'Cancel',
     });
 
-    if (!confirm.isConfirmed) return;
+    if (!confirm.isConfirmed) {
+      // reopen if cancelled
+      return onClose(false, true);
+    }
 
     try {
       await axios.put(`${baseURL}/api/users/${userData.id}`, form);
