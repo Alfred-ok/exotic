@@ -146,3 +146,9 @@
     transform: translateX(10px);
   }
 }
+
+
+.swal-override-z {
+  z-index: 20000 !important; /* higher than MUI Dialog (1300+) */
+}
+
