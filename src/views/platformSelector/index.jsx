@@ -63,7 +63,7 @@ export default function PlatformSelector() {
     { name: 'South Africa', code: 'za' }
   ];
 
-  console.log(platformsales);
+
   const fetchPlatforms = async () => {
     try {
       const response = await fetch(`${baseURL}/api/platforms`);
@@ -109,9 +109,43 @@ export default function PlatformSelector() {
     }
   };
 
-  useEffect(() => {
+
+
+
+//for sales peple
+useEffect(() => {
+  if (role === "sales") {
+    // Use platforms from localStorage
+    const storedPlatforms = JSON.parse(localStorage.getItem("platforms")) || [];
+    const formatted = storedPlatforms.map((p) => ({
+      id: p.id,
+      name: p.name,
+      domain: p.domain,
+      country: p.country,
+    }));
+
+    setPlatforms(formatted);
+
+    // Count by country
+    const counts = {};
+    countries.forEach((c) => {
+      counts[c.name] = formatted.filter((p) => p.country === c.name).length;
+    });
+    setCountryCounts(counts);
+
+    // Select first available tab
+    const firstWithPlatforms = countries.find((c) => counts[c.name] > 0);
+    if (firstWithPlatforms) {
+      setSelectedTab(firstWithPlatforms.name);
+    }
+
+    setGlobalLoading(false);
+  } else {
+    // For admins and other roles → fetch from API
     fetchPlatforms();
-  }, []);
+  }
+}, [role]);
+
 
   // ---- Add or Update ----
   const handleSubmit = async (e) => {
