@@ -437,7 +437,7 @@ export default function PlatformUser() {
                             ) : (
                               <Table size="small">
                                 <TableHead>
-                                  <TableRow style={{backgroundColor:"rgba(83, 83, 83, 0.5)",borderRadius:"8px"}}>
+                                  <TableRow style={{backgroundColor:"rgba(83, 83, 83, 0.5)"}}>
                                     <TableCell style={{color:"#fff"}}>ID</TableCell>
                                     <TableCell style={{color:"#fff"}}>Name</TableCell>
                                     <TableCell style={{color:"#fff"}}>Domain</TableCell>
@@ -447,7 +447,7 @@ export default function PlatformUser() {
                                 </TableHead>
                                 <TableBody>
                                   {user.platforms.map((platform) => (
-                                    <TableRow key={platform.id} style={{backgroundColor:"rgba(255, 255, 255, 0.8)",borderRadius:"8px"}}>
+                                    <TableRow key={platform.id} style={{backgroundColor:"rgba(255, 255, 255, 0.8)"}}>
                                       <TableCell>{platform.id}</TableCell>
                                       <TableCell>{platform.name}</TableCell>
                                       <TableCell>{platform.domain}</TableCell>
