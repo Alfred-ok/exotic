@@ -46,7 +46,6 @@ export default function PlatformSelector() {
   const [isEdit, setIsEdit] = useState(false);
   const [editId, setEditId] = useState(null);
 
-  const platformsales= JSON.parse(localStorage.getItem('platforms'));
   const role = localStorage.getItem('userRole');
   const navigate = useNavigate();
   const theme = useTheme();
