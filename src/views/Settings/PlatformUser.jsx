@@ -418,7 +418,7 @@ export default function PlatformUser() {
 
                     <TableRow>
                       <TableCell
-                        style={{ paddingBottom: 0, paddingTop: 0 }}
+                        style={{ paddingBottom: 0, paddingTop: 0, backgroundColor:"rgba(211, 211, 211, 0.5)" }}
                         colSpan={7}
                       >
                         <Collapse
