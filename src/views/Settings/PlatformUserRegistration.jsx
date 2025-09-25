@@ -188,7 +188,6 @@
 
 
 
-
 import {
   Dialog,
   DialogTitle,
@@ -201,6 +200,10 @@ import {
   IconButton,
   InputAdornment,
   CircularProgress,
+  Select,
+  OutlinedInput,
+  Chip,
+  Box,
 } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import Swal from 'sweetalert2';
@@ -306,6 +309,7 @@ export default function PlatformUserModal({ open, setOpen, onSuccess }) {
       <form onSubmit={handleSubmit}>
         <DialogContent dividers>
           <Grid container spacing={2}>
+            {/* Full Name */}
             <Grid item xs={12}>
               <TextField
                 label="Full Name"
@@ -315,6 +319,8 @@ export default function PlatformUserModal({ open, setOpen, onSuccess }) {
                 onChange={(e) => setForm({ ...form, name: e.target.value })}
               />
             </Grid>
+
+            {/* Email */}
             <Grid item xs={12}>
               <TextField
                 label="Email"
@@ -325,6 +331,8 @@ export default function PlatformUserModal({ open, setOpen, onSuccess }) {
                 onChange={(e) => setForm({ ...form, email: e.target.value })}
               />
             </Grid>
+
+            {/* Password */}
             <Grid item xs={12}>
               <TextField
                 label="Password"
@@ -344,6 +352,8 @@ export default function PlatformUserModal({ open, setOpen, onSuccess }) {
                 }}
               />
             </Grid>
+
+            {/* Confirm Password */}
             <Grid item xs={12}>
               <TextField
                 label="Confirm Password"
@@ -367,7 +377,7 @@ export default function PlatformUserModal({ open, setOpen, onSuccess }) {
               />
             </Grid>
 
-            {/* Role Dropdown */}
+            {/* Role */}
             <Grid item xs={12}>
               <TextField
                 label="Role"
@@ -384,21 +394,35 @@ export default function PlatformUserModal({ open, setOpen, onSuccess }) {
               </TextField>
             </Grid>
 
-            {/* Platforms Multi Select */}
+            {/* Platforms with Chips */}
             <Grid item xs={12}>
-              <TextField
-                label="Assign Platforms"
-                select
+              <Select
+                multiple
                 fullWidth
-                SelectProps={{ multiple: true }}
                 value={form.platform_ids}
                 onChange={(e) =>
-                  setForm({
-                    ...form,
-                    platform_ids: e.target.value,
-                  })
+                  setForm({ ...form, platform_ids: e.target.value })
                 }
-                disabled={loadingPlatforms}
+                input={<OutlinedInput label="Assign Platforms" />}
+                renderValue={(selected) => (
+                  <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                    {selected.map((id) => {
+                      const platform = platforms.find((p) => p.id === id);
+                      return (
+                        <Chip
+                          key={id}
+                          label={platform ? platform.name : id}
+                          onDelete={() =>
+                            setForm({
+                              ...form,
+                              platform_ids: form.platform_ids.filter((pid) => pid !== id),
+                            })
+                          }
+                        />
+                      );
+                    })}
+                  </Box>
+                )}
               >
                 {loadingPlatforms ? (
                   <MenuItem disabled>
@@ -411,10 +435,11 @@ export default function PlatformUserModal({ open, setOpen, onSuccess }) {
                     </MenuItem>
                   ))
                 )}
-              </TextField>
+              </Select>
             </Grid>
           </Grid>
         </DialogContent>
+
         <DialogActions>
           <Button onClick={handleClose} disabled={loading}>
             Cancel
