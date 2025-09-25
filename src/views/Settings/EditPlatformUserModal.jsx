@@ -217,9 +217,6 @@ export default function EditPlatformUserModal({ open, onClose, userData, onUpdat
       showCancelButton: true,
       confirmButtonText: 'Yes, update',
       cancelButtonText: 'Cancel',
-      customClass: {
-        popup: 'swal-override-z'
-      }
     });
 
     if (!confirm.isConfirmed) return;
