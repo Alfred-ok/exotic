@@ -208,7 +208,7 @@ export default function PlatformUserModal({ open, setOpen, onSuccess }) {
             {/* Platforms with Chips */}
             {form.role === 'sales' && (
             <Grid item xs={12}>
-              <Label>Assign Platform</Label>
+              <label>Assign Platform</label>
               <Select
                 multiple
                 fullWidth
