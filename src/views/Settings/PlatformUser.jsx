@@ -418,7 +418,7 @@ export default function PlatformUser() {
 
                     <TableRow>
                       <TableCell
-                        style={{ paddingBottom: 0, paddingTop: 0, backgroundColor:"rgba(211, 211, 211, 0.5)" }}
+                        style={{ paddingBottom: 0, paddingTop: 0, backgroundColor:"rgba(234, 234, 234, 0.5)" }}
                         colSpan={7}
                       >
                         <Collapse
@@ -437,17 +437,17 @@ export default function PlatformUser() {
                             ) : (
                               <Table size="small">
                                 <TableHead>
-                                  <TableRow>
-                                    <TableCell>ID</TableCell>
-                                    <TableCell>Name</TableCell>
-                                    <TableCell>Domain</TableCell>
-                                    <TableCell>Country</TableCell>
-                                    <TableCell>Active</TableCell>
+                                  <TableRow style={{backgroundColor:"rgba(83, 83, 83, 0.5)",borderRadius:"8px"}}>
+                                    <TableCell style={{color:"#fff"}}>ID</TableCell>
+                                    <TableCell style={{color:"#fff"}}>Name</TableCell>
+                                    <TableCell style={{color:"#fff"}}>Domain</TableCell>
+                                    <TableCell style={{color:"#fff"}}>Country</TableCell>
+                                    <TableCell style={{color:"#fff"}}>Active</TableCell>
                                   </TableRow>
                                 </TableHead>
                                 <TableBody>
                                   {user.platforms.map((platform) => (
-                                    <TableRow key={platform.id}>
+                                    <TableRow key={platform.id} style={{backgroundColor:"rgba(239, 238, 238, 0.3)",borderRadius:"8px"}}>
                                       <TableCell>{platform.id}</TableCell>
                                       <TableCell>{platform.name}</TableCell>
                                       <TableCell>{platform.domain}</TableCell>
