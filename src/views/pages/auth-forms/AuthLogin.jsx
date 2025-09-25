@@ -72,7 +72,7 @@ export default function AuthLogin() {
     localStorage.setItem('userName', user.name);
     localStorage.setItem('userEmail', user.email);
     localStorage.setItem('userRole', user.role);
-    localStorage.setItem('platform',user.platforms);
+    localStorage.setItem('platforms', JSON.stringify(user.platforms));
 
     //alert(message);
     navigate('/platform-selector');
