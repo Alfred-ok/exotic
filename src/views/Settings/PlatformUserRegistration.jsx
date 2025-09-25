@@ -206,59 +206,61 @@ export default function PlatformUserModal({ open, setOpen, onSuccess }) {
             </Grid>
 
             {/* Platforms with Chips */}
+            {form.role === 'sales' && (
             <Grid item xs={12}>
-  <Select
-    multiple
-    fullWidth
-    value={form.platform_ids}
-    onChange={(e) =>
-      setForm({ ...form, platform_ids: e.target.value })
-    }
-    input={<OutlinedInput label="Assign Platforms" />}
-    renderValue={(selected) => (
-      <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-        {selected.map((id) => {
-          const platform = platforms.find((p) => p.id === id);
-          return (
-            <Chip
-              key={id}
-              label={platform ? platform.name : id}
-              // ✅ Only remove chip when delete icon is clicked
-              onMouseDown={(event) => event.stopPropagation()} 
-              onDelete={() =>
-                setForm({
-                  ...form,
-                  platform_ids: form.platform_ids.filter(
-                    (pid) => pid !== id
-                  ),
-                })
-              }
-            />
-          );
-        })}
-      </Box>
-    )}
-    // ✅ Prevent clearing via Backspace/Delete keys
-    onKeyDown={(e) => {
-      if (e.key === 'Backspace' || e.key === 'Delete') {
-        e.stopPropagation();
-      }
-    }}
-  >
-    {loadingPlatforms ? (
-      <MenuItem disabled>
-        <CircularProgress size={20} /> Loading...
-      </MenuItem>
-    ) : (
-      platforms.map((platform) => (
-        <MenuItem key={platform.id} value={platform.id}>
-          {platform.name}
-        </MenuItem>
-      ))
-    )}
-  </Select>
-</Grid>
-
+              <Select
+                multiple
+                fullWidth
+                label="Assign Platform"
+                value={form.platform_ids}
+                onChange={(e) =>
+                  setForm({ ...form, platform_ids: e.target.value })
+                }
+                input={<OutlinedInput label="Assign Platforms" />}
+                renderValue={(selected) => (
+                  <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                    {selected.map((id) => {
+                      const platform = platforms.find((p) => p.id === id);
+                      return (
+                        <Chip
+                          key={id}
+                          label={platform ? platform.name : id}
+                          // ✅ Only remove chip when delete icon is clicked
+                          onMouseDown={(event) => event.stopPropagation()} 
+                          onDelete={() =>
+                            setForm({
+                              ...form,
+                              platform_ids: form.platform_ids.filter(
+                                (pid) => pid !== id
+                              ),
+                            })
+                          }
+                        />
+                      );
+                    })}
+                  </Box>
+                )}
+                // ✅ Prevent clearing via Backspace/Delete keys
+                onKeyDown={(e) => {
+                  if (e.key === 'Backspace' || e.key === 'Delete') {
+                    e.stopPropagation();
+                  }
+                }}
+              >
+                {loadingPlatforms ? (
+                  <MenuItem disabled>
+                    <CircularProgress size={20} /> Loading...
+                  </MenuItem>
+                ) : (
+                  platforms.map((platform) => (
+                    <MenuItem key={platform.id} value={platform.id}>
+                      {platform.name}
+                    </MenuItem>
+                  ))
+                )}
+              </Select>
+            </Grid>
+            )}    
           </Grid>
         </DialogContent>
 
