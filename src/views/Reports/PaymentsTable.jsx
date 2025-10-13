@@ -118,7 +118,7 @@ useEffect(() => {
         return {
           id: `P${p.payment_id}`,
           userId: `U${p.user_id}`,
-
+          escort_name:p.escort_name,
           phone: p.phone,
           amount: parseFloat(p.amount),
           product: p.product,
