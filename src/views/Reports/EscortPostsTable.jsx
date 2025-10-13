@@ -26,6 +26,17 @@ import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import { useNavigate } from 'react-router-dom';
 //import { useLocation } from 'react-router-dom';
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
+  FormControl,
+  InputLabel,
+  Select
+} from '@mui/material';
+
 
 const escortStatusOptions = [
   { value: '', label: 'All' },
@@ -67,6 +78,14 @@ const EscortPostsTable = () => {
   const platformId = localStorage.getItem('platformId');
   const role = localStorage.getItem('userRole');
   const baseURL = import.meta.env.VITE_APP_BASE_URL;
+
+  //STK push
+  const [stkModalOpen, setStkModalOpen] = useState(false);
+  const [stkPhone, setStkPhone] = useState('');
+  const [stkUserId, setStkUserId] = useState(null);
+  const [stkProductId, setStkProductId] = useState(null);
+  const [products, setProducts] = useState([]);
+  const [stkDuration, setStkDuration] = useState("");
 
   useEffect(() => {
     setLoading(true);
@@ -166,6 +185,52 @@ const EscortPostsTable = () => {
         return acc;
       }, {})
     ).sort((a, b) => new Date(a.date) - new Date(b.date));
+
+
+
+    //STK MODAL OPEN
+    const handleOpenStkModal = (userId, product) => {
+      const productId = product === 'VIP' ? 1 : product === 'premimum' ? 2 : 3;
+      setStkUserId(userId);
+      setStkProductId(productId);
+      setStkModalOpen(true);
+    };
+
+    const stkpayload ={
+      product_id: stkProductId,
+      platform_id: platformId,
+      user_id: stkUserId,
+      phone: stkPhone,
+      duration: stkDuration,
+    }
+
+    console.log(stkpayload);
+
+
+    const handleSendStkPush = async () => {
+      try {
+        const res = await fetch(`${baseURL}/api/manual-stk-push`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(stkpayload),
+        });
+
+        const result = await res.json();
+        if (res.ok) {
+          alert('STK push sent successfully!');
+        } else {
+          alert('STK push failed: ' + result.message);
+        }
+      } catch (error) {
+        alert('Network error: ' + error.message);
+      } finally {
+        setStkModalOpen(false);
+        setStkPhone('');
+        setStkProductId("");
+      }
+    };
 
   return (
     <>
@@ -464,6 +529,21 @@ const EscortPostsTable = () => {
                           }}>{post.guid.slice(0, 21)}</a>
                       </TableCell>
 
+                      <TableCell>
+                        <Button
+                          variant="outlined"
+                          color="primary"
+                          size="small"
+                          style={{ marginLeft: '8px' }}
+                          onClick={() =>
+                            handleOpenStkModal(parseInt(post.user_id.replace('U', '')), pay.product_id)
+                          }
+                        >
+                          STK Push
+                        </Button>
+  
+                      </TableCell>
+
                       { role === "sub-admin"|| role === "admin" ?
                        <TableCell>
                         <Button variant="contained" color="primary" style={{color:"#fff"}} 
@@ -517,6 +597,83 @@ const EscortPostsTable = () => {
       )}
       </> 
     )}
+
+
+    
+    <Dialog
+      open={stkModalOpen}
+      onClose={() => setStkModalOpen(false)}
+      PaperProps={{
+        sx: { width: "300px", padding: "16px", borderRadius: "12px" },
+      }}
+    >
+      <DialogTitle>STK Push</DialogTitle>
+      <DialogContent>
+        <DialogContentText>
+          Select a product and enter phone number to send STK push:
+        </DialogContentText>
+    
+        {/* Product selection */}
+        <FormControl fullWidth margin="normal">
+          <InputLabel id="product-label">Product</InputLabel>
+          <Select
+            labelId="product-label"
+            value={stkProductId || ""}
+            onChange={(e) => setStkProductId(e.target.value)}
+            required
+          >
+            {products.map((p) => (
+              <MenuItem key={p.id} value={p.id}>
+                {p.name}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+    
+        {/* Duration selection */}
+        <FormControl fullWidth margin="normal">
+          <InputLabel id="duration-label">Duration</InputLabel>
+          <Select
+            labelId="duration-label"
+            value={stkDuration}
+            onChange={(e) => setStkDuration(e.target.value)}
+            required
+          >
+            <MenuItem value="biweekly">Biweekly</MenuItem>
+            <MenuItem value="monthly">Monthly</MenuItem>
+          </Select>
+        </FormControl>
+    
+    
+        {/* Phone input */}
+        <TextField
+          label="Phone Number"
+          fullWidth
+          value={stkPhone.startsWith("254") ? stkPhone.slice(3) : stkPhone}
+          onChange={(e) => {
+            const input = e.target.value.replace(/\D/g, ""); // only digits
+            const trimmed = input.replace(/^0+/, "");
+            setStkPhone(`254${trimmed}`);
+          }}
+          margin="normal"
+          helperText="Enter number without 0 (e.g. 712345678)"
+          required
+        />
+      </DialogContent>
+    
+      <DialogActions>
+        <Button onClick={() => setStkModalOpen(false)}>Cancel</Button>
+        <Button
+          onClick={handleSendStkPush}
+          variant="contained"
+          color="primary"
+          disabled={!stkProductId || !stkPhone}
+        >
+          Send STK
+        </Button>
+      </DialogActions>
+    </Dialog>
+
     </MainCard>
     </>
   );
