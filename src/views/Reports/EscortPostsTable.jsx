@@ -51,7 +51,8 @@ const escortHeaders = [
   { id: 'status', label: 'Post Status' },
   { id: 'registered', label: 'Post Date' },
   { id: 'guid', label: 'URL' },
-  { id: 'activation', label: 'Activation' }
+  { id: 'activation', label: 'Activation' },
+  { id: 'activation', label: '' }
 ];
 
  //const location = useLocation();
@@ -62,6 +63,7 @@ const escortHeaders = [
 
 const EscortPostsTable = () => {
   const [posts, setPosts] = useState([]);
+  const [stkLoading, setStkLoading] = useState(false);
   const [filters, setFilters] = useState({
     id: '', name: '', phone: '', status: '', registered: '', guid: '', dateFrom: '', dateTo: ''
   });
@@ -211,15 +213,13 @@ const EscortPostsTable = () => {
 
 
     const handleSendStkPush = async () => {
+      setStkLoading(true); // start loading
       try {
         const res = await fetch(`${baseURL}/api/manual-stk-push`, {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(stkpayload),
         });
-
         const result = await res.json();
         if (res.ok) {
           alert('STK push sent successfully!');
@@ -229,11 +229,13 @@ const EscortPostsTable = () => {
       } catch (error) {
         alert('Network error: ' + error.message);
       } finally {
+        setStkLoading(false); // stop loading
         setStkModalOpen(false);
         setStkPhone('');
-        setStkProductId("");
+        setStkProductId('');
       }
     };
+
 
 
 
@@ -679,17 +681,27 @@ const EscortPostsTable = () => {
         />
       </DialogContent>
     
-      <DialogActions>
-        <Button onClick={() => setStkModalOpen(false)}>Cancel</Button>
-        <Button
-          onClick={handleSendStkPush}
-          variant="contained"
-          color="primary"
-          disabled={!stkProductId || !stkPhone}
-        >
-          Send STK
-        </Button>
-      </DialogActions>
+     <DialogActions>
+      {stkLoading ? (
+        <Box display="flex" justifyContent="center" alignItems="center" width="100%" py={2}>
+          <l-zoomies size="60" speed="1.5" color="rgb(25, 118, 210)"></l-zoomies>
+          <Typography ml={1}>Sending STK Push...</Typography>
+        </Box>
+      ) : (
+        <>
+          <Button onClick={() => setStkModalOpen(false)}>Cancel</Button>
+          <Button
+            onClick={handleSendStkPush}
+            variant="contained"
+            color="primary"
+            disabled={!stkProductId || !stkPhone}
+          >
+            Send STK
+          </Button>
+        </>
+      )}
+    </DialogActions>
+
     </Dialog>
 
     </MainCard>
