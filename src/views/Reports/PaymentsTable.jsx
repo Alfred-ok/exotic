@@ -67,6 +67,7 @@ export default function PaymentsTable() {
   const [stkProductId, setStkProductId] = useState(null);
   const [products, setProducts] = useState([]);
   const [stkDuration, setStkDuration] = useState("");
+  const [stkLoading, setStkLoading] = useState(false);
 
   
 
@@ -230,6 +231,7 @@ const stkpayload ={
 console.log(stkpayload);
 
 const handleSendStkPush = async () => {
+  setStkLoading(true); // start loading
   try {
     const res = await fetch(`${baseURL}/api/manual-stk-push`, {
       method: 'POST',
@@ -248,6 +250,7 @@ const handleSendStkPush = async () => {
   } catch (error) {
     alert('Network error: ' + error.message);
   } finally {
+    setStkLoading(false); // stop loading
     setStkModalOpen(false);
     setStkPhone('');
     setStkProductId("");
@@ -836,15 +839,24 @@ useEffect(() => {
   </DialogContent>
 
   <DialogActions>
-    <Button onClick={() => setStkModalOpen(false)}>Cancel</Button>
-    <Button
-      onClick={handleSendStkPush}
-      variant="contained"
-      color="primary"
-      disabled={!stkProductId || !stkPhone}
-    >
-      Send STK
-    </Button>
+      {stkLoading ? (
+        <Box display="flex" justifyContent="center" alignItems="center" width="100%" py={2}>
+          <l-zoomies size="60" speed="1.5" color="rgb(25, 118, 210)"></l-zoomies>
+          <Typography ml={1}>Sending STK Push...</Typography>
+        </Box>
+        ) : (
+          <>
+          <Button onClick={() => setStkModalOpen(false)}>Cancel</Button>
+          <Button
+            onClick={handleSendStkPush}
+            variant="contained"
+            color="primary"
+            disabled={!stkProductId || !stkPhone}
+          >
+            Send STK
+          </Button>
+          </>
+        )}
   </DialogActions>
 </Dialog>
 
