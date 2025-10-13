@@ -478,7 +478,7 @@ useEffect(() => {
 
         </div>
           <Grid container spacing={2} mb={2}>
-            <Grid item xs={2}><TextField label="Payment ID" size="small" fullWidth value={filters.id || ''} onChange={(e) => handleFilterChange('id', e.target.value)} /></Grid>
+            <Grid item xs={2}><TextField label="Payment ID" size="small" fullWidth value={filters.id || ''} onChange={(e) => handleFilterChange('id', e.target.value)} /></Grid>escort_name
             <Grid item xs={2}><TextField label="User ID" size="small" fullWidth value={filters.userId || ''} onChange={(e) => handleFilterChange('userId', e.target.value)} /></Grid>
             <Grid item xs={2}><TextField label="Phone" size="small" fullWidth value={filters.phone || ''} onChange={(e) => handleFilterChange('phone', e.target.value)} /></Grid>
             <Grid item xs={2}><TextField label="Status" size="small" fullWidth value={filters.status || ''} onChange={(e) => handleFilterChange('status', e.target.value)} /></Grid>
@@ -558,6 +558,7 @@ useEffect(() => {
               <TableHead sx={{ backgroundColor: '#1976d2' }}>
                 <TableRow>
                   <TableCell style={{ color: '#fff' }}>Payment ID</TableCell>
+                  <TableCell style={{ color: '#fff' }}>Name</TableCell>
                   <TableCell style={{ color: '#fff' }}>User ID</TableCell>
                   <TableCell style={{ color: '#fff' }}>Phone</TableCell>
                   <TableCell style={{ color: '#fff' }}>Amount</TableCell>
@@ -580,6 +581,7 @@ useEffect(() => {
                        } 
                     }}>
                     <TableCell>{pay.id}</TableCell>
+                    <TableCell>{pay.escort_name}</TableCell>
                     <TableCell>{pay.userId}</TableCell>
                     <TableCell>{pay.phone}</TableCell>
                     <TableCell>{pay.amount}</TableCell>
