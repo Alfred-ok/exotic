@@ -98,7 +98,7 @@ const EscortPostsTable = () => {
           status: post.post_status,
           registered: post.post_date.split(' ')[0],
           guid: post.guid,
-          user_id: post.escort_user_id  // 👈 add this line
+          user_id: post.user_id  // 👈 add this line
         }));
 
         setPosts(escortData);
