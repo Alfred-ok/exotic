@@ -558,7 +558,7 @@ useEffect(() => {
               <TableHead sx={{ backgroundColor: '#1976d2' }}>
                 <TableRow>
                   <TableCell style={{ color: '#fff' }}>Payment ID</TableCell>
-                  <TableCell style={{ color: '#fff' }}>Name</TableCell>
+                  {/* <TableCell style={{ color: '#fff' }}>Name</TableCell> */}
                   <TableCell style={{ color: '#fff' }}>User ID</TableCell>
                   <TableCell style={{ color: '#fff' }}>Phone</TableCell>
                   <TableCell style={{ color: '#fff' }}>Amount</TableCell>
@@ -581,7 +581,7 @@ useEffect(() => {
                        } 
                     }}>
                     <TableCell>{pay.id}</TableCell>
-                    <TableCell>{pay.escort_name}</TableCell>
+                    {/* <TableCell>{pay.escort_name}</TableCell> */}
                     <TableCell>{pay.userId}</TableCell>
                     <TableCell>{pay.phone}</TableCell>
                     <TableCell>{pay.amount}</TableCell>
