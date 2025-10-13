@@ -584,7 +584,7 @@ useEffect(() => {
                        } 
                     }}>
                     <TableCell>{pay.id}</TableCell>
-                    <TableCell>{pay.escort_name}</TableCell>
+                    <TableCell>{pay.escort_name || 'N/A' }</TableCell>
                     <TableCell>{pay.userId}</TableCell>
                     <TableCell>{pay.phone}</TableCell>
                     <TableCell>{pay.amount}</TableCell>
