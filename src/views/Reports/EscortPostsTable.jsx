@@ -97,7 +97,8 @@ const EscortPostsTable = () => {
           phone: post.phone_number,
           status: post.post_status,
           registered: post.post_date.split(' ')[0],
-          guid: post.guid
+          guid: post.guid,
+          user_id: post.escort_user_id  // 👈 add this line
         }));
 
         setPosts(escortData);
@@ -189,12 +190,14 @@ const EscortPostsTable = () => {
 
 
     //STK MODAL OPEN
-    const handleOpenStkModal = (userId, product) => {
-      const productId = product === 'VIP' ? 1 : product === 'premimum' ? 2 : 3;
+    const handleOpenStkModal = (userId) => {
       setStkUserId(userId);
-      setStkProductId(productId);
+      setStkProductId(null); // clear previous selection
+      setStkDuration("");
+      setStkPhone("");
       setStkModalOpen(true);
     };
+
 
     const stkpayload ={
       product_id: stkProductId,
@@ -535,9 +538,7 @@ const EscortPostsTable = () => {
                           color="primary"
                           size="small"
                           style={{ marginLeft: '8px' }}
-                          onClick={() =>
-                            handleOpenStkModal(parseInt(post.user_id.replace('U', '')), pay.product_id)
-                          }
+                          onClick={() => handleOpenStkModal(post.user_id)}
                         >
                           STK Push
                         </Button>
