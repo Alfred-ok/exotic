@@ -44,7 +44,8 @@ export default function PaymentsTable() {
     status: '',
     dateFrom: '',
     dateTo: '',
-    ref: ''
+    ref: '',
+    name: ''
   });
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -143,6 +144,7 @@ useEffect(() => {
   };
   const filteredPayments = payments.filter(payment =>
     (!filters.id || payment.id.toLowerCase().includes(filters.id.toLowerCase())) &&
+     (!filters.name || (payment.escort_name || '').toLowerCase().includes(filters.name.toLowerCase())) && 
     (!filters.userId || payment.userId.toLowerCase().includes(filters.userId.toLowerCase())) &&
     (!filters.phone || ((payment.phone || "").toString().toLowerCase().includes(filters.phone.toLowerCase()))) &&
     (!filters.status || payment.status.toLowerCase().includes(filters.status.toLowerCase())) &&
@@ -481,7 +483,16 @@ useEffect(() => {
 
         </div>
           <Grid container spacing={2} mb={2}>
-            <Grid item xs={2}><TextField label="Payment ID" size="small" fullWidth value={filters.id || ''} onChange={(e) => handleFilterChange('id', e.target.value)} /></Grid>escort_name
+            <Grid item xs={2}><TextField label="Payment ID" size="small" fullWidth value={filters.id || ''} onChange={(e) => handleFilterChange('id', e.target.value)} /></Grid>
+            <Grid item xs={2}>
+              <TextField
+                label="Name"
+                size="small"
+                fullWidth
+                value={filters.name || ''}
+                onChange={(e) => handleFilterChange('name', e.target.value)}
+              />
+            </Grid>
             <Grid item xs={2}><TextField label="User ID" size="small" fullWidth value={filters.userId || ''} onChange={(e) => handleFilterChange('userId', e.target.value)} /></Grid>
             <Grid item xs={2}><TextField label="Phone" size="small" fullWidth value={filters.phone || ''} onChange={(e) => handleFilterChange('phone', e.target.value)} /></Grid>
             <Grid item xs={2}><TextField label="Status" size="small" fullWidth value={filters.status || ''} onChange={(e) => handleFilterChange('status', e.target.value)} /></Grid>
@@ -583,6 +594,7 @@ useEffect(() => {
                           boxShadow: '0 4px 16px rgba(0,0,0,0.12)'
                        } 
                     }}>
+
                     <TableCell>{pay.id}</TableCell>
                     <TableCell>{pay.escort_name || 'N/A' }</TableCell>
                     <TableCell>{pay.userId}</TableCell>
