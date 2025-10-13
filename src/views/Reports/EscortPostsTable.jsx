@@ -235,6 +235,23 @@ const EscortPostsTable = () => {
       }
     };
 
+
+
+    
+    // fetch products when stkModalOpen
+    useEffect(() => {
+      if (stkModalOpen) {
+        fetch(`${baseURL}/api/products`)
+          .then((res) => res.json())
+          .then((data) => {
+            if (data.products) {
+              setProducts(data.products);
+            }
+          })
+          .catch((err) => console.error("Error fetching products:", err));
+      }
+    }, [stkModalOpen]);
+
   return (
     <>
     <MainCard 
