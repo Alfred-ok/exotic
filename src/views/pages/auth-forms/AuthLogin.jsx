@@ -51,42 +51,43 @@ export default function AuthLogin() {
   const baseURL = import.meta.env.VITE_APP_BASE_URL;
 
   const handleLogin = async () => {
-  setLoading(true);
-  try {
-    // Optional: Remove CSRF step since Laravel is not using credentials
-    // But you may keep it if your backend expects it for consistency
-    await axios.get(`${baseURL}/sanctum/csrf-cookie`);
+    setLoading(true);
+    try {
+      // Optional: Remove CSRF step since Laravel is not using credentials
+      // But you may keep it if your backend expects it for consistency
 
-    // Step 2: Perform login
-    const response = await axios.post(
-      `${baseURL}/api/login`,
-      {
-        email,
-        password
-      }
-    );
+      //await axios.get(`${baseURL}/sanctum/csrf-cookie`);
 
-    const { message, user } = response.data;
+      // Step 2: Perform login
+      const response = await axios.post(
+        `${baseURL}/api/login`,
+        {
+          email,
+          password
+        }
+      );
 
-    // Save to localStorage
-    localStorage.setItem('userName', user.name);
-    localStorage.setItem('userEmail', user.email);
-    localStorage.setItem('userRole', user.role);
-    localStorage.setItem('platforms', JSON.stringify(user.platforms));
+      const { message, user } = response.data;
 
-    //alert(message);
-    navigate('/platform-selector');
-  } catch (error) {
-    alert('Login failed: ' + (error.response?.data?.message || 'Something went wrong.'));
-  } finally {
-    setLoading(false);
-  }
-};
+      // Save to localStorage
+      localStorage.setItem('userName', user.name);
+      localStorage.setItem('userEmail', user.email);
+      localStorage.setItem('userRole', user.role);
+      localStorage.setItem('platforms', JSON.stringify(user.platforms));
+
+      //alert(message);
+      navigate('/platform-selector');
+    } catch (error) {
+      alert('Login failed: ' + (error.response?.data?.message || 'Something went wrong.'));
+    } finally {
+      setLoading(false);
+    }
+  };
 
 
-   const handleGoogleLogin = () => {
-   //window.location.href = 'https://api.exoticnairobi.com/api/auth/google';
-   window.open(`${baseURL}/api/auth/google`, '_blank');
+  const handleGoogleLogin = () => {
+    //window.location.href = 'https://api.exoticnairobi.com/api/auth/google';
+    window.open(`${baseURL}/api/auth/google`, '_blank');
   };
 
 
@@ -144,12 +145,12 @@ export default function AuthLogin() {
 
       <Box sx={{ mt: 2 }}>
         <AnimateButton>
-          <Button 
-            color="info" 
-            fullWidth 
-            size="large" 
-            variant="contained" 
-            onClick={handleLogin} 
+          <Button
+            color="info"
+            fullWidth
+            size="large"
+            variant="contained"
+            onClick={handleLogin}
             disabled={loading}
             startIcon={loading && <CircularProgress size={20} color="inherit" />}
           >
@@ -185,7 +186,7 @@ export default function AuthLogin() {
         </button>
 
       </Box>*/}
-      
+
 
     </>
   );
