@@ -178,13 +178,13 @@ export default function Products() {
               </TableHead>
               <TableBody>
                 {products.map((product, index) => (
-                  <TableRow key={product.id} sx={{ backgroundColor: index % 2 === 0 ? '#f9f9f9' : '#fff' }}>
-                    <TableCell>{index + 1}</TableCell>
-                    <TableCell>{product.name}</TableCell>
-                    <TableCell>{product.weekly_price}</TableCell>
-                    <TableCell>{product.biweekly_price}</TableCell>
-                    <TableCell>{product.monthly_price}</TableCell>
-                    <TableCell>{product.currency}</TableCell>
+                  <TableRow key={product.id} style={{ color: "#fff" }} sx={{ backgroundColor: index % 2 === 0 ? '#f9f9f9' : '#fff' }}>
+                    <TableCell >{index + 1}</TableCell>
+                    <TableCell style={{ color: "#fff" }}>{product.name}</TableCell>
+                    <TableCell style={{ color: "#fff" }}>{product.weekly_price}</TableCell>
+                    <TableCell style={{ color: "#fff" }}>{product.biweekly_price}</TableCell>
+                    <TableCell style={{ color: "#fff" }}>{product.monthly_price}</TableCell>
+                    <TableCell style={{ color: "#fff" }}>{product.currency}</TableCell>
                     <TableCell align="right">
                       <Button
                         size="small"
