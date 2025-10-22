@@ -14,7 +14,14 @@ import DeleteIcon from '@mui/icons-material/Delete';
 
 zoomies.register();
 
-const initialForm = { name: '', monthly_price: '', biweekly_price: '', currency: 'KES' };
+const initialForm = {
+  name: '',
+  monthly_price: '',
+  biweekly_price: '',
+  weekly_price: '',
+  currency: 'KES'
+};
+
 
 export default function Products() {
   const [products, setProducts] = useState([]);
@@ -59,58 +66,60 @@ export default function Products() {
       name: product.name,
       biweekly_price: product.biweekly_price,
       monthly_price: product.monthly_price,
+      weekly_price: product.weekly_price,
       currency: product.currency
     } : initialForm);
+
     setOpenDialog(true);
   };
 
   // Create Product
-const createProduct = async () => {
-  setLoading(true);
-  try {
-    await axios.post(`${baseURL}/api/products`, form, {
-      headers: { 'Content-Type': 'application/json' },
-      withCredentials: true
-    });
-    showAlert('Product created successfully!');
-    setOpenDialog(false);
-    setRefreshTrigger(prev => !prev);
-  } catch (err) {
-    console.error(err);
-    showAlert(err.response?.data?.message || 'Failed to create product', 'error');
-  }finally {
-    setLoading(false);
-  }
-};
+  const createProduct = async () => {
+    setLoading(true);
+    try {
+      await axios.post(`${baseURL}/api/products`, form, {
+        headers: { 'Content-Type': 'application/json' },
+        withCredentials: true
+      });
+      showAlert('Product created successfully!');
+      setOpenDialog(false);
+      setRefreshTrigger(prev => !prev);
+    } catch (err) {
+      console.error(err);
+      showAlert(err.response?.data?.message || 'Failed to create product', 'error');
+    } finally {
+      setLoading(false);
+    }
+  };
 
-// Update Product
-const updateProduct = async () => {
-  if (!selectedProduct) return;
-  setLoading(true);
-  try {
-    await axios.put(`${baseURL}/api/products/${selectedProduct.id}`, form, {
-      headers: { 'Content-Type': 'application/json' },
-      withCredentials: true
-    });
-    showAlert('Product updated successfully!');
-    setOpenDialog(false);
-    setRefreshTrigger(prev => !prev);
-  } catch {
-    showAlert('Failed to update product', 'error');
-  } finally {
-    setLoading(false);
-  }
-};
+  // Update Product
+  const updateProduct = async () => {
+    if (!selectedProduct) return;
+    setLoading(true);
+    try {
+      await axios.put(`${baseURL}/api/products/${selectedProduct.id}`, form, {
+        headers: { 'Content-Type': 'application/json' },
+        withCredentials: true
+      });
+      showAlert('Product updated successfully!');
+      setOpenDialog(false);
+      setRefreshTrigger(prev => !prev);
+    } catch {
+      showAlert('Failed to update product', 'error');
+    } finally {
+      setLoading(false);
+    }
+  };
 
-// Decide based on mode
-const handleSubmit = (e) => {
-  e.preventDefault();
-  if (selectedProduct) {
-    updateProduct();
-  } else {
-    createProduct();
-  }
-};
+  // Decide based on mode
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (selectedProduct) {
+      updateProduct();
+    } else {
+      createProduct();
+    }
+  };
 
 
   const handleDelete = async () => {
@@ -155,7 +164,7 @@ const handleSubmit = (e) => {
             <Table>
               <TableHead>
                 <TableRow sx={{ backgroundColor: '#1976d2' }}>
-                  {['#', 'Name', 'Biweekly Price', 'Monthly Price', 'Currency', 'Actions'].map((text, i) => (
+                  {['#', 'Name', 'Weekly Price', 'Biweekly Price', 'Monthly Price', 'Currency', 'Actions'].map((text, i) => (
                     <TableCell
                       key={i}
                       sx={{ color: '#fff', fontWeight: 'bold' }}
@@ -171,6 +180,7 @@ const handleSubmit = (e) => {
                   <TableRow key={product.id} sx={{ backgroundColor: index % 2 === 0 ? '#f9f9f9' : '#fff' }}>
                     <TableCell>{index + 1}</TableCell>
                     <TableCell>{product.name}</TableCell>
+                    <TableCell>{product.weekly_price}</TableCell>
                     <TableCell>{product.biweekly_price}</TableCell>
                     <TableCell>{product.monthly_price}</TableCell>
                     <TableCell>{product.currency}</TableCell>
@@ -208,50 +218,51 @@ const handleSubmit = (e) => {
       </Paper>
 
       {/* Product Form Dialog */}
-<Dialog open={openDialog} onClose={handleCloseDialog} maxWidth="sm" fullWidth>
-  <DialogTitle>{selectedProduct ? 'Edit Product' : 'Create Product'}</DialogTitle>
-  <DialogContent>
-    <form id="product-form" onSubmit={handleSubmit}>
-      <Grid container spacing={2} sx={{ mt: 1 }}>
-        {[
-          { label: 'Product Name', value: form.name, name: 'name', type: 'text' },
-          { label: 'Biweekly Price', value: form.biweekly_price, name: 'biweekly_price', type: 'number' },
-          { label: 'Monthly Price', value: form.monthly_price, name: 'monthly_price', type: 'number' }
-        ].map(({ label, value, name, type }) => (
-          <Grid item xs={12} key={name}>
-            <TextField
-              label={label}
-              fullWidth
-              type={type}
-              value={value}
-              required
-              onChange={(e) => setForm(prev => ({ ...prev, [name]: e.target.value }))}
-            />
-          </Grid>
-        ))}
-        <Grid item xs={12}>
-          <TextField
-            select
-            label="Currency"
-            fullWidth
-            value={form.currency}
-            onChange={(e) => setForm({ ...form, currency: e.target.value })}
-          >
-            {['KES', 'USD', 'EUR'].map(curr => (
-              <MenuItem key={curr} value={curr}>{curr}</MenuItem>
-            ))}
-          </TextField>
-        </Grid>
-      </Grid>
-    </form>
-  </DialogContent>
-  <DialogActions>
-    <Button onClick={handleCloseDialog} disabled={loading}>Cancel</Button>
-    <Button type="submit" form="product-form" variant="contained" disabled={loading}>
-      {loading ? 'Saving...' : selectedProduct ? 'Update' : 'Create'}
-    </Button>
-  </DialogActions>
-</Dialog>
+      <Dialog open={openDialog} onClose={handleCloseDialog} maxWidth="sm" fullWidth>
+        <DialogTitle>{selectedProduct ? 'Edit Product' : 'Create Product'}</DialogTitle>
+        <DialogContent>
+          <form id="product-form" onSubmit={handleSubmit}>
+            <Grid container spacing={2} sx={{ mt: 1 }}>
+              {[
+                { label: 'Product Name', value: form.name, name: 'name', type: 'text' },
+                { label: 'Weekly Price', value: form.weekly_price, name: 'weekly_price', type: 'number' },
+                { label: 'Biweekly Price', value: form.biweekly_price, name: 'biweekly_price', type: 'number' },
+                { label: 'Monthly Price', value: form.monthly_price, name: 'monthly_price', type: 'number' }
+              ].map(({ label, value, name, type }) => (
+                <Grid item xs={12} key={name}>
+                  <TextField
+                    label={label}
+                    fullWidth
+                    type={type}
+                    value={value}
+                    required
+                    onChange={(e) => setForm(prev => ({ ...prev, [name]: e.target.value }))}
+                  />
+                </Grid>
+              ))}
+              <Grid item xs={12}>
+                <TextField
+                  select
+                  label="Currency"
+                  fullWidth
+                  value={form.currency}
+                  onChange={(e) => setForm({ ...form, currency: e.target.value })}
+                >
+                  {['KES', 'USD', 'EUR'].map(curr => (
+                    <MenuItem key={curr} value={curr}>{curr}</MenuItem>
+                  ))}
+                </TextField>
+              </Grid>
+            </Grid>
+          </form>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseDialog} disabled={loading}>Cancel</Button>
+          <Button type="submit" form="product-form" variant="contained" disabled={loading}>
+            {loading ? 'Saving...' : selectedProduct ? 'Update' : 'Create'}
+          </Button>
+        </DialogActions>
+      </Dialog>
 
 
       {/* Delete Confirmation Dialog */}
