@@ -39,8 +39,8 @@ export default function Products() {
       icon: type,
       title: type === 'success' ? 'Success' : 'Error',
       text,
-      timer: 2000,
-      showConfirmButton: false,
+      confirmButtonText: 'OK',
+      showConfirmButton: true, // ensures button is visible
     });
   };
 
