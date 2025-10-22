@@ -226,9 +226,10 @@ export default function Products() {
             <Grid container spacing={2} sx={{ mt: 1 }}>
               {[
                 { label: 'Product Name', value: form.name, name: 'name', type: 'text' },
-                { label: 'Weekly Price', value: form.weekly_price, name: 'weekly_price', type: 'number' },
+                { label: 'Monthly Price', value: form.monthly_price, name: 'monthly_price', type: 'number' },
                 { label: 'Biweekly Price', value: form.biweekly_price, name: 'biweekly_price', type: 'number' },
-                { label: 'Monthly Price', value: form.monthly_price, name: 'monthly_price', type: 'number' }
+                { label: 'Weekly Price', value: form.weekly_price, name: 'weekly_price', type: 'number' }
+
               ].map(({ label, value, name, type }) => (
                 <Grid item xs={12} key={name}>
                   <TextField
