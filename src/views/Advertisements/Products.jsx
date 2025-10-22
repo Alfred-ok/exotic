@@ -87,6 +87,7 @@ export default function Products() {
     } catch (err) {
       console.error(err);
       showAlert(err.response?.data?.message || 'Failed to create product', 'error');
+      setOpenDialog(false);
     } finally {
       setLoading(false);
     }
