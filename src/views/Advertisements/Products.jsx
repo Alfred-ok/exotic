@@ -168,6 +168,7 @@ export default function Products() {
                   {['#', 'Name', 'Weekly Price', 'Biweekly Price', 'Monthly Price', 'Currency', 'Actions'].map((text, i) => (
                     <TableCell
                       key={i}
+                      style={{ color: "#fff" }}
                       sx={{ color: '#fff', fontWeight: 'bold' }}
                       align={text === 'Actions' ? 'right' : 'left'}
                     >
@@ -180,11 +181,11 @@ export default function Products() {
                 {products.map((product, index) => (
                   <TableRow key={product.id} style={{ color: "#fff" }} sx={{ backgroundColor: index % 2 === 0 ? '#f9f9f9' : '#fff' }}>
                     <TableCell >{index + 1}</TableCell>
-                    <TableCell style={{ color: "#fff" }}>{product.name}</TableCell>
-                    <TableCell style={{ color: "#fff" }}>{product.weekly_price}</TableCell>
-                    <TableCell style={{ color: "#fff" }}>{product.biweekly_price}</TableCell>
-                    <TableCell style={{ color: "#fff" }}>{product.monthly_price}</TableCell>
-                    <TableCell style={{ color: "#fff" }}>{product.currency}</TableCell>
+                    <TableCell >{product.name}</TableCell>
+                    <TableCell >{product.weekly_price}</TableCell>
+                    <TableCell >{product.biweekly_price}</TableCell>
+                    <TableCell >{product.monthly_price}</TableCell>
+                    <TableCell >{product.currency}</TableCell>
                     <TableCell align="right">
                       <Button
                         size="small"
