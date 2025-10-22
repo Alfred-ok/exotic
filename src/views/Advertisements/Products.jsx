@@ -86,7 +86,7 @@ export default function Products() {
       setRefreshTrigger(prev => !prev);
     } catch (err) {
       console.error(err);
-      showAlert(err.response?.data?.message || 'Failed to create product', 'error');
+      showAlert(err.response?.data?.errors.price_ratio || 'Failed to create product', 'error');
       setOpenDialog(false);
     } finally {
       setLoading(false);
