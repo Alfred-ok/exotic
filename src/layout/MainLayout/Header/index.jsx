@@ -54,7 +54,7 @@ export default function Header() {
         </Avatar>
       </Box>
 
-      <Box style={{ marginLeft: "15px" }}><h2>Hello, {username && username}</h2></Box>
+      <Box style={{ marginLeft: "30px", }}><h2>Hello, {username && username}</h2></Box>
       {/* header search */}
       {/*<SearchSection />*/}
       <Box sx={{ flexGrow: 1 }} />
