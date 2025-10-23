@@ -55,10 +55,10 @@ const escortHeaders = [
   { id: 'activation', label: '' }
 ];
 
- //const location = useLocation();
- //const { platformId } = location.state || {};
+//const location = useLocation();
+//const { platformId } = location.state || {};
 
- 
+
 
 
 const EscortPostsTable = () => {
@@ -91,7 +91,7 @@ const EscortPostsTable = () => {
 
   useEffect(() => {
     setLoading(true);
-    axios.post(`${baseURL}/api/escort-posts`, { platform_id: platformId  })
+    axios.post(`${baseURL}/api/escort-posts`, { platform_id: platformId })
       .then(res => {
         const escortData = res.data.escort_posts.map(post => ({
           id: `P${post.ID}`,
@@ -177,534 +177,535 @@ const EscortPostsTable = () => {
 
 
 
-    // ✅ build chart data grouped by registered date
-    const chartDataByDate = Object.values(
-      posts.reduce((acc, post) => {
-        const date = post.registered; // already in yyyy-mm-dd format
-        if (!acc[date]) {
-          acc[date] = { date, count: 0 };
-        }
-        acc[date].count += 1;
-        return acc;
-      }, {})
-    ).sort((a, b) => new Date(a.date) - new Date(b.date));
+  // ✅ build chart data grouped by registered date
+  const chartDataByDate = Object.values(
+    posts.reduce((acc, post) => {
+      const date = post.registered; // already in yyyy-mm-dd format
+      if (!acc[date]) {
+        acc[date] = { date, count: 0 };
+      }
+      acc[date].count += 1;
+      return acc;
+    }, {})
+  ).sort((a, b) => new Date(a.date) - new Date(b.date));
 
 
 
-    //STK MODAL OPEN
-    const handleOpenStkModal = (userId) => {
-      setStkUserId(userId);
-      setStkProductId(null); // clear previous selection
-      setStkDuration("");
-      setStkPhone("");
-      setStkModalOpen(true);
-    };
+  //STK MODAL OPEN
+  const handleOpenStkModal = (userId) => {
+    setStkUserId(userId);
+    setStkProductId(null); // clear previous selection
+    setStkDuration("");
+    setStkPhone("");
+    setStkModalOpen(true);
+  };
 
 
-    const stkpayload ={
-      product_id: stkProductId,
-      platform_id: platformId,
-      user_id: stkUserId,
-      phone: stkPhone,
-      duration: stkDuration,
+  const stkpayload = {
+    product_id: stkProductId,
+    platform_id: platformId,
+    user_id: stkUserId,
+    phone: stkPhone,
+    duration: stkDuration,
+  }
+
+  console.log(stkpayload);
+
+
+  const handleSendStkPush = async () => {
+    setStkLoading(true); // start loading
+    try {
+      const res = await fetch(`${baseURL}/api/manual-stk-push`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(stkpayload),
+      });
+      const result = await res.json();
+      if (res.ok) {
+        alert('STK push sent successfully!');
+      } else {
+        alert('STK push failed: ' + result.message);
+      }
+    } catch (error) {
+      alert('Network error: ' + error.message);
+    } finally {
+      setStkLoading(false); // stop loading
+      setStkModalOpen(false);
+      setStkPhone('');
+      setStkProductId('');
     }
-
-    console.log(stkpayload);
-
-
-    const handleSendStkPush = async () => {
-      setStkLoading(true); // start loading
-      try {
-        const res = await fetch(`${baseURL}/api/manual-stk-push`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(stkpayload),
-        });
-        const result = await res.json();
-        if (res.ok) {
-          alert('STK push sent successfully!');
-        } else {
-          alert('STK push failed: ' + result.message);
-        }
-      } catch (error) {
-        alert('Network error: ' + error.message);
-      } finally {
-        setStkLoading(false); // stop loading
-        setStkModalOpen(false);
-        setStkPhone('');
-        setStkProductId('');
-      }
-    };
+  };
 
 
 
 
-    
-    // fetch products when stkModalOpen
-    useEffect(() => {
-      if (stkModalOpen) {
-        fetch(`${baseURL}/api/products`)
-          .then((res) => res.json())
-          .then((data) => {
-            if (data.products) {
-              setProducts(data.products);
-            }
-          })
-          .catch((err) => console.error("Error fetching products:", err));
-      }
-    }, [stkModalOpen]);
+
+  // fetch products when stkModalOpen
+  useEffect(() => {
+    if (stkModalOpen) {
+      fetch(`${baseURL}/api/products`)
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.products) {
+            setProducts(data.products);
+          }
+        })
+        .catch((err) => console.error("Error fetching products:", err));
+    }
+  }, [stkModalOpen]);
 
   return (
     <>
-    <MainCard 
-      sx={{
-              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
-              transition: 'box-shadow 0.3s ease-in-out',
-              '&:hover': {
-                boxShadow: '0 6px 16px rgba(0, 0, 0, 0.15)' // or keep the same value to prevent disappearing
-              }
-            }}
-      title={
-            <div style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '8px',
-              backgroundColor: '#1976d2',
-              color: 'white',
-              padding: '20px 16px',
-              borderRadius: '8px'
-            }}
-            >
-              <AssessmentIcon />
-              <span>Escort Profiles Reports</span>
-            </div>
+      <MainCard
+        sx={{
+          boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
+          transition: 'box-shadow 0.3s ease-in-out',
+          '&:hover': {
+            boxShadow: '0 6px 16px rgba(0, 0, 0, 0.15)' // or keep the same value to prevent disappearing
           }
+        }}
+        title={
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px',
+            backgroundColor: '#1976d2',
+            color: 'white',
+            padding: '20px 16px',
+            borderRadius: '8px'
+          }}
+          >
+            <AssessmentIcon />
+            <span>Escort Profiles Reports</span>
+          </div>
+        }
       >
-      {loading ? (
-        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: "20px", margin: "0px auto", backgroundColor: 'rgb(240, 242, 246)' }}>
-          <l-zoomies
-            size="300"
-            speed="1.5"
-            color="rgb(59, 130, 246)"
-          ></l-zoomies>
-        </div>
-      ) : (
-      <>
-      <Box>
-      
-        <Tabs value={viewTab} onChange={(e, val) => setViewTab(val)}>
-          <Tab label="Table View" />
-          <Tab label="Chart View" />
-        </Tabs>
-        
-        <div style={{display:"flex", justifyContent:"center", backgroundColor:"rgba(236, 236, 236, 0.5)", maxWidth:"100%", padding:"10px"}}>
-        <Grid container spacing={2} mt={2} mb={2} style={{backgroundColor:"rgba(220, 220, 220, 0.5)", borderRadius:"15px", maxWidth:"95%",}}>
-        {/* Total Profiles Card */}
-        <Grid item xs={12} sm={6} md={3} style={{padding:"10px"}}>
-          <Card
-            sx={{
-              borderRadius: 3,
-              boxShadow: 2,
-              cursor: "pointer",
-            }}
-          >
-            <CardContent sx={{ display: "flex", alignItems: "center"}} style={{padding:"10px"}}>
-              <Box
-                sx={{
-                  bgcolor:'#1976d2',
-                  borderRadius: "8%",
-                  p: 1.5,
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  mr: 2,
-                }}
-              >
-                <PersonIcon style={{color:"white"}} />
-              </Box>
-              <Box>
-                <Typography variant="subtitle1" fontWeight="bold">
-                  Total Escort Profiles
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  {totalPosts}
-                </Typography>
-              </Box>
-            </CardContent>
-          </Card>
-        </Grid>
+        {loading ? (
+          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: "20px", margin: "0px auto", backgroundColor: 'rgb(240, 242, 246)' }}>
+            <l-zoomies
+              size="300"
+              speed="1.5"
+              color="rgb(59, 130, 246)"
+            ></l-zoomies>
+          </div>
+        ) : (
+          <>
+            <Box>
 
-        {/* Dynamic Status Cards */}
-        {chartData.map((item) => {
-          let icon;
-          let bgColor;
+              <Tabs value={viewTab} onChange={(e, val) => setViewTab(val)}>
+                <Tab label="Table View" />
+                <Tab label="Chart View" />
+              </Tabs>
 
-          switch (item.status.toLowerCase()) {
-            case "published":
-              icon = <CheckCircleIcon color="success" />;
-              bgColor = "#e8f5e9";
-              break;
-            case "private":
-              icon = <HourglassEmptyIcon color="warning" />;
-              bgColor = "#fff8e1";
-              break;
-            default:
-              icon = <ErrorIcon color="error" />;
-              bgColor = "#ffebee";
-          }
-
-          return (
-            <Grid item xs={12} sm={6} md={3} key={item.status} style={{padding:"10px"}}>
-              <Card
-                sx={{
-                  borderRadius: 3,
-                  boxShadow: 2,
-                  cursor: "pointer",
-                }}
-              >
-                <CardContent sx={{ display: "flex", alignItems: "center" }} style={{padding:"10px"}}>
-                  <Box
-                    sx={{
-                      bgcolor: bgColor,
-                      borderRadius: "8%",
-                      p: 1.5,
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      mr: 2,
-                    }}
-                  >
-                    {icon}
-                  </Box>
-                  <Box>
-                    <Typography variant="subtitle1" fontWeight="bold">
-                      {item.status}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      {item.count}
-                    </Typography>
-                  </Box>
-                </CardContent>
-              </Card>
-            </Grid>
-          );
-        })}
-      </Grid>
-        
-        </div>
-      </Box>
-
-      <div style={{display:"flex", justifyContent:"space-between", alignItems:"center", backgroundColor:"rgba(236, 236, 236, 0.5)", maxWidth:"100%", padding:"10px",}}> 
-      <Box display="flex" justifyContent="flex" gap={2} mb={2} style={{marginTop:"20px"}}>
-           {/* <Button variant="contained" color="secondary" startIcon={<PictureAsPdfIcon />} onClick={exportToPDF}>Export PDF</Button>*/}
-            <Button variant="contained" color="primary" startIcon={<FileDownloadIcon />}  onClick={exportToExcel}>Export Excel</Button>
-        </Box>
-      {/* Rows per page selector */}
-      <Box display="flex" justifyContent="flex-end" alignItems="center" mt={2} mb={2} gap={2}>
-        <Typography variant="body2">Rows per page:</Typography>
-        <TextField
-          select
-          size="small"
-          value={rowsPerPage}
-          onChange={(e) => {
-            setRowsPerPage(Number(e.target.value));
-            setCurrentPage(1); // reset to first page
-          }}
-          sx={{ width: "100px" }}
-        >
-          {[10, 25, 50, 100].map((option) => (
-            <MenuItem key={option} value={option}>
-              {option}
-            </MenuItem>
-          ))}
-        </TextField>
-      </Box>
-      </div> 
-
-      {viewTab === 0 ? (    
-        <div style={{ backgroundColor:"rgba(236, 236, 236, 0.5)", maxWidth:"100%", padding:"10px", borderBottomLeftRadius:"10px", borderBottomLeftRadius:"10px"}}>
-          <Grid container spacing={2} mb={2}>
-            <Grid item xs={6} sm={2}><TextField label="Post ID" size="small" fullWidth value={filters.id} onChange={e => handleFilterChange('id', e.target.value)} /></Grid>
-            <Grid item xs={6} sm={2}><TextField label="Escort Name" size="small" fullWidth value={filters.name} onChange={e => handleFilterChange('name', e.target.value)} /></Grid>
-            <Grid item xs={6} sm={2}><TextField label="Phone Number" size="small" fullWidth value={filters.phone} onChange={e => handleFilterChange('phone', e.target.value)} /></Grid>
-            <Grid item xs={6} sm={2}>
-              <TextField select label="Post Status" size="small" fullWidth value={filters.status} onChange={e => handleFilterChange('status', e.target.value)}>
-                {escortStatusOptions.map(opt => (
-                  <MenuItem key={opt.value} value={opt.value}>{opt.label}</MenuItem>
-                ))}
-              </TextField>
-            </Grid>
-            <Grid item xs={6} sm={2}>
-              <TextField
-                label="URL"
-                size="small"
-                fullWidth
-                value={filters.guid}
-                onChange={e => handleFilterChange('guid', e.target.value)}
-              />
-            </Grid>
-
-            <Grid item xs={6} sm={2}>
-              <TextField
-                type="date"
-                label="From Date"
-                size="small"
-                fullWidth
-                InputLabelProps={{ shrink: true }}
-                value={filters.dateFrom}
-                onChange={e => handleFilterChange('dateFrom', e.target.value)}
-              />
-            </Grid>
-
-            <Grid item xs={6} sm={2}>
-              <TextField
-                type="date"
-                label="To Date"
-                size="small"
-                fullWidth
-                InputLabelProps={{ shrink: true }}
-                value={filters.dateTo}
-                onChange={e => handleFilterChange('dateTo', e.target.value)}
-              />
-            </Grid>
-
-          </Grid>
-
-          
-
-          <TableContainer component={Paper}>
-            <Table>
-              <TableHead sx={{ backgroundColor: '#1976d2' }}>
-                <TableRow>
-                  {escortHeaders.map(header => (
-                    <TableCell key={header.id} sx={{ color: '#fff', fontWeight: 'bold' }}>
-                      <TableSortLabel
-                        active={sortConfig.key === header.id}
-                        direction={sortConfig.key === header.id ? sortConfig.direction : 'asc'}
-                        onClick={() => handleSort(header.id)}
-                        sx={{ color: '#fff' }}
-                      >
-                        {header.label}
-                      </TableSortLabel>
-                    </TableCell>
-                  ))}
-                </TableRow>
-              </TableHead>
-              
-              <TableBody>
-                
-                
-                  {paginatedPosts.map((post, idx) => (
-                  <TableRow key={post.id} sx={{ 
-                    backgroundColor: idx % 2 === 0 ? '#f9f9f9' : '#fff', 
-                    '&:hover': {
-                        transform: 'translateY(-2px)',
-                        boxShadow: '0 4px 16px rgba(0,0,0,0.12)'
-                      }
-                    }}>
-                    <TableCell>{post.id}</TableCell>
-                    <TableCell>{post.name}</TableCell>
-                    <TableCell>{post.phone}</TableCell>
-
-                    <TableCell>
-                      <Box
-                        sx={{
-                          backgroundColor:
-                            post.status == 'publish'
-                              ? '#d4edda'
-                              : post.status == 'private'
-                              ? '#fff3cd'
-                              : post.status == 'failed'
-                              ? '#f8d7da'
-                              : '#e0e0e0',
-                          color:
-                            post.status == 'publish'
-                              ? '#155724'
-                              : post.status == 'private'
-                              ? '#856404'
-                              : post.status == 'failed'
-                              ? '#721c24'
-                              : '#333',
-                          px: 1.5,
-                          py: 0.5,
-                          borderRadius: '12px',
-                          display: 'inline-block',
-                          fontWeight: 500,
-                          fontSize: '0.75rem',
-                          textTransform: 'capitalize'
-                        }}
-                      >
-                        {post.status}
-                      </Box>
-                    </TableCell>
-
-                    <TableCell>{post.registered}</TableCell>
-                     <TableCell>
-                     <a href={post.guid}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          style={{
-                            fontSize: '0.75rem',
-                            color: '#1976d2',
-                            textDecoration: 'underline',
-                            cursor: 'pointer'
-                          }}>{post.guid.slice(0, 21)}</a>
-                      </TableCell>
-
-                      <TableCell>
-                        <Button
-                          variant="outlined"
-                          color="primary"
-                          size="small"
-                          style={{ marginLeft: '8px' }}
-                          onClick={() => handleOpenStkModal(post.user_id)}
+              <div style={{ display: "flex", justifyContent: "center", backgroundColor: "rgba(236, 236, 236, 0.5)", maxWidth: "100%", padding: "10px" }}>
+                <Grid container spacing={2} mt={2} mb={2} style={{ backgroundColor: "rgba(220, 220, 220, 0.5)", borderRadius: "15px", maxWidth: "95%", }}>
+                  {/* Total Profiles Card */}
+                  <Grid item xs={12} sm={6} md={3} style={{ padding: "10px" }}>
+                    <Card
+                      sx={{
+                        borderRadius: 3,
+                        boxShadow: 2,
+                        cursor: "pointer",
+                      }}
+                    >
+                      <CardContent sx={{ display: "flex", alignItems: "center" }} style={{ padding: "10px" }}>
+                        <Box
+                          sx={{
+                            bgcolor: '#1976d2',
+                            borderRadius: "8%",
+                            p: 1.5,
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            mr: 2,
+                          }}
                         >
-                          STK Push
-                        </Button>
-  
-                      </TableCell>
+                          <PersonIcon style={{ color: "white" }} />
+                        </Box>
+                        <Box>
+                          <Typography variant="subtitle1" fontWeight="bold">
+                            Total Escort Profiles
+                          </Typography>
+                          <Typography variant="body2" color="text.secondary">
+                            {totalPosts}
+                          </Typography>
+                        </Box>
+                      </CardContent>
+                    </Card>
+                  </Grid>
 
-                      { role === "sub-admin"|| role === "admin" ?
-                       <TableCell>
-                        <Button variant="contained" color="primary" style={{color:"#fff"}} 
-                        onClick={() =>
-                          navigate('/FreeTrialActivation', { state: { id: post.id,  } })
-                        }>
-                          Free Trial
-                        </Button>
-                       </TableCell>
-                       : null
-                       }
+                  {/* Dynamic Status Cards */}
+                  {chartData.map((item) => {
+                    let icon;
+                    let bgColor;
 
-                  </TableRow>
-                ))}
-                
-              </TableBody>
-            </Table>
-            
-          </TableContainer>
+                    switch (item.status.toLowerCase()) {
+                      case "published":
+                        icon = <CheckCircleIcon color="success" />;
+                        bgColor = "#e8f5e9";
+                        break;
+                      case "private":
+                        icon = <HourglassEmptyIcon color="warning" />;
+                        bgColor = "#fff8e1";
+                        break;
+                      default:
+                        icon = <ErrorIcon color="error" />;
+                        bgColor = "#ffebee";
+                    }
 
-          <Box mt={2} display="flex" justifyContent="center">
-            <Pagination
-              count={Math.ceil(filteredPosts.length / rowsPerPage)}
-              page={currentPage}
-              onChange={(e, val) => setCurrentPage(val)}
-              color="primary"
-            />
-          </Box>
-        </div>
-      ) : (
-         <ResponsiveContainer width="100%" height={400}>
-            <AreaChart
-              data={chartDataByDate}
-              margin={{ top: 20, right: 30, left: 0, bottom: 0 }}
-            >
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="date" />
-              <YAxis allowDecimals={false} />
-              <Tooltip />
-              <Legend />
-              <Area
-                type="monotone"
-                dataKey="count"
-                name="Profiles Registered"
-                stroke="#1976d2"
-                fill="#90caf9"
-                strokeWidth={3}
-              />
-            </AreaChart>
-          </ResponsiveContainer>
-      )}
-      </> 
-    )}
+                    return (
+                      <Grid item xs={12} sm={6} md={3} key={item.status} style={{ padding: "10px" }}>
+                        <Card
+                          sx={{
+                            borderRadius: 3,
+                            boxShadow: 2,
+                            cursor: "pointer",
+                          }}
+                        >
+                          <CardContent sx={{ display: "flex", alignItems: "center" }} style={{ padding: "10px" }}>
+                            <Box
+                              sx={{
+                                bgcolor: bgColor,
+                                borderRadius: "8%",
+                                p: 1.5,
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                mr: 2,
+                              }}
+                            >
+                              {icon}
+                            </Box>
+                            <Box>
+                              <Typography variant="subtitle1" fontWeight="bold">
+                                {item.status}
+                              </Typography>
+                              <Typography variant="body2" color="text.secondary">
+                                {item.count}
+                              </Typography>
+                            </Box>
+                          </CardContent>
+                        </Card>
+                      </Grid>
+                    );
+                  })}
+                </Grid>
+
+              </div>
+            </Box>
+
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", backgroundColor: "rgba(236, 236, 236, 0.5)", maxWidth: "100%", padding: "10px", }}>
+              <Box display="flex" justifyContent="flex" gap={2} mb={2} style={{ marginTop: "20px" }}>
+                {/* <Button variant="contained" color="secondary" startIcon={<PictureAsPdfIcon />} onClick={exportToPDF}>Export PDF</Button>*/}
+                <Button variant="contained" color="primary" startIcon={<FileDownloadIcon />} onClick={exportToExcel}>Export Excel</Button>
+              </Box>
+              {/* Rows per page selector */}
+              <Box display="flex" justifyContent="flex-end" alignItems="center" mt={2} mb={2} gap={2}>
+                <Typography variant="body2">Rows per page:</Typography>
+                <TextField
+                  select
+                  size="small"
+                  value={rowsPerPage}
+                  onChange={(e) => {
+                    setRowsPerPage(Number(e.target.value));
+                    setCurrentPage(1); // reset to first page
+                  }}
+                  sx={{ width: "100px" }}
+                >
+                  {[10, 25, 50, 100].map((option) => (
+                    <MenuItem key={option} value={option}>
+                      {option}
+                    </MenuItem>
+                  ))}
+                </TextField>
+              </Box>
+            </div>
+
+            {viewTab === 0 ? (
+              <div style={{ backgroundColor: "rgba(236, 236, 236, 0.5)", maxWidth: "100%", padding: "10px", borderBottomLeftRadius: "10px", borderBottomLeftRadius: "10px" }}>
+                <Grid container spacing={2} mb={2}>
+                  <Grid item xs={6} sm={2}><TextField label="Post ID" size="small" fullWidth value={filters.id} onChange={e => handleFilterChange('id', e.target.value)} /></Grid>
+                  <Grid item xs={6} sm={2}><TextField label="Escort Name" size="small" fullWidth value={filters.name} onChange={e => handleFilterChange('name', e.target.value)} /></Grid>
+                  <Grid item xs={6} sm={2}><TextField label="Phone Number" size="small" fullWidth value={filters.phone} onChange={e => handleFilterChange('phone', e.target.value)} /></Grid>
+                  <Grid item xs={6} sm={2}>
+                    <TextField select label="Post Status" size="small" fullWidth value={filters.status} onChange={e => handleFilterChange('status', e.target.value)}>
+                      {escortStatusOptions.map(opt => (
+                        <MenuItem key={opt.value} value={opt.value}>{opt.label}</MenuItem>
+                      ))}
+                    </TextField>
+                  </Grid>
+                  <Grid item xs={6} sm={2}>
+                    <TextField
+                      label="URL"
+                      size="small"
+                      fullWidth
+                      value={filters.guid}
+                      onChange={e => handleFilterChange('guid', e.target.value)}
+                    />
+                  </Grid>
+
+                  <Grid item xs={6} sm={2}>
+                    <TextField
+                      type="date"
+                      label="From Date"
+                      size="small"
+                      fullWidth
+                      InputLabelProps={{ shrink: true }}
+                      value={filters.dateFrom}
+                      onChange={e => handleFilterChange('dateFrom', e.target.value)}
+                    />
+                  </Grid>
+
+                  <Grid item xs={6} sm={2}>
+                    <TextField
+                      type="date"
+                      label="To Date"
+                      size="small"
+                      fullWidth
+                      InputLabelProps={{ shrink: true }}
+                      value={filters.dateTo}
+                      onChange={e => handleFilterChange('dateTo', e.target.value)}
+                    />
+                  </Grid>
+
+                </Grid>
 
 
-    
-    <Dialog
-      open={stkModalOpen}
-      onClose={() => setStkModalOpen(false)}
-      PaperProps={{
-        sx: { width: "300px", padding: "16px", borderRadius: "12px" },
-      }}
-    >
-      <DialogTitle>STK Push</DialogTitle>
-      <DialogContent>
-        <DialogContentText>
-          Select a product and enter phone number to send STK push:
-        </DialogContentText>
-    
-        {/* Product selection */}
-        <FormControl fullWidth margin="normal">
-          <InputLabel id="product-label">Product</InputLabel>
-          <Select
-            labelId="product-label"
-            value={stkProductId || ""}
-            onChange={(e) => setStkProductId(e.target.value)}
-            required
-          >
-            {products.map((p) => (
-              <MenuItem key={p.id} value={p.id}>
-                {p.name}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-    
-        {/* Duration selection */}
-        <FormControl fullWidth margin="normal">
-          <InputLabel id="duration-label">Duration</InputLabel>
-          <Select
-            labelId="duration-label"
-            value={stkDuration}
-            onChange={(e) => setStkDuration(e.target.value)}
-            required
-          >
-            <MenuItem value="biweekly">Biweekly</MenuItem>
-            <MenuItem value="monthly">Monthly</MenuItem>
-          </Select>
-        </FormControl>
-    
-    
-        {/* Phone input */}
-        <TextField
-          label="Phone Number"
-          fullWidth
-          value={stkPhone.startsWith("254") ? stkPhone.slice(3) : stkPhone}
-          onChange={(e) => {
-            const input = e.target.value.replace(/\D/g, ""); // only digits
-            const trimmed = input.replace(/^0+/, "");
-            setStkPhone(`254${trimmed}`);
+
+                <TableContainer component={Paper}>
+                  <Table>
+                    <TableHead sx={{ backgroundColor: '#1976d2' }}>
+                      <TableRow>
+                        {escortHeaders.map(header => (
+                          <TableCell key={header.id} sx={{ color: '#fff', fontWeight: 'bold' }}>
+                            <TableSortLabel
+                              active={sortConfig.key === header.id}
+                              direction={sortConfig.key === header.id ? sortConfig.direction : 'asc'}
+                              onClick={() => handleSort(header.id)}
+                              sx={{ color: '#fff' }}
+                            >
+                              {header.label}
+                            </TableSortLabel>
+                          </TableCell>
+                        ))}
+                      </TableRow>
+                    </TableHead>
+
+                    <TableBody>
+
+
+                      {paginatedPosts.map((post, idx) => (
+                        <TableRow key={post.id} sx={{
+                          backgroundColor: idx % 2 === 0 ? '#f9f9f9' : '#fff',
+                          '&:hover': {
+                            transform: 'translateY(-2px)',
+                            boxShadow: '0 4px 16px rgba(0,0,0,0.12)'
+                          }
+                        }}>
+                          <TableCell>{post.id}</TableCell>
+                          <TableCell>{post.name}</TableCell>
+                          <TableCell>{post.phone}</TableCell>
+
+                          <TableCell>
+                            <Box
+                              sx={{
+                                backgroundColor:
+                                  post.status == 'publish'
+                                    ? '#d4edda'
+                                    : post.status == 'private'
+                                      ? '#fff3cd'
+                                      : post.status == 'failed'
+                                        ? '#f8d7da'
+                                        : '#e0e0e0',
+                                color:
+                                  post.status == 'publish'
+                                    ? '#155724'
+                                    : post.status == 'private'
+                                      ? '#856404'
+                                      : post.status == 'failed'
+                                        ? '#721c24'
+                                        : '#333',
+                                px: 1.5,
+                                py: 0.5,
+                                borderRadius: '12px',
+                                display: 'inline-block',
+                                fontWeight: 500,
+                                fontSize: '0.75rem',
+                                textTransform: 'capitalize'
+                              }}
+                            >
+                              {post.status}
+                            </Box>
+                          </TableCell>
+
+                          <TableCell>{post.registered}</TableCell>
+                          <TableCell>
+                            <a href={post.guid}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              style={{
+                                fontSize: '0.75rem',
+                                color: '#1976d2',
+                                textDecoration: 'underline',
+                                cursor: 'pointer'
+                              }}>{post.guid.slice(0, 21)}</a>
+                          </TableCell>
+
+                          <TableCell>
+                            <Button
+                              variant="outlined"
+                              color="primary"
+                              size="small"
+                              style={{ marginLeft: '8px' }}
+                              onClick={() => handleOpenStkModal(post.user_id)}
+                            >
+                              STK Push
+                            </Button>
+
+                          </TableCell>
+
+                          {role === "sub-admin" || role === "admin" ?
+                            <TableCell>
+                              <Button variant="contained" color="primary" style={{ color: "#fff" }}
+                                onClick={() =>
+                                  navigate('/FreeTrialActivation', { state: { id: post.id, } })
+                                }>
+                                Free Trial
+                              </Button>
+                            </TableCell>
+                            : null
+                          }
+
+                        </TableRow>
+                      ))}
+
+                    </TableBody>
+                  </Table>
+
+                </TableContainer>
+
+                <Box mt={2} display="flex" justifyContent="center">
+                  <Pagination
+                    count={Math.ceil(filteredPosts.length / rowsPerPage)}
+                    page={currentPage}
+                    onChange={(e, val) => setCurrentPage(val)}
+                    color="primary"
+                  />
+                </Box>
+              </div>
+            ) : (
+              <ResponsiveContainer width="100%" height={400}>
+                <AreaChart
+                  data={chartDataByDate}
+                  margin={{ top: 20, right: 30, left: 0, bottom: 0 }}
+                >
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="date" />
+                  <YAxis allowDecimals={false} />
+                  <Tooltip />
+                  <Legend />
+                  <Area
+                    type="monotone"
+                    dataKey="count"
+                    name="Profiles Registered"
+                    stroke="#1976d2"
+                    fill="#90caf9"
+                    strokeWidth={3}
+                  />
+                </AreaChart>
+              </ResponsiveContainer>
+            )}
+          </>
+        )}
+
+
+
+        <Dialog
+          open={stkModalOpen}
+          onClose={() => setStkModalOpen(false)}
+          PaperProps={{
+            sx: { width: "300px", padding: "16px", borderRadius: "12px" },
           }}
-          margin="normal"
-          helperText="Enter number without 0 (e.g. 712345678)"
-          required
-        />
-      </DialogContent>
-    
-     <DialogActions>
-      {stkLoading ? (
-        <Box display="flex" justifyContent="center" alignItems="center" width="100%" py={2}>
-          <l-zoomies size="60" speed="1.5" color="rgb(25, 118, 210)"></l-zoomies>
-          <Typography ml={1}>Sending STK Push...</Typography>
-        </Box>
-      ) : (
-        <>
-          <Button onClick={() => setStkModalOpen(false)}>Cancel</Button>
-          <Button
-            onClick={handleSendStkPush}
-            variant="contained"
-            color="primary"
-            disabled={!stkProductId || !stkPhone}
-          >
-            Send STK
-          </Button>
-        </>
-      )}
-    </DialogActions>
+        >
+          <DialogTitle>STK Push</DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              Select a product and enter phone number to send STK push:
+            </DialogContentText>
 
-    </Dialog>
+            {/* Product selection */}
+            <FormControl fullWidth margin="normal">
+              <InputLabel id="product-label">Product</InputLabel>
+              <Select
+                labelId="product-label"
+                value={stkProductId || ""}
+                onChange={(e) => setStkProductId(e.target.value)}
+                required
+              >
+                {products.map((p) => (
+                  <MenuItem key={p.id} value={p.id}>
+                    {p.name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
 
-    </MainCard>
+            {/* Duration selection */}
+            <FormControl fullWidth margin="normal">
+              <InputLabel id="duration-label">Duration</InputLabel>
+              <Select
+                labelId="duration-label"
+                value={stkDuration}
+                onChange={(e) => setStkDuration(e.target.value)}
+                required
+              >
+                <MenuItem value="weekly_price">weekly</MenuItem>
+                <MenuItem value="biweekly_price">Biweekly</MenuItem>
+                <MenuItem value="monthly_price">Monthly</MenuItem>
+              </Select>
+            </FormControl>
+
+
+            {/* Phone input */}
+            <TextField
+              label="Phone Number"
+              fullWidth
+              value={stkPhone.startsWith("254") ? stkPhone.slice(3) : stkPhone}
+              onChange={(e) => {
+                const input = e.target.value.replace(/\D/g, ""); // only digits
+                const trimmed = input.replace(/^0+/, "");
+                setStkPhone(`254${trimmed}`);
+              }}
+              margin="normal"
+              helperText="Enter number without 0 (e.g. 712345678)"
+              required
+            />
+          </DialogContent>
+
+          <DialogActions>
+            {stkLoading ? (
+              <Box display="flex" justifyContent="center" alignItems="center" width="100%" py={2}>
+                <l-zoomies size="60" speed="1.5" color="rgb(25, 118, 210)"></l-zoomies>
+                <Typography ml={1}>Sending STK Push...</Typography>
+              </Box>
+            ) : (
+              <>
+                <Button onClick={() => setStkModalOpen(false)}>Cancel</Button>
+                <Button
+                  onClick={handleSendStkPush}
+                  variant="contained"
+                  color="primary"
+                  disabled={!stkProductId || !stkPhone}
+                >
+                  Send STK
+                </Button>
+              </>
+            )}
+          </DialogActions>
+
+        </Dialog>
+
+      </MainCard>
     </>
   );
 };

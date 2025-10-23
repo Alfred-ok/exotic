@@ -73,8 +73,8 @@ export default function ProfileSection() {
 
   const handleLogout = async () => {
     try {
-      await axios.post('https://api.exoticnairobi.com/api/logout');
-      
+      await axios.post(`${import.meta.env.VITE_APP_BASE_URL}/api/logout`);
+
       // Optionally clear localStorage
       //localStorage.removeItem('userName');
       //localStorage.removeItem('userEmail');
@@ -97,7 +97,7 @@ export default function ProfileSection() {
 
 
 
-  
+
 
   const prevOpen = useRef(open);
   useEffect(() => {
@@ -205,7 +205,7 @@ export default function ProfileSection() {
                         '&::-webkit-scrollbar': { width: 5 }
                       }}
                     >
-                     {/*
+                      {/*
                       <UpgradePlanCard />
                      
                       <Divider />
@@ -260,7 +260,7 @@ export default function ProfileSection() {
                           '& .MuiListItemButton-root': { mt: 0.5 }
                         }}
                       >
-                      {/*
+                        {/*
                         <ListItemButton sx={{ borderRadius: `${borderRadius}px` }} selected={selectedIndex === 0} >
                           <ListItemIcon>
                             <IconSettings stroke={1.5} size="20px" />
@@ -283,7 +283,7 @@ export default function ProfileSection() {
                           />
                         </ListItemButton>
                         */}
-                        <ListItemButton sx={{ borderRadius: `${borderRadius}px` }} selected={selectedIndex === 4} onClick={ handleLogout}>
+                        <ListItemButton sx={{ borderRadius: `${borderRadius}px` }} selected={selectedIndex === 4} onClick={handleLogout}>
                           <ListItemIcon>
                             <IconLogout stroke={1.5} size="20px" />
                           </ListItemIcon>
