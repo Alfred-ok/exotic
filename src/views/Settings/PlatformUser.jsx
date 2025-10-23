@@ -234,7 +234,7 @@ export default function PlatformUser() {
   const [orderBy, setOrderBy] = useState('id');
   const [order, setOrder] = useState('asc');
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
   const [open, setOpen] = useState(false);
 
   const [editOpen, setEditOpen] = useState(false);
@@ -418,7 +418,7 @@ export default function PlatformUser() {
 
                     <TableRow>
                       <TableCell
-                        style={{ paddingBottom: 0, paddingTop: 0, backgroundColor:"rgba(234, 234, 234, 0.5)" }}
+                        style={{ paddingBottom: 0, paddingTop: 0, backgroundColor: "rgba(234, 234, 234, 0.5)" }}
                         colSpan={7}
                       >
                         <Collapse
@@ -437,17 +437,17 @@ export default function PlatformUser() {
                             ) : (
                               <Table size="small">
                                 <TableHead>
-                                  <TableRow style={{backgroundColor:"rgba(83, 83, 83, 0.5)"}}>
-                                    <TableCell style={{color:"#fff"}}>ID</TableCell>
-                                    <TableCell style={{color:"#fff"}}>Name</TableCell>
-                                    <TableCell style={{color:"#fff"}}>Domain</TableCell>
-                                    <TableCell style={{color:"#fff"}}>Country</TableCell>
-                                    <TableCell style={{color:"#fff"}}>Active</TableCell>
+                                  <TableRow style={{ backgroundColor: "rgba(83, 83, 83, 0.5)" }}>
+                                    <TableCell style={{ color: "#fff" }}>ID</TableCell>
+                                    <TableCell style={{ color: "#fff" }}>Name</TableCell>
+                                    <TableCell style={{ color: "#fff" }}>Domain</TableCell>
+                                    <TableCell style={{ color: "#fff" }}>Country</TableCell>
+                                    <TableCell style={{ color: "#fff" }}>Active</TableCell>
                                   </TableRow>
                                 </TableHead>
                                 <TableBody>
                                   {user.platforms.map((platform) => (
-                                    <TableRow key={platform.id} style={{backgroundColor:"rgba(255, 255, 255, 0.8)"}}>
+                                    <TableRow key={platform.id} style={{ backgroundColor: "rgba(255, 255, 255, 0.8)" }}>
                                       <TableCell>{platform.id}</TableCell>
                                       <TableCell>{platform.name}</TableCell>
                                       <TableCell>{platform.domain}</TableCell>

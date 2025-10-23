@@ -118,13 +118,13 @@ if (role === 'admin') {
     settingsMenu,
     activeLogMenu
   ];
-} else if (role === 'sub-admin') {
+} else if (role === 'sub_admin') {
   children = [
     reportsMenu,
     advertisementsMenu,
     activatedProfileMenu
   ];
-}else if(role === 'sales'){
+} else if (role === 'sales') {
   children = [
     reportsMenu,
     activatedProfileMenu
