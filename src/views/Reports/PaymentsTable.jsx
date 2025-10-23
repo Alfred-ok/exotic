@@ -828,9 +828,9 @@ export default function PaymentsTable() {
               onChange={(e) => setStkDuration(e.target.value)}
               required
             >
-              <MenuItem value="weekly_price">weekly</MenuItem>
-              <MenuItem value="biweekly_price">Biweekly</MenuItem>
-              <MenuItem value="monthly_price">Monthly</MenuItem>
+              <MenuItem value="weekly">weekly</MenuItem>
+              <MenuItem value="biweekly">Biweekly</MenuItem>
+              <MenuItem value="monthly">Monthly</MenuItem>
             </Select>
           </FormControl>
 
