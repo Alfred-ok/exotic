@@ -14,6 +14,7 @@ import { handlerDrawerOpen, useGetMenuMaster } from 'api/menu';
 
 // assets
 import { IconMenu2 } from '@tabler/icons-react';
+import { Margin } from '@mui/icons-material';
 
 // ==============================|| MAIN NAVBAR / HEADER ||============================== //
 
@@ -52,7 +53,8 @@ export default function Header() {
           <IconMenu2 stroke={1.5} size="20px" />
         </Avatar>
       </Box>
-      <Box><h2>{username && username}</h2></Box>
+      <Box sx={{ flexGrow: 1 }} />
+      <Box><h2 style={{ marginLeft: "5px" }}>Hello, {username && username}</h2></Box>
       {/* header search */}
       {/*<SearchSection />*/}
       <Box sx={{ flexGrow: 1 }} />
