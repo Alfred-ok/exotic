@@ -53,7 +53,6 @@ export default function Header() {
           <IconMenu2 stroke={1.5} size="20px" />
         </Avatar>
       </Box>
-      <Box sx={{ flexGrow: 1 }} />
       <Box><h2 style={{ marginLeft: "5px" }}>Hello, {username && username}</h2></Box>
       {/* header search */}
       {/*<SearchSection />*/}
