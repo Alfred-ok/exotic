@@ -76,7 +76,7 @@ export default function PaymentsTable() {
   const [activatePaymentId, setActivatePaymentId] = useState(null);
   const [transactionRef, setTransactionRef] = useState('');
 
-
+  const [selectedPayment, setSelectedPayment] = useState(null);
 
 
 
@@ -86,9 +86,12 @@ export default function PaymentsTable() {
 
   const [anchorEl, setAnchorEl] = useState(null);
 
-  const handleClick = (event) => {
+
+  const handleClick = (event, pay) => {
     setAnchorEl(event.currentTarget);
+    setSelectedPayment(pay);
   };
+
 
   const handleClose = () => {
     setAnchorEl(null);
@@ -304,7 +307,7 @@ export default function PaymentsTable() {
 
       console.log(result);
       if (res.ok) {
-        alert("✅ Payment activated successfully!");
+        alert("✅ Payment activated successfully!" + (result.message || "Unknown error"));
         // Optionally refresh your table data here
       } else {
         alert("❌ Activation failed: " + (result.message || "Unknown error"));
@@ -729,34 +732,37 @@ export default function PaymentsTable() {
                             {pay.expirationDays} days
                           </TableCell>
                           <TableCell>
+
                             <Button
                               variant="outlined"
                               color="primary"
                               size="small"
-                              onClick={handleClick}
+                              onClick={(e) => handleClick(e, pay)}
                             >
                               Actions
                             </Button>
+
                             <Menu
                               anchorEl={anchorEl}
                               open={Boolean(anchorEl)}
                               onClose={handleClose}
                               PaperProps={{
-                                elevation: 1, // 🔹 Reduce shadow
+                                elevation: 1,
                                 sx: {
                                   minWidth: 150,
                                   borderRadius: 1.5,
-                                  boxShadow: '0px 1px 4px rgba(0,0,0,0.15)', // 🔹 Softer, lighter shadow
+                                  boxShadow: '0px 1px 4px rgba(0,0,0,0.15)',
                                 },
                                 component: Paper,
                               }}
                             >
-
                               <MenuItem
                                 onClick={() => {
                                   handleClose();
-                                  setActivatePaymentId(parseInt(pay.id.replace('P', '')));
-                                  setActivateModalOpen(true);
+                                  if (selectedPayment) {
+                                    setActivatePaymentId(parseInt(selectedPayment.id.replace('P', '')));
+                                    setActivateModalOpen(true);
+                                  }
                                 }}
                               >
                                 Activate
@@ -765,28 +771,26 @@ export default function PaymentsTable() {
                               <MenuItem
                                 onClick={() => {
                                   handleClose();
-                                  handleOpenModal(
-                                    pay.product_id,
-                                    parseInt(pay.id.replace('P', ''))
-                                  );
+                                  if (selectedPayment) {
+                                    handleOpenModal(selectedPayment.product_id, parseInt(selectedPayment.id.replace('P', '')));
+                                  }
                                 }}
                               >
                                 Deactivate
                               </MenuItem>
 
-
                               <MenuItem
                                 onClick={() => {
                                   handleClose();
-                                  handleOpenStkModal(
-                                    parseInt(pay.userId.replace('U', '')),
-                                    pay.product_id
-                                  );
+                                  if (selectedPayment) {
+                                    handleOpenStkModal(parseInt(selectedPayment.userId.replace('U', '')), selectedPayment.product_id);
+                                  }
                                 }}
                               >
                                 STK Push
                               </MenuItem>
                             </Menu>
+
                           </TableCell>
 
                           {/* <TableCell>
