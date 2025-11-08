@@ -271,6 +271,30 @@ export default function PaymentsTable() {
   };
 
 
+  const handleActivate = async (paymentId) => {
+    try {
+      const res = await fetch(`${baseURL}/api/manual-update`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          payment_id: paymentId,
+          status: "completed",
+          transaction_reference: ""
+        })
+      });
+
+      const result = await res.json();
+      if (res.ok) {
+        alert("✅ Payment activated successfully!");
+      } else {
+        alert("❌ Activation failed: " + (result.message || "Unknown error"));
+      }
+    } catch (error) {
+      alert("⚠️ Network Error: " + error.message);
+    }
+  };
+
+
 
 
 
@@ -706,14 +730,12 @@ export default function PaymentsTable() {
                               <MenuItem
                                 onClick={() => {
                                   handleClose();
-                                  handleOpenModal(
-                                    pay.product_id,
-                                    parseInt(pay.id.replace('P', ''))
-                                  );
+                                  handleActivate(parseInt(pay.id.replace('P', '')));
                                 }}
                               >
                                 Activate
                               </MenuItem>
+
 
                               <MenuItem
                                 onClick={() => {
