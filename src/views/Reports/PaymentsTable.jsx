@@ -693,6 +693,15 @@ export default function PaymentsTable() {
                               anchorEl={anchorEl}
                               open={Boolean(anchorEl)}
                               onClose={handleClose}
+                              PaperProps={{
+                                elevation: 1, // 🔹 Reduce shadow
+                                sx: {
+                                  minWidth: 150,
+                                  borderRadius: 1.5,
+                                  boxShadow: '0px 1px 4px rgba(0,0,0,0.15)', // 🔹 Softer, lighter shadow
+                                },
+                                component: Paper,
+                              }}
                             >
                               <MenuItem
                                 onClick={() => {
