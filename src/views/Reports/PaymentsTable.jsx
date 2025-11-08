@@ -285,19 +285,24 @@ export default function PaymentsTable() {
       return;
     }
 
+    const payload = {
+      payment_id: activatePaymentId,
+      status: "completed",
+      transaction_reference: transactionRef
+    }
+
+    console.log(payload);
+
     try {
       const res = await fetch(`${baseURL}/api/manual-update`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          payment_id: activatePaymentId,
-          status: "completed",
-          transaction_reference: transactionRef
-        })
+        body: JSON.stringify(payload)
       });
 
       const result = await res.json();
 
+      console.log(result);
       if (res.ok) {
         alert("✅ Payment activated successfully!");
         // Optionally refresh your table data here
