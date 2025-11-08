@@ -118,7 +118,9 @@ export default function PaymentsTable() {
     XLSX.writeFile(workbook, `${fileName}.xlsx`);
   };
 
-  useEffect(() => {
+
+
+  const fetchPayments = async () => {
     setLoading(true);
     fetch(`${baseURL}/api/payments?platform_id=${platformId}`)
       .then(res => res.json())
@@ -155,7 +157,13 @@ export default function PaymentsTable() {
         setLoading(false);
       })
       .catch(err => console.error('Error fetching payments:', err));
+  }
+
+
+  useEffect(() => {
+    fetchPayments();
   }, []);
+
 
 
   const handleFilterChange = (field, value) => {
@@ -221,6 +229,7 @@ export default function PaymentsTable() {
       const result = await res.json();
       if (res.ok) {
         alert("Deactivated successfully!");
+        fetchPayments();
       } else {
         alert("Error: " + result.message || "Failed to deactivate.");
       }
@@ -266,6 +275,7 @@ export default function PaymentsTable() {
       const result = await res.json();
       if (res.ok) {
         alert('STK push sent successfully!');
+        fetchPayments();
       } else {
         alert('STK push failed: ' + result.message);
       }
@@ -307,7 +317,8 @@ export default function PaymentsTable() {
 
       console.log(result);
       if (res.ok) {
-        alert("✅ Payment activated successfully!" + (result.message || "Unknown error"));
+        alert("Payment activated successfully!" || result.message);
+        fetchPayments();
         // Optionally refresh your table data here
       } else {
         alert("❌ Activation failed: " + (result.message || "Unknown error"));
