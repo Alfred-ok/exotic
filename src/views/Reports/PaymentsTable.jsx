@@ -72,6 +72,12 @@ export default function PaymentsTable() {
   const [stkLoading, setStkLoading] = useState(false);
 
 
+  const [activateModalOpen, setActivateModalOpen] = useState(false);
+  const [activatePaymentId, setActivatePaymentId] = useState(null);
+  const [transactionRef, setTransactionRef] = useState('');
+
+
+
 
 
   const platformId = localStorage.getItem('platformId');
@@ -271,28 +277,41 @@ export default function PaymentsTable() {
   };
 
 
-  const handleActivate = async (paymentId) => {
+
+
+  const handleActivateSubmit = async () => {
+    if (!transactionRef.trim()) {
+      alert("Please enter a transaction reference.");
+      return;
+    }
+
     try {
       const res = await fetch(`${baseURL}/api/manual-update`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          payment_id: paymentId,
+          payment_id: activatePaymentId,
           status: "completed",
-          transaction_reference: ""
+          transaction_reference: transactionRef
         })
       });
 
       const result = await res.json();
+
       if (res.ok) {
         alert("✅ Payment activated successfully!");
+        // Optionally refresh your table data here
       } else {
         alert("❌ Activation failed: " + (result.message || "Unknown error"));
       }
     } catch (error) {
       alert("⚠️ Network Error: " + error.message);
+    } finally {
+      setActivateModalOpen(false);
+      setTransactionRef('');
     }
   };
+
 
 
 
@@ -727,15 +746,16 @@ export default function PaymentsTable() {
                                 component: Paper,
                               }}
                             >
+
                               <MenuItem
                                 onClick={() => {
                                   handleClose();
-                                  handleActivate(parseInt(pay.id.replace('P', '')));
+                                  setActivatePaymentId(parseInt(pay.id.replace('P', '')));
+                                  setActivateModalOpen(true);
                                 }}
                               >
                                 Activate
                               </MenuItem>
-
 
                               <MenuItem
                                 onClick={() => {
@@ -748,6 +768,7 @@ export default function PaymentsTable() {
                               >
                                 Deactivate
                               </MenuItem>
+
 
                               <MenuItem
                                 onClick={() => {
@@ -963,6 +984,42 @@ export default function PaymentsTable() {
               </Button>
             </>
           )}
+        </DialogActions>
+      </Dialog>
+
+
+
+      <Dialog
+        open={activateModalOpen}
+        onClose={() => setActivateModalOpen(false)}
+        PaperProps={{
+          sx: {
+            width: '300px',
+            padding: '16px',
+            borderRadius: '12px'
+          }
+        }}
+      >
+        <DialogTitle>Activate Payment</DialogTitle>
+        <DialogContent>
+          <Box display="flex" flexDirection="column" gap={2} mt={1}>
+            <TextField
+              label="Transaction Reference"
+              value={transactionRef}
+              onChange={(e) => setTransactionRef(e.target.value)}
+              fullWidth
+            />
+          </Box>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setActivateModalOpen(false)}>Cancel</Button>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleActivateSubmit}
+          >
+            Activate
+          </Button>
         </DialogActions>
       </Dialog>
 
