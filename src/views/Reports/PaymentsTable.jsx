@@ -77,6 +77,16 @@ export default function PaymentsTable() {
   const baseURL = import.meta.env.VITE_APP_BASE_URL;
 
 
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
 
   /*
     const exportToPDF = (data, headers, fileName) => {
@@ -669,8 +679,59 @@ export default function PaymentsTable() {
                           <TableCell>
                             {pay.expirationDays} days
                           </TableCell>
-
                           <TableCell>
+                            <Button
+                              variant="outlined"
+                              color="primary"
+                              size="small"
+                              onClick={handleClick}
+                            >
+                              Actions
+                            </Button>
+                            <Menu
+                              anchorEl={anchorEl}
+                              open={Boolean(anchorEl)}
+                              onClose={handleClose}
+                            >
+                              <MenuItem
+                                onClick={() => {
+                                  handleClose();
+                                  handleOpenModal(
+                                    pay.product_id,
+                                    parseInt(pay.id.replace('P', ''))
+                                  );
+                                }}
+                              >
+                                Activate
+                              </MenuItem>
+
+                              <MenuItem
+                                onClick={() => {
+                                  handleClose();
+                                  handleOpenModal(
+                                    pay.product_id,
+                                    parseInt(pay.id.replace('P', ''))
+                                  );
+                                }}
+                              >
+                                Deactivate
+                              </MenuItem>
+
+                              <MenuItem
+                                onClick={() => {
+                                  handleClose();
+                                  handleOpenStkModal(
+                                    parseInt(pay.userId.replace('U', '')),
+                                    pay.product_id
+                                  );
+                                }}
+                              >
+                                STK Push
+                              </MenuItem>
+                            </Menu>
+                          </TableCell>
+
+                          {/* <TableCell>
                             <Button
                               variant="outlined"
                               color="error"
@@ -685,8 +746,8 @@ export default function PaymentsTable() {
                               Deactivate
                             </Button>
 
-                          </TableCell>
-                          <TableCell>
+                          </TableCell> */}
+                          {/* <TableCell>
                             <Button
                               variant="outlined"
                               color="primary"
@@ -699,7 +760,7 @@ export default function PaymentsTable() {
                               STK Push
                             </Button>
 
-                          </TableCell>
+                          </TableCell> */}
 
                         </TableRow>
                       ))}
