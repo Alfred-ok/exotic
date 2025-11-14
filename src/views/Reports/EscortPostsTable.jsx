@@ -96,7 +96,7 @@ const EscortPostsTable = () => {
         const escortData = res.data.escort_posts.map(post => ({
           id: `P${post.ID}`,
           name: post.post_title,
-          phone: post.phone_number,
+          phone: post.phone.meta_value,
           status: post.post_status,
           registered: post.post_date.split(' ')[0],
           guid: post.guid,
