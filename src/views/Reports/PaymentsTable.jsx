@@ -667,7 +667,7 @@ export default function PaymentsTable() {
                     <TableHead sx={{ backgroundColor: '#1976d2' }}>
 
                       <TableRow>
-
+                        <TableCell style={{ color: '#fff' }}></TableCell>
                         <TableCell style={{ color: '#fff' }}>Payment ID</TableCell>
                         <TableCell style={{ color: '#fff' }}>Name</TableCell>
                         <TableCell style={{ color: '#fff' }}>User ID</TableCell>
