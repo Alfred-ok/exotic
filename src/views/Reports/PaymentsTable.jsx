@@ -28,10 +28,10 @@ import PaidIcon from '@mui/icons-material/Paid'; // Optional: for total amount
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import AutoAwesomeMotionIcon from '@mui/icons-material/AutoAwesomeMotion';
-
-
-
 import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
+import { Collapse, IconButton } from '@mui/material';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 
 
 
@@ -78,7 +78,7 @@ export default function PaymentsTable() {
   const [transactionRef, setTransactionRef] = useState('');
 
   const [selectedPayment, setSelectedPayment] = useState(null);
-
+  const [open, setOpen] = useState(false);
 
 
   const platformId = localStorage.getItem('platformId');
@@ -656,7 +656,9 @@ export default function PaymentsTable() {
                 <TableContainer component={Paper} elevation={2}>
                   <Table>
                     <TableHead sx={{ backgroundColor: '#1976d2' }}>
+
                       <TableRow>
+
                         <TableCell style={{ color: '#fff' }}>Payment ID</TableCell>
                         <TableCell style={{ color: '#fff' }}>Name</TableCell>
                         <TableCell style={{ color: '#fff' }}>User ID</TableCell>
@@ -674,152 +676,158 @@ export default function PaymentsTable() {
                     </TableHead>
                     <TableBody>
                       {paginatedPayments.map((pay, index) => (
-                        <TableRow key={pay.id} sx={{
-                          backgroundColor: index % 2 === 0 ? '#f0f8ff' : '#fff',
-                          '&:hover': {
-                            transform: 'translateY(-2px)',
-                            boxShadow: '0 4px 16px rgba(0,0,0,0.12)'
-                          }
-                        }}>
+                        <>
+                          <TableRow key={pay.id} sx={{
+                            backgroundColor: index % 2 === 0 ? '#f0f8ff' : '#fff',
+                            '&:hover': {
+                              transform: 'translateY(-2px)',
+                              boxShadow: '0 4px 16px rgba(0,0,0,0.12)'
+                            }
+                          }}>
 
-                          <TableCell>{pay.id}</TableCell>
-                          <TableCell>{pay.escort_name || 'N/A'}</TableCell>
-                          <TableCell>{pay.userId}</TableCell>
-                          <TableCell>{pay.phone}</TableCell>
-                          <TableCell>{pay.amount}</TableCell>
-                          {/* Product with background color */}
-                          <TableCell>
-                            <Box
-                              sx={{
-                                backgroundColor:
-                                  pay.product == 'VIP'
-                                    ? '#e3f2fd'
-                                    : pay.product == 'premimum'
-                                      ? '#f3e5f5'
-                                      : pay.product == 'Basic'
-                                        ? '#e8f5e9'
-                                        : '#e0e0e0',
-                                color:
-                                  pay.product == 'VIP'
-                                    ? '#0d47a1'
-                                    : pay.product == 'premimum'
-                                      ? '#6a1b9a'
-                                      : pay.product == 'Basic'
-                                        ? '#2e7d32'
-                                        : '#333',
-                                px: 1.5,
-                                py: 0.5,
-                                borderRadius: '12px',
-                                display: 'inline-block',
-                                fontWeight: 500,
-                                fontSize: '0.75rem',
-                                textTransform: 'capitalize'
-                              }}
-                            >
-                              {pay.product}
-                            </Box>
-                          </TableCell>
-                          {/* Status with background color */}
-                          <TableCell>
-                            <Box
-                              sx={{
-                                backgroundColor:
-                                  pay.status === 'completed'
-                                    ? '#d4edda'
-                                    : pay.status === 'pending'
-                                      ? '#fff3cd'
-                                      : pay.status === 'failed'
-                                        ? '#f8d7da'
-                                        : '#e0e0e0',
-                                color:
-                                  pay.status === 'completed'
-                                    ? '#155724'
-                                    : pay.status === 'pending'
-                                      ? '#856404'
-                                      : pay.status === 'failed'
-                                        ? '#721c24'
-                                        : '#333',
-                                px: 1.5,
-                                py: 0.5,
-                                borderRadius: '12px',
-                                display: 'inline-block',
-                                fontWeight: 500,
-                                fontSize: '0.75rem',
-                                textTransform: 'capitalize'
-                              }}
-                            >
-                              {pay.status}
-                            </Box>
-                          </TableCell>
-                          <TableCell>{pay.ref}</TableCell>
-                          <TableCell>{pay.uuid}</TableCell>
-                          <TableCell>{pay.date}</TableCell>
-                          <TableCell>
-                            {pay.expirationDays} days
-                          </TableCell>
-                          <TableCell>
-
-                            <Button
-                              variant="outlined"
-                              color="primary"
-                              size="small"
-                              onClick={(e) => handleClick(e, pay)}
-                            >
-                              Actions
-                            </Button>
-
-                            <Menu
-                              anchorEl={anchorEl}
-                              open={Boolean(anchorEl)}
-                              onClose={handleClose}
-                              PaperProps={{
-                                elevation: 1,
-                                sx: {
-                                  minWidth: 150,
-                                  borderRadius: 1.5,
-                                  boxShadow: '0px 1px 4px rgba(0,0,0,0.15)',
-                                },
-                                component: Paper,
-                              }}
-                            >
-                              <MenuItem
-                                onClick={() => {
-                                  handleClose();
-                                  if (selectedPayment) {
-                                    setActivatePaymentId(parseInt(selectedPayment.id.replace('P', '')));
-                                    setActivateModalOpen(true);
-                                  }
+                            <TableCell>
+                              <IconButton size="small" onClick={() => setOpen(!open)}>
+                                {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+                              </IconButton>
+                            </TableCell>
+                            <TableCell>{pay.id}</TableCell>
+                            <TableCell>{pay.escort_name || 'N/A'}</TableCell>
+                            <TableCell>{pay.userId}</TableCell>
+                            <TableCell>{pay.phone}</TableCell>
+                            <TableCell>{pay.amount}</TableCell>
+                            {/* Product with background color */}
+                            <TableCell>
+                              <Box
+                                sx={{
+                                  backgroundColor:
+                                    pay.product == 'VIP'
+                                      ? '#e3f2fd'
+                                      : pay.product == 'premimum'
+                                        ? '#f3e5f5'
+                                        : pay.product == 'Basic'
+                                          ? '#e8f5e9'
+                                          : '#e0e0e0',
+                                  color:
+                                    pay.product == 'VIP'
+                                      ? '#0d47a1'
+                                      : pay.product == 'premimum'
+                                        ? '#6a1b9a'
+                                        : pay.product == 'Basic'
+                                          ? '#2e7d32'
+                                          : '#333',
+                                  px: 1.5,
+                                  py: 0.5,
+                                  borderRadius: '12px',
+                                  display: 'inline-block',
+                                  fontWeight: 500,
+                                  fontSize: '0.75rem',
+                                  textTransform: 'capitalize'
                                 }}
                               >
-                                Activate
-                              </MenuItem>
-
-                              <MenuItem
-                                onClick={() => {
-                                  handleClose();
-                                  if (selectedPayment) {
-                                    handleOpenModal(selectedPayment.product_id, parseInt(selectedPayment.id.replace('P', '')));
-                                  }
+                                {pay.product}
+                              </Box>
+                            </TableCell>
+                            {/* Status with background color */}
+                            <TableCell>
+                              <Box
+                                sx={{
+                                  backgroundColor:
+                                    pay.status === 'completed'
+                                      ? '#d4edda'
+                                      : pay.status === 'pending'
+                                        ? '#fff3cd'
+                                        : pay.status === 'failed'
+                                          ? '#f8d7da'
+                                          : '#e0e0e0',
+                                  color:
+                                    pay.status === 'completed'
+                                      ? '#155724'
+                                      : pay.status === 'pending'
+                                        ? '#856404'
+                                        : pay.status === 'failed'
+                                          ? '#721c24'
+                                          : '#333',
+                                  px: 1.5,
+                                  py: 0.5,
+                                  borderRadius: '12px',
+                                  display: 'inline-block',
+                                  fontWeight: 500,
+                                  fontSize: '0.75rem',
+                                  textTransform: 'capitalize'
                                 }}
                               >
-                                Deactivate
-                              </MenuItem>
+                                {pay.status}
+                              </Box>
+                            </TableCell>
+                            <TableCell>{pay.ref}</TableCell>
+                            <TableCell>{pay.uuid}</TableCell>
+                            <TableCell>{pay.date}</TableCell>
+                            <TableCell>
+                              {pay.expirationDays} days
+                            </TableCell>
+                            <TableCell>
 
-                              <MenuItem
-                                onClick={() => {
-                                  handleClose();
-                                  if (selectedPayment) {
-                                    handleOpenStkModal(parseInt(selectedPayment.userId.replace('U', '')), selectedPayment.product_id);
-                                  }
+                              <Button
+                                variant="outlined"
+                                color="primary"
+                                size="small"
+                                onClick={(e) => handleClick(e, pay)}
+                              >
+                                Actions
+                              </Button>
+
+                              <Menu
+                                anchorEl={anchorEl}
+                                open={Boolean(anchorEl)}
+                                onClose={handleClose}
+                                PaperProps={{
+                                  elevation: 1,
+                                  sx: {
+                                    minWidth: 150,
+                                    borderRadius: 1.5,
+                                    boxShadow: '0px 1px 4px rgba(0,0,0,0.15)',
+                                  },
+                                  component: Paper,
                                 }}
                               >
-                                STK Push
-                              </MenuItem>
-                            </Menu>
+                                <MenuItem
+                                  onClick={() => {
+                                    handleClose();
+                                    if (selectedPayment) {
+                                      setActivatePaymentId(parseInt(selectedPayment.id.replace('P', '')));
+                                      setActivateModalOpen(true);
+                                    }
+                                  }}
+                                >
+                                  Activate
+                                </MenuItem>
 
-                          </TableCell>
+                                <MenuItem
+                                  onClick={() => {
+                                    handleClose();
+                                    if (selectedPayment) {
+                                      handleOpenModal(selectedPayment.product_id, parseInt(selectedPayment.id.replace('P', '')));
+                                    }
+                                  }}
+                                >
+                                  Deactivate
+                                </MenuItem>
 
-                          {/* <TableCell>
+                                <MenuItem
+                                  onClick={() => {
+                                    handleClose();
+                                    if (selectedPayment) {
+                                      handleOpenStkModal(parseInt(selectedPayment.userId.replace('U', '')), selectedPayment.product_id);
+                                    }
+                                  }}
+                                >
+                                  STK Push
+                                </MenuItem>
+                              </Menu>
+
+                            </TableCell>
+
+                            {/* <TableCell>
                             <Button
                               variant="outlined"
                               color="error"
@@ -835,7 +843,7 @@ export default function PaymentsTable() {
                             </Button>
 
                           </TableCell> */}
-                          {/* <TableCell>
+                            {/* <TableCell>
                             <Button
                               variant="outlined"
                               color="primary"
@@ -850,7 +858,22 @@ export default function PaymentsTable() {
 
                           </TableCell> */}
 
-                        </TableRow>
+                          </TableRow>
+                          <TableRow>
+                            <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={12}>
+                              <Collapse in={open} timeout="auto" unmountOnExit>
+                                <TableRow>
+                                  <TableCell>{pay.ref}</TableCell>
+                                  <TableCell>{pay.uuid}</TableCell>
+                                  <TableCell>{pay.date}</TableCell>
+                                  <TableCell>
+                                    {pay.expirationDays} days
+                                  </TableCell>
+                                </TableRow>
+                              </Collapse>
+                            </TableCell>
+                          </TableRow>
+                        </>
                       ))}
                     </TableBody>
                   </Table>
