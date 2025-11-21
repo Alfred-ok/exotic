@@ -46,7 +46,8 @@ export default function PaymentsTable() {
     dateFrom: '',
     dateTo: '',
     ref: '',
-    name: ''
+    name: '',
+    uuid: ''
   });
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -148,6 +149,7 @@ export default function PaymentsTable() {
             product_id: p.product_id, //new
             status: p.status,
             ref: p.transaction_reference || 'N/A',
+            uuid: p.transaction_uuid || 'N/A',
             date: p.created_at.split(' ')[0],
             expirationDays: diffDays < 0 ? 0 : diffDays // if expired, show 0
           };
@@ -178,7 +180,8 @@ export default function PaymentsTable() {
     (!filters.status || payment.status.toLowerCase().includes(filters.status.toLowerCase())) &&
     (!filters.dateFrom || new Date(payment.date) >= new Date(filters.dateFrom)) &&
     (!filters.ref || payment.ref.toLowerCase().includes(filters.ref.toLowerCase())) &&
-    (!filters.dateTo || new Date(payment.date) <= new Date(filters.dateTo))
+    (!filters.dateTo || new Date(payment.date) <= new Date(filters.dateTo)) &&
+    (!filters.uuid || (payment.uuid || '').toLowerCase().includes(filters.uuid.toLowerCase()))
   );
 
 
@@ -572,13 +575,23 @@ export default function PaymentsTable() {
                   {/*<Grid item xs={2}><TextField label="Date" size="small" fullWidth value={filters.date || ''} onChange={(e) => handleFilterChange('date', e.target.value)} placeholder="YYYY-MM-DD" /></Grid>*/}
                   <Grid item xs={2}>
                     <TextField
-                      label="Reference"
+                      label="Mpesa Ref"
                       size="small"
                       fullWidth
                       value={filters.ref || ''}
                       onChange={(e) => handleFilterChange('ref', e.target.value)}
                     />
                   </Grid>
+                  <Grid item xs={2}>
+                    <TextField
+                      label="Bank Ref"
+                      size="small"
+                      fullWidth
+                      value={filters.uuid || ''}
+                      onChange={(e) => handleFilterChange('uuid', e.target.value)}
+                    />
+                  </Grid>
+
 
                   <Grid item xs={2}>
                     <TextField
@@ -651,7 +664,8 @@ export default function PaymentsTable() {
                         <TableCell style={{ color: '#fff' }}>Amount</TableCell>
                         <TableCell style={{ color: '#fff' }}>Product</TableCell>
                         <TableCell style={{ color: '#fff' }}>Status</TableCell>
-                        <TableCell style={{ color: '#fff' }}>Reference</TableCell>
+                        <TableCell style={{ color: '#fff' }}>Mpesa Ref</TableCell>
+                        <TableCell style={{ color: '#fff' }}>Bank Ref</TableCell>
                         <TableCell style={{ color: '#fff' }}>Date</TableCell>
                         <TableCell style={{ color: '#fff' }}>Expires In</TableCell>
                         <TableCell style={{ color: '#fff' }}>Action</TableCell>
@@ -738,8 +752,7 @@ export default function PaymentsTable() {
                             </Box>
                           </TableCell>
                           <TableCell>{pay.ref}</TableCell>
-                          {/*<TableCell>{pay.transaction_reference}</TableCell>
-                          <TableCell>{pay.transaction_uuid}</TableCell>*/}
+                          <TableCell>{pay.uuid}</TableCell>
                           <TableCell>{pay.date}</TableCell>
                           <TableCell>
                             {pay.expirationDays} days
