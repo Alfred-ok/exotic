@@ -1,7 +1,7 @@
 
 
 import { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import axios from 'axios';
 import { GoogleLogin } from '@react-oauth/google';
 import Swal from 'sweetalert2';
@@ -36,6 +36,8 @@ import CircularProgress from '@mui/material/CircularProgress';
 export default function AuthLogin() {
   const theme = useTheme();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+
 
   const [checked, setChecked] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
@@ -86,24 +88,35 @@ export default function AuthLogin() {
 
 
   const handleGoogleLogin = () => {
-    // window.location.href = 'https://testing.exotic-ads.com/auth/google/redirect';
-    // window.open(`${baseURL}/api/auth/google`, '_blank');
-
-    fetch('https://testing.exotic-ads.com/auth/google/redirect')
-      .then(res => res.json())
-      .then(data => {
-        if (data.success) {
-          console.log(data);
-          localStorage.setItem('token', data.token);
-          localStorage.setItem('user', JSON.stringify(data.user));
-          // redirect to dashboard
-          navigate('/platform-selector');
-        } else {
-          console.error(data.message);
-          // show error to user
-        }
-      });
+    window.location.href = 'https://testing.exotic-ads.com/auth/google/redirect';
+    //window.open(`${baseURL}/api/auth/google`, '_blank');
   };
+
+
+  useEffect(() => {
+    const success = searchParams.get("success");
+    const message = searchParams.get("message");
+    const token = searchParams.get("token");
+    const user = searchParams.get("user");
+
+    console.log(message);
+
+    if (success !== null) {
+      // Save to localStorage
+      localStorage.setItem("google_success", success);
+      localStorage.setItem("google_message", message || "");
+
+
+      if (token) localStorage.setItem("token", token);
+      if (user) localStorage.setItem("user", user);
+
+      if (success === "true") {
+        navigate("/platform-selector");
+      } else {
+        alert(message || "Google login failed");
+      }
+    }
+  }, []);
 
 
   return (
