@@ -666,10 +666,7 @@ export default function PaymentsTable() {
                         <TableCell style={{ color: '#fff' }}>Amount</TableCell>
                         <TableCell style={{ color: '#fff' }}>Product</TableCell>
                         <TableCell style={{ color: '#fff' }}>Status</TableCell>
-                        <TableCell style={{ color: '#fff' }}>Mpesa Ref</TableCell>
-                        <TableCell style={{ color: '#fff' }}>Bank Ref</TableCell>
-                        <TableCell style={{ color: '#fff' }}>Date</TableCell>
-                        <TableCell style={{ color: '#fff' }}>Expires In</TableCell>
+
                         <TableCell style={{ color: '#fff' }}>Action</TableCell>
                         <TableCell style={{ color: '#fff' }}></TableCell>
                       </TableRow>
@@ -758,12 +755,6 @@ export default function PaymentsTable() {
                               >
                                 {pay.status}
                               </Box>
-                            </TableCell>
-                            <TableCell>{pay.ref}</TableCell>
-                            <TableCell>{pay.uuid}</TableCell>
-                            <TableCell>{pay.date}</TableCell>
-                            <TableCell>
-                              {pay.expirationDays} days
                             </TableCell>
                             <TableCell>
 
@@ -862,14 +853,26 @@ export default function PaymentsTable() {
                           <TableRow>
                             <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={12}>
                               <Collapse in={open} timeout="auto" unmountOnExit>
-                                <TableRow>
-                                  <TableCell>{pay.ref}</TableCell>
-                                  <TableCell>{pay.uuid}</TableCell>
-                                  <TableCell>{pay.date}</TableCell>
-                                  <TableCell>
-                                    {pay.expirationDays} days
-                                  </TableCell>
-                                </TableRow>
+                                <Table>
+                                  <TableHead>
+                                    <TableRow>
+                                      <TableCell style={{ color: '#fff' }}>Mpesa Ref</TableCell>
+                                      <TableCell style={{ color: '#fff' }}>Bank Ref</TableCell>
+                                      <TableCell style={{ color: '#fff' }}>Date</TableCell>
+                                      <TableCell style={{ color: '#fff' }}>Expires In</TableCell>
+                                    </TableRow>
+                                  </TableHead>
+                                  <TableBody>
+                                    <TableRow>
+                                      <TableCell>{pay.ref}</TableCell>
+                                      <TableCell>{pay.uuid}</TableCell>
+                                      <TableCell>{pay.date}</TableCell>
+                                      <TableCell>
+                                        {pay.expirationDays} days
+                                      </TableCell>
+                                    </TableRow>
+                                  </TableBody>
+                                </Table>
                               </Collapse>
                             </TableCell>
                           </TableRow>
