@@ -156,6 +156,7 @@ export default function PaymentsTable() {
             product: p.product,
             product_id: p.product_id, //new
             status: p.status,
+            profile_url: p.profile_url,
             ref: p.transaction_reference || 'N/A',
             uuid: p.transaction_uuid || 'N/A',
             date: p.created_at.split(' ')[0],
@@ -863,11 +864,12 @@ export default function PaymentsTable() {
                               <Collapse in={openRows[pay.id]} timeout="auto" unmountOnExit>
                                 <Table style={{ marginTop: 3, marginBottom: 3 }}>
                                   <TableHead>
-                                    <TableRow style={{ backgroundColor: "rgba(83, 83, 83, 0.5)" }}>
+                                    <TableRow style={{ backgroundColor: '#1976d2' }}>
                                       <TableCell style={{ color: '#fff' }}>Mpesa Ref</TableCell>
                                       <TableCell style={{ color: '#fff' }}>Bank Ref</TableCell>
                                       <TableCell style={{ color: '#fff' }}>Date</TableCell>
                                       <TableCell style={{ color: '#fff' }}>Expires In</TableCell>
+                                      <TableCell style={{ color: '#fff' }}>Profile Url</TableCell>
                                     </TableRow>
                                   </TableHead>
                                   <TableBody sx={{ backgroundColor: '#fff' }}>
@@ -878,6 +880,7 @@ export default function PaymentsTable() {
                                       <TableCell>
                                         {pay.expirationDays} days
                                       </TableCell>
+                                      <TableCell>{pay.profile_url}</TableCell>
                                     </TableRow>
                                   </TableBody>
                                 </Table>
