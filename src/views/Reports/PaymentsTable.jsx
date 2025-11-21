@@ -78,7 +78,8 @@ export default function PaymentsTable() {
   const [transactionRef, setTransactionRef] = useState('');
 
   const [selectedPayment, setSelectedPayment] = useState(null);
-  const [open, setOpen] = useState(false);
+  const [openRows, setOpenRows] = useState({});
+
 
 
   const platformId = localStorage.getItem('platformId');
@@ -98,6 +99,13 @@ export default function PaymentsTable() {
     setAnchorEl(null);
   };
 
+
+  const toggleRow = (id) => {
+    setOpenRows((prev) => ({
+      ...prev,
+      [id]: !prev[id]
+    }));
+  };
 
   /*
     const exportToPDF = (data, headers, fileName) => {
@@ -683,8 +691,8 @@ export default function PaymentsTable() {
                           }}>
 
                             <TableCell>
-                              <IconButton size="small" onClick={() => setOpen(!open)}>
-                                {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+                              <IconButton size="small" onClick={() => toggleRow(pay.id)}>
+                                {openRows[pay.id] ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
                               </IconButton>
                             </TableCell>
                             <TableCell>{pay.id}</TableCell>
@@ -852,7 +860,7 @@ export default function PaymentsTable() {
                           </TableRow>
                           <TableRow>
                             <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={12}>
-                              <Collapse in={open} timeout="auto" unmountOnExit>
+                              <Collapse in={openRows[pay.id]} timeout="auto" unmountOnExit>
                                 <Table>
                                   <TableHead>
                                     <TableRow>
