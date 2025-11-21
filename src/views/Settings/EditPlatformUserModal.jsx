@@ -210,8 +210,8 @@ export default function EditPlatformUserModal({ open, onClose, userData, onUpdat
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-     // close dialog first
-      onClose();
+    // close dialog first
+    onClose();
 
     const confirm = await Swal.fire({
       title: 'Update User?',

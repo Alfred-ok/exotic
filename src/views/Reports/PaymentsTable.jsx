@@ -738,6 +738,8 @@ export default function PaymentsTable() {
                             </Box>
                           </TableCell>
                           <TableCell>{pay.ref}</TableCell>
+                          <TableCell>{pay.transaction_reference}</TableCell>
+                          <TableCell>{pay.transaction_uuid}</TableCell>
                           <TableCell>{pay.date}</TableCell>
                           <TableCell>
                             {pay.expirationDays} days
