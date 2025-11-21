@@ -89,42 +89,35 @@ export default function AuthLogin() {
 
 
 
-  const handleGoogleLogin = async () => {
-    try {
-      // Step 1: Get the redirect URL from backend (optional)
-      const redirectRes = await axios.get(`${baseURL}/api/auth/google/redirect`);
-      const googleLoginUrl = redirectRes.data.url;
-      // Step 2: Open Google OAuth in a new window
-      const popup = window.open(googleLoginUrl, "_blank", "width=500,height=600");
-      // Step 3: Poll for completion (optional)
-      const timer = setInterval(async () => {
-        try {
-          if (popup.closed) {
-            clearInterval(timer);
-            // After user finishes OAuth, call backend callback API
-            const response = await axios.get(`${baseURL}/api/auth/google/callback`);
-            if (response.data.success) {
-              const { user, token } = response.data;
-              localStorage.setItem("userName", user.name);
-              localStorage.setItem("userEmail", user.email);
-              localStorage.setItem("userRole", user.role);
-              localStorage.setItem("platforms", JSON.stringify(user.platforms || []));
-              localStorage.setItem("token", token);
-              navigate("/platform-selector");
-            } else {
-              Swal.fire("Google login failed", response.data.message, "error");
-            }
-          }
-        } catch (err) {
-          console.error(err);
-        }
-      }, 1000);
-    } catch (error) {
-      console.error(error);
-      Swal.fire("Error", "Unable to start Google login", "error");
-    }
+  const handleGoogleLogin = () => {
+    const width = 500;
+    const height = 600;
+    const left = (window.innerWidth - width) / 2;
+    const top = (window.innerHeight - height) / 2;
+    window.open(
+      'https://testing.exotic-ads.com/auth/google/redirect',
+      'Google Login',
+      `width=${width},height=${height},top=${top},left=${left}`
+    );
   };
 
+  useEffect(() => {
+    const handleMessage = (event) => {
+      if (event.origin !== import.meta.env.VITE_APP_BASE_URL) return;
+      const { success, token, user } = event.data;
+      if (success) {
+        localStorage.setItem('token', token);
+        localStorage.setItem('user', JSON.stringify(user));
+        localStorage.setItem('userName', user.name);
+        localStorage.setItem('userEmail', user.email);
+        localStorage.setItem('userRole', user.role);
+        localStorage.setItem('platforms', JSON.stringify(user.platforms || []));
+        navigate('/platform-selector');
+      }
+    };
+    window.addEventListener('message', handleMessage);
+    return () => window.removeEventListener('message', handleMessage);
+  }, []);
 
   return (
     <>
