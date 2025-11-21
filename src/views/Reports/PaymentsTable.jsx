@@ -880,7 +880,17 @@ export default function PaymentsTable() {
                                       <TableCell>
                                         {pay.expirationDays} days
                                       </TableCell>
-                                      <TableCell>{pay.profile_url}</TableCell>
+                                      <TableCell>
+                                        <a href={pay.profile_url}
+                                          target="_blank"
+                                          rel="noopener noreferrer"
+                                          style={{
+                                            fontSize: '0.75rem',
+                                            color: '#1976d2',
+                                            textDecoration: 'underline',
+                                            cursor: 'pointer'
+                                          }}>{pay.profile_url}</a>
+                                      </TableCell>
                                     </TableRow>
                                   </TableBody>
                                 </Table>
