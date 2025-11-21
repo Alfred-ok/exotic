@@ -859,7 +859,7 @@ export default function PaymentsTable() {
 
                           </TableRow>
                           <TableRow>
-                            <TableCell style={{ paddingBottom: 0, paddingTop: 2, backgroundColor: "rgba(236, 236, 236, 0.5)" }} colSpan={12} >
+                            <TableCell style={{ paddingBottom: 6, paddingTop: 6, backgroundColor: "rgba(236, 236, 236, 0.7)" }} colSpan={12} >
                               <Collapse in={openRows[pay.id]} timeout="auto" unmountOnExit>
                                 <Table>
                                   <TableHead sx={{ backgroundColor: '#1976d2' }}>
