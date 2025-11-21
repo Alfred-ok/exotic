@@ -86,8 +86,23 @@ export default function AuthLogin() {
 
 
   const handleGoogleLogin = () => {
-    //window.location.href = 'https://api.exoticnairobi.com/api/auth/google';
-    window.open(`${baseURL}/api/auth/google`, '_blank');
+    // window.location.href = 'https://testing.exotic-ads.com/auth/google/redirect';
+    // window.open(`${baseURL}/api/auth/google`, '_blank');
+
+    fetch('https://testing.exotic-ads.com/auth/google/redirect')
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          console.log(data);
+          localStorage.setItem('token', data.token);
+          localStorage.setItem('user', JSON.stringify(data.user));
+          // redirect to dashboard
+          navigate('/platform-selector');
+        } else {
+          console.error(data.message);
+          // show error to user
+        }
+      });
   };
 
 
@@ -158,8 +173,8 @@ export default function AuthLogin() {
           </Button>
         </AnimateButton>
       </Box>
-      {/*<Box sx={{ mt: 2 }}>   
-       <button
+      <Box sx={{ mt: 2 }}>
+        <button
           onClick={handleGoogleLogin}
           style={{
             display: 'flex',
@@ -185,7 +200,7 @@ export default function AuthLogin() {
           Sign in with Google
         </button>
 
-      </Box>*/}
+      </Box>
 
 
     </>
