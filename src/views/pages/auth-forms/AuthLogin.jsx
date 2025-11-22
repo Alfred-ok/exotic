@@ -98,23 +98,39 @@ export default function AuthLogin() {
 
   useEffect(() => {
     const success = params.get("success");
-    const token = params.get("token");
-    const id = params.get("id");
-    const name = params.get("name");
-    const email = params.get("email");
-    const role = params.get("role");
 
-    if (success === "true" && token) {
-      const user = { id, name, email, role };
+    // Only run callback handler if Google redirected back with success param
+    if (success !== null) {
+      const token = params.get("token");
+      const id = params.get("id");
+      const name = params.get("name");
+      const email = params.get("email");
+      const role = params.get("role");
 
-      localStorage.setItem("token", token);
-      localStorage.setItem("user", JSON.stringify(user));
+      if (success === "true" && token) {
+        const user = { id, name, email, role };
 
-      window.location.href = "/dashboard"; // redirect to dashboard
-    } else {
-      window.location.href = "/login?error=Google Login Failed";
+        localStorage.setItem("token", token);
+        localStorage.setItem("user", JSON.stringify(user));
+
+        // Redirect based on role
+        if (role === "sales") {
+          window.location.href = "/platform-selector";
+        } else {
+          window.location.href = "/dashboard";
+        }
+      }
+      else {
+        Swal.fire({
+          icon: "error",
+          title: "Google Login Failed",
+          text: "Your Google login was not successful."
+        });
+        navigate("/login");
+      }
     }
   }, [params]);
+
 
 
   return (
