@@ -33,6 +33,8 @@ import CircularProgress from '@mui/material/CircularProgress';
 
 
 
+
+
 export default function AuthLogin() {
   const theme = useTheme();
   const navigate = useNavigate();
@@ -46,6 +48,7 @@ export default function AuthLogin() {
   const [password, setPassword] = useState('');
 
   const [loading, setLoading] = useState(false);
+  const [params] = useSearchParams();
 
   const handleClickShowPassword = () => setShowPassword(!showPassword);
   const handleMouseDownPassword = (event) => event.preventDefault();
@@ -87,37 +90,32 @@ export default function AuthLogin() {
   };
 
 
-
-
   const handleGoogleLogin = () => {
-    const width = 500;
-    const height = 600;
-    const left = (window.innerWidth - width) / 2;
-    const top = (window.innerHeight - height) / 2;
-    window.open(
-      'https://testing.exotic-ads.com/auth/google/redirect',
-      'Google Login',
-      `width=${width},height=${height},top=${top},left=${left}`
-    );
+    window.location.href = `${baseURL}/auth/google`;
+    // Replace with your real BACKEND Google redirect route
   };
 
+
   useEffect(() => {
-    const handleMessage = (event) => {
-      if (event.origin !== import.meta.env.VITE_APP_BASE_URL) return;
-      const { success, token, user } = event.data;
-      if (success) {
-        localStorage.setItem('token', token);
-        localStorage.setItem('user', JSON.stringify(user));
-        localStorage.setItem('userName', user.name);
-        localStorage.setItem('userEmail', user.email);
-        localStorage.setItem('userRole', user.role);
-        localStorage.setItem('platforms', JSON.stringify(user.platforms || []));
-        navigate('/platform-selector');
-      }
-    };
-    window.addEventListener('message', handleMessage);
-    return () => window.removeEventListener('message', handleMessage);
-  }, []);
+    const success = params.get("success");
+    const token = params.get("token");
+    const id = params.get("id");
+    const name = params.get("name");
+    const email = params.get("email");
+    const role = params.get("role");
+
+    if (success === "true" && token) {
+      const user = { id, name, email, role };
+
+      localStorage.setItem("token", token);
+      localStorage.setItem("user", JSON.stringify(user));
+
+      window.location.href = "/dashboard"; // redirect to dashboard
+    } else {
+      window.location.href = "/login?error=Google Login Failed";
+    }
+  }, [params]);
+
 
   return (
     <>
@@ -220,3 +218,30 @@ export default function AuthLogin() {
   );
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+//google auth
+
+
+export default function GoogleAuthSuccess() {
+
+
+
+
+  return (
+    <div style={{ padding: 40 }}>
+      <h3>Authenticating...</h3>
+      <p>Please wait while we complete your login.</p>
+    </div>
+  );
+}
