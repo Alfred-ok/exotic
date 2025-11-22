@@ -90,7 +90,7 @@ export default function AuthLogin() {
 
 
   const handleGoogleLogin = () => {
-    window.location.href = `${baseURL}/google-auth-success`;
+    window.location.href = `https://testing.exotic-ads.com/auth/google/redirect`;
     // Replace with your real BACKEND Google redirect route
   };
 
