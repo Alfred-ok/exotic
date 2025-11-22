@@ -91,7 +91,7 @@ export default function AuthLogin() {
 
 
   const handleGoogleLogin = () => {
-    window.location.href = `${baseURL}/auth/google`;
+    window.location.href = `${baseURL}/google-auth-success`;
     // Replace with your real BACKEND Google redirect route
   };
 
