@@ -221,27 +221,3 @@ export default function AuthLogin() {
 
 
 
-
-
-
-
-
-
-
-
-
-//google auth
-
-
-export default function GoogleAuthSuccess() {
-
-
-
-
-  return (
-    <div style={{ padding: 40 }}>
-      <h3>Authenticating...</h3>
-      <p>Please wait while we complete your login.</p>
-    </div>
-  );
-}
