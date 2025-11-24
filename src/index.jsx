@@ -1,3 +1,12 @@
+// Disable console logs in production
+if (import.meta.env.PROD) {
+  console.log = () => { };
+  console.warn = () => { };
+  console.error = () => { };
+}
+
+
+
 import { createRoot } from 'react-dom/client';
 
 // project imports
@@ -35,11 +44,11 @@ const container = document.getElementById('root');
 const root = createRoot(container);
 root.render(
   <ConfigProvider>
-   {/*<GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}>*/}
+    {/*<GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}>*/}
     <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <App />
-    </LocalizationProvider> 
-    {/*</GoogleOAuthProvider> */}  
+      <App />
+    </LocalizationProvider>
+    {/*</GoogleOAuthProvider> */}
   </ConfigProvider>
 );
 
