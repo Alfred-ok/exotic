@@ -15,7 +15,6 @@ import PlatformManager from '../views/Settings/PlatformManager';
 import PlatformUser from '../views/Settings/PlatformUser';
 import ProtectedRoute from './ProtectedRoute';
 
-import GoogleAuthCallback from '../views/pages/auth-forms/GoogleAuthCallback';
 import ActiveProfile from '../views/ActiveProfile';
 import OveralPayment from '../views/Reports/OveralPayment';
 
