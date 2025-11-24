@@ -6,8 +6,6 @@ import axios from 'axios';
 import Swal from 'sweetalert2';
 
 
-
-
 // material-ui
 import { useTheme } from '@mui/material/styles';
 import {
@@ -23,14 +21,10 @@ import {
   Typography,
   Box
 } from '@mui/material';
-
-
 import AnimateButton from 'ui-component/extended/AnimateButton';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import CircularProgress from '@mui/material/CircularProgress';
-
-
 
 
 
@@ -98,25 +92,6 @@ export default function AuthLogin() {
   };
 
 
-  // useEffect(() => {
-  //   window.addEventListener("message", function (event) {
-  //     console.log(event.data);
-
-  //     if (event.data?.success) {
-  //       localStorage.setItem("token", event.data.token);
-  //       localStorage.setItem('userName', event.data.name);
-  //       localStorage.setItem('userEmail', event.data.email);
-  //       localStorage.setItem('userRole', event.data.role);
-  //       localStorage.setItem('platforms', JSON.stringify(user.platforms));
-  //     }
-
-  //     navigate('/platform-selector');
-  //   });
-  // }, []);
-
-  // if (moveToPlatformSelector) {
-  //   navigate('/platform-selector');
-  // }
 
 
   useEffect(() => {
