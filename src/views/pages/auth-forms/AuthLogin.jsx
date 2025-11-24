@@ -111,6 +111,7 @@ export default function AuthLogin() {
       }
       if (event.data?.success) {
         navigate('/platform-selector');
+        console.log('work please')
       }
     });
   }, []);
