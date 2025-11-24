@@ -100,8 +100,12 @@ export default function AuthLogin() {
   useEffect(() => {
     window.addEventListener("message", function (event) {
       console.log(event.data);
-      if (event.data?.token) {
+      if (event.data?.success && event.data?.token) {
         localStorage.setItem("token", event.data.token);
+        localStorage.setItem('userName', event.data.name);
+        localStorage.setItem('userEmail', event.data.email);
+        localStorage.setItem('userRole', event.data.role);
+        localStorage.setItem('platforms', JSON.stringify(user.platforms));
       }
     });
   }, []);
