@@ -46,7 +46,6 @@ export default function AuthLogin() {
   const [password, setPassword] = useState('');
 
   const [loading, setLoading] = useState(false);
-  const [moveToPlatformSelector, setMoveToPlatformSelector] = useState(false);
 
   const handleClickShowPassword = () => setShowPassword(!showPassword);
   const handleMouseDownPassword = (event) => event.preventDefault();
@@ -89,13 +88,13 @@ export default function AuthLogin() {
 
 
 
-  // const handleGoogleLogin = () => {
-  //   window.open(
-  //     `${baseURL}/auth/google/redirect`,
-  //     "googleLogin",
-  //     "width=500,height=600"
-  //   );
-  // };
+  const handleGoogleLogin = () => {
+    window.open(
+      `${baseURL}/auth/google/redirect`,
+      "googleLogin",
+      "width=500,height=600"
+    );
+  };
 
 
   // useEffect(() => {
@@ -120,33 +119,42 @@ export default function AuthLogin() {
 
 
   useEffect(() => {
-    function handleGoogleCallback(event) {
-      console.log("GOOGLE MESSAGE:", event.data);
+    function handleGoogleMessage(event) {
+      console.log("GOOGLE RESPONSE:", event.data);
 
-      if (event.data?.success) {
-        // Save all Google user data
+      if (!event.data) return;
+
+      // Only redirect if login is successful
+      if (event.data.success === true && event.data.token) {
+
+        // Store user data safely
         localStorage.setItem("token", event.data.token);
         localStorage.setItem("userName", event.data.name);
         localStorage.setItem("userEmail", event.data.email);
         localStorage.setItem("userRole", event.data.role);
-        localStorage.setItem("platforms", JSON.stringify(event.data.platforms || []));
 
-        // Trigger React navigation through state
-        setMoveToPlatformSelector(true);
+        // Platforms (if sent from backend)
+        if (event.data.platforms) {
+          localStorage.setItem(
+            "platforms",
+            JSON.stringify(event.data.platforms)
+          );
+        }
+
+        // VERY IMPORTANT — delay navigation slightly so react router catches it
+        setTimeout(() => {
+          navigate("/platform-selector");
+        }, 200);
       }
     }
 
-    window.addEventListener("message", handleGoogleCallback);
+    window.addEventListener("message", handleGoogleMessage);
 
-    return () => window.removeEventListener("message", handleGoogleCallback);
-  }, []);
+    return () => {
+      window.removeEventListener("message", handleGoogleMessage);
+    };
+  }, [navigate]);
 
-  // When flag becomes true, navigate normally using React Router
-  useEffect(() => {
-    if (moveToPlatformSelector) {
-      navigate("/platform-selector");
-    }
-  }, [moveToPlatformSelector, navigate]);
 
 
 
