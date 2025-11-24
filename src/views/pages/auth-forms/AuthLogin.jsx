@@ -107,7 +107,7 @@ export default function AuthLogin() {
         localStorage.setItem('userRole', event.data.role);
         localStorage.setItem('platforms', JSON.stringify(user.platforms));
 
-        navigate('/platform-selector');
+        window.location.href = '/platform-selector';
       }
     });
   }, []);
