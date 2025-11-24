@@ -89,46 +89,62 @@ export default function AuthLogin() {
   };
 
 
+
   const handleGoogleLogin = () => {
-    window.location.href = `https://testing.exotic-ads.com/auth/google/redirect`;
-    // Replace with your real BACKEND Google redirect route
+    window.open(
+      "https://testing.exotic-ads.com/auth/google/redirect",
+      "googleLogin",
+      "width=500,height=600"
+    );
   };
 
 
   useEffect(() => {
-    const success = params.get("success");
-
-    // Only run callback handler if Google redirected back with success param
-    if (success !== null) {
-      const token = params.get("token");
-      const id = params.get("id");
-      const name = params.get("name");
-      const email = params.get("email");
-      const role = params.get("role");
-
-      if (success === "true" && token) {
-        const user = { id, name, email, role };
-
-        localStorage.setItem("token", token);
-        localStorage.setItem("user", JSON.stringify(user));
-
-        // Redirect based on role
-        if (role === "sales") {
-          window.location.href = "/platform-selector";
-        } else {
-          window.location.href = "/dashboard";
-        }
+    window.addEventListener("message", function (event) {
+      console.log(event.data);
+      if (event.data?.token) {
+        localStorage.setItem("token", event.data.token);
       }
-      else {
-        Swal.fire({
-          icon: "error",
-          title: "Google Login Failed",
-          text: "Your Google login was not successful."
-        });
-        navigate("/login");
-      }
-    }
-  }, [params]);
+    });
+  }, []);
+
+
+
+
+  // useEffect(() => {
+  //   const success = params.get("success");
+
+  //   // Only run callback handler if Google redirected back with success param
+  //   if (success !== null) {
+  //     const token = params.get("token");
+  //     const id = params.get("id");
+  //     const name = params.get("name");
+  //     const email = params.get("email");
+  //     const role = params.get("role");
+
+  //     if (success === "true" && token) {
+  //       const user = { id, name, email, role };
+
+  //       localStorage.setItem("token", token);
+  //       localStorage.setItem("user", JSON.stringify(user));
+
+  //       // Redirect based on role
+  //       if (role === "sales") {
+  //         window.location.href = "/platform-selector";
+  //       } else {
+  //         window.location.href = "/dashboard";
+  //       }
+  //     }
+  //     else {
+  //       Swal.fire({
+  //         icon: "error",
+  //         title: "Google Login Failed",
+  //         text: "Your Google login was not successful."
+  //       });
+  //       navigate("/login");
+  //     }
+  //   }
+  // }, [params]);
 
 
 
