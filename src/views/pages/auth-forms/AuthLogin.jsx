@@ -46,6 +46,7 @@ export default function AuthLogin() {
   const [password, setPassword] = useState('');
 
   const [loading, setLoading] = useState(false);
+  const [moveToPlatformSelector, setMoveToPlatformSelector] = useState(false);
 
   const handleClickShowPassword = () => setShowPassword(!showPassword);
   const handleMouseDownPassword = (event) => event.preventDefault();
@@ -107,10 +108,15 @@ export default function AuthLogin() {
         localStorage.setItem('userRole', event.data.role);
         localStorage.setItem('platforms', JSON.stringify(user.platforms));
 
-        window.location.href = '/platform-selector';
+        setMoveToPlatformSelector(true);
+
       }
     });
   }, []);
+
+  if (moveToPlatformSelector) {
+    navigate('/platform-selector');
+  }
 
 
 
