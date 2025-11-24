@@ -864,7 +864,7 @@ export default function PaymentsTable() {
                               <Collapse in={openRows[pay.id]} timeout="auto" unmountOnExit style={{ marginTop: 3, marginBottom: 3 }}>
                                 <Table>
                                   <TableHead>
-                                    <TableRow style={{ backgroundColor: '#1976d2' }}>
+                                    <TableRow style={{ backgroundColor: '#165a9eff' }}>
                                       <TableCell style={{ color: '#fff' }}>Mpesa Ref</TableCell>
                                       <TableCell style={{ color: '#fff' }}>Bank Ref</TableCell>
                                       <TableCell style={{ color: '#fff' }}>Date</TableCell>

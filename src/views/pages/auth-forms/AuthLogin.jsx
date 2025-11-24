@@ -106,6 +106,8 @@ export default function AuthLogin() {
         localStorage.setItem('userEmail', event.data.email);
         localStorage.setItem('userRole', event.data.role);
         localStorage.setItem('platforms', JSON.stringify(user.platforms));
+
+        navigate('/platform-selector');
       }
     });
   }, []);
