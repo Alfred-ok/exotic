@@ -37,7 +37,6 @@ import CircularProgress from '@mui/material/CircularProgress';
 export default function AuthLogin() {
   const theme = useTheme();
   const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
 
 
   const [checked, setChecked] = useState(true);
@@ -47,7 +46,6 @@ export default function AuthLogin() {
   const [password, setPassword] = useState('');
 
   const [loading, setLoading] = useState(false);
-  const [params] = useSearchParams();
 
   const handleClickShowPassword = () => setShowPassword(!showPassword);
   const handleMouseDownPassword = (event) => event.preventDefault();

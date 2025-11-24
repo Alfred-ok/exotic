@@ -55,63 +55,59 @@ const MainRoutes = {
       ]
     },
 
-   
+
     {
       path: 'typography',
       element: <UtilsTypography />
     },
     {
       path: 'platform-selector',
-      element: <PlatformSelector/>
+      element: <PlatformSelector />
     },
     {
       path: '/overal-payment',
-      element: <OveralPayment/>
+      element: <OveralPayment />
     },
 
     //Reports
     {
       path: '/reports/users',
-      element: <EscortPostsTable/>
+      element: <EscortPostsTable />
     },
     {
       path: '/reports/payments',
-      element: <PaymentsTable/>
+      element: <PaymentsTable />
     },
 
     {
       path: '/package',
-      element: <Advertisements/>
+      element: <Advertisements />
     },
     {
       path: 'Profile',
-      element: <ActiveProfile/>
+      element: <ActiveProfile />
     },
     {
       path: 'FreeTrialActivation',
-      element: <FreeTrialActivation/>
+      element: <FreeTrialActivation />
     },
 
     {
       path: 'messages',
-      element: <Messages/>
+      element: <Messages />
     },
-    
+
     {
       path: '/settings/platforms',
-      element: <PlatformManager/>
+      element: <PlatformManager />
     },
     {
       path: '/settings/user',
-      element: <PlatformUser/>
+      element: <PlatformUser />
     },
     {
       path: 'active-log',
-      element: <ActiveLog/>
-    },
-    {
-      path: '/google-auth/callback',
-      element: <GoogleAuthCallback />
+      element: <ActiveLog />
     },
 
     {
