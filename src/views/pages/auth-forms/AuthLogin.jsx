@@ -89,74 +89,64 @@ export default function AuthLogin() {
 
 
 
-  const handleGoogleLogin = () => {
-    window.open(
-      `${baseURL}/auth/google/redirect`,
-      "googleLogin",
-      "width=500,height=600"
-    );
-  };
-
-
-  useEffect(() => {
-    window.addEventListener("message", function (event) {
-      console.log(event.data);
-
-      if (event.data?.success && event.data?.token) {
-        localStorage.setItem("token", event.data.token);
-        localStorage.setItem('userName', event.data.name);
-        localStorage.setItem('userEmail', event.data.email);
-        localStorage.setItem('userRole', event.data.role);
-        localStorage.setItem('platforms', JSON.stringify(user.platforms));
-      }
-      if (event.data?.success) {
-        navigate('/platform-selector');
-        console.log('work please')
-      }
-    });
-  }, []);
-
-  if (moveToPlatformSelector) {
-    navigate('/platform-selector');
-  }
-
-
+  // const handleGoogleLogin = () => {
+  //   window.open(
+  //     `${baseURL}/auth/google/redirect`,
+  //     "googleLogin",
+  //     "width=500,height=600"
+  //   );
+  // };
 
 
   // useEffect(() => {
-  //   const success = params.get("success");
+  //   window.addEventListener("message", function (event) {
+  //     console.log(event.data);
 
-  //   // Only run callback handler if Google redirected back with success param
-  //   if (success !== null) {
-  //     const token = params.get("token");
-  //     const id = params.get("id");
-  //     const name = params.get("name");
-  //     const email = params.get("email");
-  //     const role = params.get("role");
-
-  //     if (success === "true" && token) {
-  //       const user = { id, name, email, role };
-
-  //       localStorage.setItem("token", token);
-  //       localStorage.setItem("user", JSON.stringify(user));
-
-  //       // Redirect based on role
-  //       if (role === "sales") {
-  //         window.location.href = "/platform-selector";
-  //       } else {
-  //         window.location.href = "/dashboard";
-  //       }
+  //     if (event.data?.success) {
+  //       localStorage.setItem("token", event.data.token);
+  //       localStorage.setItem('userName', event.data.name);
+  //       localStorage.setItem('userEmail', event.data.email);
+  //       localStorage.setItem('userRole', event.data.role);
+  //       localStorage.setItem('platforms', JSON.stringify(user.platforms));
   //     }
-  //     else {
-  //       Swal.fire({
-  //         icon: "error",
-  //         title: "Google Login Failed",
-  //         text: "Your Google login was not successful."
-  //       });
-  //       navigate("/login");
-  //     }
-  //   }
-  // }, [params]);
+
+  //     navigate('/platform-selector');
+  //   });
+  // }, []);
+
+  // if (moveToPlatformSelector) {
+  //   navigate('/platform-selector');
+  // }
+
+
+  useEffect(() => {
+    function handleGoogleCallback(event) {
+      console.log("GOOGLE MESSAGE:", event.data);
+
+      if (event.data?.success) {
+        // Save all Google user data
+        localStorage.setItem("token", event.data.token);
+        localStorage.setItem("userName", event.data.name);
+        localStorage.setItem("userEmail", event.data.email);
+        localStorage.setItem("userRole", event.data.role);
+        localStorage.setItem("platforms", JSON.stringify(event.data.platforms || []));
+
+        // Trigger React navigation through state
+        setMoveToPlatformSelector(true);
+      }
+    }
+
+    window.addEventListener("message", handleGoogleCallback);
+
+    return () => window.removeEventListener("message", handleGoogleCallback);
+  }, []);
+
+  // When flag becomes true, navigate normally using React Router
+  useEffect(() => {
+    if (moveToPlatformSelector) {
+      navigate("/platform-selector");
+    }
+  }, [moveToPlatformSelector, navigate]);
 
 
 
