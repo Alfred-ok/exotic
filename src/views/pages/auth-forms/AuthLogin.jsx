@@ -46,6 +46,7 @@ export default function AuthLogin() {
   const [password, setPassword] = useState('');
 
   const [loading, setLoading] = useState(false);
+  const [moveToPlatformSelector, setMoveToPlatformSelector] = useState(false);
 
   const handleClickShowPassword = () => setShowPassword(!showPassword);
   const handleMouseDownPassword = (event) => event.preventDefault();
@@ -119,41 +120,33 @@ export default function AuthLogin() {
 
 
   useEffect(() => {
-    function handleGoogleMessage(event) {
-      console.log("GOOGLE RESPONSE:", event.data);
+    const listener = (event) => {
+      console.log("GOOGLE MESSAGE:", event.data);
 
-      if (!event.data) return;
-
-      // Only redirect if login is successful
-      if (event.data.success === true && event.data.token) {
-
-        // Store user data safely
+      if (event.data?.success) {
         localStorage.setItem("token", event.data.token);
-        localStorage.setItem("userName", event.data.name);
-        localStorage.setItem("userEmail", event.data.email);
-        localStorage.setItem("userRole", event.data.role);
+        localStorage.setItem('userName', event.data.name);
+        localStorage.setItem('userEmail', event.data.email);
+        localStorage.setItem('userRole', event.data.role);
+        localStorage.setItem('platforms', JSON.stringify(event.data.platforms));
 
-        // Platforms (if sent from backend)
-        if (event.data.platforms) {
-          localStorage.setItem(
-            "platforms",
-            JSON.stringify(event.data.platforms)
-          );
-        }
-
-        // VERY IMPORTANT — delay navigation slightly so react router catches it
-        setTimeout(() => {
-          navigate("/platform-selector");
-        }, 200);
+        // Trigger redirect using React state
+        setMoveToPlatformSelector(true);
       }
-    }
-
-    window.addEventListener("message", handleGoogleMessage);
-
-    return () => {
-      window.removeEventListener("message", handleGoogleMessage);
     };
-  }, [navigate]);
+
+    window.addEventListener("message", listener);
+
+    return () => window.removeEventListener("message", listener);
+  }, []);
+
+
+  // Redirect using React state (THIS WORKS)
+  useEffect(() => {
+    if (moveToPlatformSelector) {
+      navigate('/platform-selector');
+    }
+  }, [moveToPlatformSelector]);
 
 
 
