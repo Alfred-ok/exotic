@@ -90,7 +90,7 @@ export default function AuthLogin() {
 
   const handleGoogleLogin = () => {
     window.open(
-      "https://testing.exotic-ads.com/auth/google/redirect",
+      `${baseURL}/auth/google/redirect`,
       "googleLogin",
       "width=500,height=600"
     );
