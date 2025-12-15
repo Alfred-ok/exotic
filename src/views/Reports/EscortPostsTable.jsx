@@ -1,5 +1,3 @@
-
-
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import {
@@ -209,7 +207,7 @@ const EscortPostsTable = () => {
     duration: stkDuration,
   }
 
-  console.log(stkpayload);
+
 
 
   const handleSendStkPush = async () => {
@@ -253,6 +251,9 @@ const EscortPostsTable = () => {
         .catch((err) => console.error("Error fetching products:", err));
     }
   }, [stkModalOpen]);
+
+
+  CommentsDisabledOutlined.log(platformId);
 
   return (
     <>
