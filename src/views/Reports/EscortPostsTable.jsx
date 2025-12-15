@@ -253,7 +253,7 @@ const EscortPostsTable = () => {
   }, [stkModalOpen]);
 
 
-  CommentsDisabledOutlined.log(platformId);
+  console.log(platformId);
 
   return (
     <>
