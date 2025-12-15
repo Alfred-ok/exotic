@@ -1,9 +1,9 @@
 // Disable console logs in production
-if (import.meta.env.PROD) {
-  console.log = () => { };
-  console.warn = () => { };
-  console.error = () => { };
-}
+// if (import.meta.env.PROD) {
+//   console.log = () => { };
+//   console.warn = () => { };
+//   console.error = () => { };
+// }
 
 
 
